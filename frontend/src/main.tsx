@@ -3,13 +3,13 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "reset.css";
 import "virtual:uno.css";
-import Navbar from "./routes/Navbar.route";
-import MainPage from "./routes/MainPage";
+import Root from "./routes/Root.route";
+import MainPage from "./routes/MainPage.route";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navbar />,
+    element: <Root />,
     children: [
       {
         index: true,
