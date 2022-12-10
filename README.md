@@ -1,6 +1,6 @@
 # XBlog MERN Project
 
-A blog project made with the MERN stack.
+A blog project made with the MERN stack with the modern approach.
 
 # Starting in development mode
 
