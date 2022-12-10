@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import AuthPage from "../components/auth-page/AuthPage.component";
+import AuthPage from "../features/auth-page/AuthPage.component";
 
 type AuthPageProps = {
   isLoggedIn?: boolean;

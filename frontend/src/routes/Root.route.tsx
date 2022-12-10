@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
-import Footer from "../components/shared/Footer.component";
-import Navbar from "../components/shared/Navbar.component";
+import Footer from "../features/shared/Footer.component";
+import Navbar from "../features/shared/Navbar.component";
 
 const NavbarRoute = () => {
   return (

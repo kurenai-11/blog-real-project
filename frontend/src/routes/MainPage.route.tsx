@@ -1,4 +1,4 @@
-import MainPage from "../components/main-page/MainPage.component";
+import MainPage from "../features/main-page/MainPage.component";
 
 const MainPageRoute = () => {
   return <MainPage />;

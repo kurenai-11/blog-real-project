@@ -6,7 +6,7 @@ import "virtual:uno.css";
 import Root from "./routes/Root.route";
 import MainPage from "./routes/MainPage.route";
 import AuthPageRoute from "./routes/AuthPage.route";
-import { action as loginAction } from "./components/auth-page/LoginForm.component";
+import { action as loginAction } from "./features/auth-page/LoginForm.component";
 
 const router = createBrowserRouter([
   {
