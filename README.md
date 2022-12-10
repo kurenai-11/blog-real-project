@@ -4,6 +4,8 @@ A blog project made with the MERN stack with the modern approach.
 
 # Starting in development mode
 
+0. Install mongodb on your system. Make sure the command `mongod` works.
+
 1. Make sure to install dependencies.
    You can use **install-deps-npm.sh** for that or go into _frontend/_ and _backend/_ do it manually <br/>
    `./install-deps-npm.sh`
