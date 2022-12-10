@@ -7,8 +7,8 @@ import { formClasses, formContainerClasses, formInfoClasses } from "./shared";
 const SignupForm = () => {
   return (
     <div className={formContainerClasses}>
-      <div className={formInfoClasses}>SIGNUP</div>
-      <Form className={formClasses}>
+      <div className={[formInfoClasses, "bg-emerald-8"].join(" ")}>SIGNUP</div>
+      <Form method="post" action="signup" className={formClasses}>
         <FormInput type="text" name="login" placeholder="Login" />
         <FormInput type="password" name="password" placeholder="Password" />
         <FormInput

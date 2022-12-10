@@ -17,7 +17,8 @@ const FormInput = ({
   id,
   additionalClasses,
 }: FormInputProps) => {
-  const add = additionalClasses ? true : false;
+  const classes =
+    "my-2 outline-none border-none p-2 rounded-2 text-center text-lg bg-slate-5 text-zinc-2 placeholder-zinc-4 placeholder-text-center";
   return (
     <input
       type={type}
@@ -26,9 +27,7 @@ const FormInput = ({
       name={name}
       id={id}
       className={
-        "my-2 outline-none border-none p-2 text-lg bg-slate-5 text-zinc-2 placeholder-zinc-4" +
-        " " +
-        (add ? " " + additionalClasses : "")
+        additionalClasses ? [classes, additionalClasses].join(" ") : classes
       }
       onChange={() => {}}
     />

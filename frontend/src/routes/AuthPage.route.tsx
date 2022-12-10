@@ -14,7 +14,7 @@ const AuthPageRoute = ({
     // todo: redirect to existing user profile
     redirect("/");
   }
-  return loginPage ? <AuthPage page="signup" /> : <AuthPage page="signup" />;
+  return loginPage ? <AuthPage page="login" /> : <AuthPage page="signup" />;
 };
 
 export default AuthPageRoute;

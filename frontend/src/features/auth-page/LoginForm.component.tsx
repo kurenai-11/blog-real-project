@@ -4,7 +4,7 @@ import FormInput from "./FormInput.component";
 import { IoIosLogIn } from "react-icons/io";
 import { formContainerClasses, formInfoClasses, formClasses } from "./shared";
 
-type Action = {
+export type Action = {
   request: Request;
 };
 
@@ -16,7 +16,7 @@ export const action = async ({ request }: Action) => {
 const LoginForm = () => {
   return (
     <div className={formContainerClasses}>
-      <div className={formInfoClasses}>LOGIN</div>
+      <div className={[formInfoClasses, "bg-cyan-8"].join(" ")}>LOGIN</div>
       <Form method="post" action="login" className={formClasses}>
         <FormInput type="text" name="login" placeholder="Login" />
         <FormInput type="password" name="password" placeholder="Password" />
