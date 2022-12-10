@@ -1,4 +1,5 @@
 import React from "react";
+import { withClasses } from "../shared/utils";
 
 type FormInputProps = {
   type?: React.HTMLInputTypeAttribute;
@@ -18,7 +19,7 @@ const FormInput = ({
   additionalClasses,
 }: FormInputProps) => {
   const classes =
-    "my-2 outline-none border-none p-2 rounded-2 text-center text-lg bg-slate-5 text-zinc-2 placeholder-zinc-4 placeholder-text-center";
+    "my-2 outline-none border-none p-2 rounded-2 text-center text-lg bg-slate-5 text-zinc-2 placeholder:text-zinc-4 placeholder-text-center";
   return (
     <input
       type={type}
@@ -26,9 +27,7 @@ const FormInput = ({
       value={value}
       name={name}
       id={id}
-      className={
-        additionalClasses ? [classes, additionalClasses].join(" ") : classes
-      }
+      className={withClasses(classes, additionalClasses)}
       onChange={() => {}}
     />
   );

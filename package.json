@@ -1,0 +1,20 @@
+{
+  "name": "xblog-project",
+  "version": "1.0.0",
+  "description": "A blog project made with the MERN stack with the modern approach.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently npm:dev-backend npm:dev-frontend",
+    "install-deps": "npm run deps-backend && npm run deps-frontend",
+    "deps-backend": "npm --prefix backend/ install",
+    "deps-frontend": "npm --prefix frontend/ install",
+    "dev-backend": "npm --prefix backend/ run dev",
+    "dev-frontend": "npm --prefix frontend/ run dev"
+  },
+  "keywords": [],
+  "author": "kurenai-11",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
