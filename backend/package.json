@@ -10,7 +10,7 @@
     "build": "rm -rf dist/ && mkdir dist/ && swc ./src -d dist/ -s false",
     "watch-ts": "swc src/ -d dist/ -q -s true -w",
     "mongod": "mongod > /dev/null",
-    "nodemon": "nodemon -w dist/ .",
+    "nodemon": "nodemon -q -w dist/ .",
     "node": "node ."
   },
   "keywords": [],
