@@ -14,4 +14,4 @@ A blog project made with the MERN stack.
 3. You can then start both the frontend and backend with <br/>
    `./run-dev-npm.sh`
 
-By default frontend will run at port 5173 and backend at port 5000.
+By default frontend will run at port **5173** and backend at port **5000**. You can change the ports in _backend/.env_ (create the file if you need it) and (todo) _frontend/vite.config.ts_
