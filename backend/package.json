@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "swc ./src -d dist/ -q -s true -w & nodemon -w dist/ .",
-    "preview": "swc ./src -d dist/ -q -s true && node ."
+    "preview": "swc ./src -d dist/ -q -s true && node .",
+    "build": "rm -rf dist/ && mkdir dist/ && swc ./src -d dist/ -s false"
   },
   "keywords": [],
   "author": "kurenai-11",
