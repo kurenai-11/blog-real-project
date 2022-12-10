@@ -9,7 +9,7 @@
     "build": "swc ./src -d dist/"
   },
   "keywords": [],
-  "author": "",
+  "author": "kurenai-11",
   "license": "ISC",
   "devDependencies": {
     "@swc/cli": "^0.1.57",
