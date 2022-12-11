@@ -1,6 +1,10 @@
 import dotenv from "dotenv";
 import express from "express";
 import { connect as connectToDB } from "./db/db.js";
+import userRouter from "./routes/user.route.js";
+import blogRouter from "./routes/blog.route.js";
+import postRouter from "./routes/post.route.js";
+import authRouter from "./routes/auth.route.js";
 
 dotenv.config({
   path: ".env",
@@ -8,9 +12,16 @@ dotenv.config({
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
 app.get("/", (req, res) => {
-  res.json({ name: "hello" });
+  res.send("yes the server is working");
 });
+app.use("/auth", authRouter);
+app.use("/user", userRouter);
+app.use("/blog", blogRouter);
+app.use("/post", postRouter);
 
 const port = process.env.APP_PORT || "5000";
 
@@ -23,6 +34,8 @@ const start = async () => {
   } catch (error) {
     if (error.name === "MongooseServerSelectionError") {
       console.error(`Can't connect to db ${process.env.DB_URL}`);
+    } else {
+      console.error(`${error}`);
     }
   }
 };
