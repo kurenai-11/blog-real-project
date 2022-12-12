@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import cors from "cors";
 import { connect as connectToDB } from "./db/db.js";
 import userRouter from "./routes/user.route.js";
 import blogRouter from "./routes/blog.route.js";
@@ -13,6 +14,8 @@ dotenv.config({
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 
 // Routes
 app.get("/", (req, res) => {

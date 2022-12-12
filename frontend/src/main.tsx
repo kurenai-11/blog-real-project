@@ -7,6 +7,7 @@ import Root from "./routes/Root.route";
 import MainPage from "./routes/MainPage.route";
 import AuthPageRoute from "./routes/AuthPage.route";
 import { action as loginAction } from "./features/auth-page/LoginForm.component";
+import { action as signupAction } from "./features/auth-page/SignupForm.component";
 
 const router = createBrowserRouter([
   {
@@ -22,10 +23,20 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <AuthPageRoute />,
-  },
-  {
-    path: "/auth/login",
-    action: loginAction,
+    // we will do error handling on our own
+    errorElement: <></>,
+    children: [
+      {
+        path: "/auth/login",
+        action: loginAction,
+        element: <></>,
+      },
+      {
+        path: "/auth/signup",
+        action: signupAction,
+        element: <></>,
+      },
+    ],
   },
 ]);
 
