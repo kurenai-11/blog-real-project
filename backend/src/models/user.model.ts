@@ -27,7 +27,7 @@ const userSchema = new Schema<IUser>({
   blogs: [Schema.Types.ObjectId],
   creationDate: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   avatarUrl: String,
 });
