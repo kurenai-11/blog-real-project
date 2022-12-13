@@ -1,4 +1,3 @@
-import { Outlet } from "react-router-dom";
 import MainPage from "../features/main-page/MainPage.component";
 import Footer from "../features/shared/Footer.component";
 import Navbar from "../features/shared/Navbar.component";
