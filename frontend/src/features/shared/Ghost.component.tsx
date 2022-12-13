@@ -1,9 +1,8 @@
 // This is a renderless component that runs stuff
 // regardless of the route.
-import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { useAppDispatch, useAuthenticated } from "../../app/hooks";
-import { AuthData, login, logout } from "../auth/userSlice";
+import { useAppDispatch } from "../../app/hooks";
+import { AuthData, login } from "../auth/userSlice";
 
 const Ghost = () => {
   const [cookies] = useCookies(["user"]);
