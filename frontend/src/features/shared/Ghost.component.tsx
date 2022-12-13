@@ -1,15 +1,15 @@
 // This is a renderless component that runs stuff
 // regardless of the route.
-import { useCookies } from "react-cookie";
+import Cookies from "js-cookie";
 import { useAppDispatch } from "../../app/hooks";
 import { AuthData, login } from "../auth/userSlice";
 
 const Ghost = () => {
-  const [cookies] = useCookies(["user"]);
   const dispatch = useAppDispatch();
-  if (cookies.user) {
-    // todo: properly validate cookies.user
-    dispatch(login(cookies.user as AuthData));
+  let cookie: AuthData | undefined;
+  if (Cookies.get("user") !== undefined) {
+    cookie = JSON.parse(Cookies.get("user") as string) as AuthData;
+    dispatch(login(cookie));
   }
   return <></>;
 };

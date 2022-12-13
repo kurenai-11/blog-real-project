@@ -8,7 +8,7 @@ import AuthPageRoute from "./routes/AuthPage.route";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
 import DashboardRoute from "./routes/DashboardPage.route";
-import { CookiesProvider } from "react-cookie";
+// import { CookiesProvider } from "react-cookie";
 import Ghost from "./features/shared/Ghost.component";
 
 const router = createBrowserRouter([
@@ -28,11 +28,11 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <CookiesProvider>
-      <Provider store={store}>
-        <Ghost />
-        <RouterProvider router={router} />
-      </Provider>
-    </CookiesProvider>
+    {/* <CookiesProvider> */}
+    <Provider store={store}>
+      <Ghost />
+      <RouterProvider router={router} />
+    </Provider>
+    {/* </CookiesProvider> */}
   </React.StrictMode>
 );

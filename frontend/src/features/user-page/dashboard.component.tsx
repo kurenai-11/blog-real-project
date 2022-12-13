@@ -1,15 +1,13 @@
-import { useCookies } from "react-cookie";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../auth/userSlice";
+import Cookies from "js-cookie";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const [_, __, removeCookie] = useCookies(["user"]);
   const { username } = user;
   const clickHandler = () => {
     dispatch(logout());
-    removeCookie("user");
   };
   return (
     <div>

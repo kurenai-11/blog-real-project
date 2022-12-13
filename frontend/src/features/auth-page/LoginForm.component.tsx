@@ -1,4 +1,4 @@
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import FormButton from "./FormButton.component";
 import FormInput from "./FormInput.component";
 import { IoIosLogIn } from "react-icons/io";
@@ -11,19 +11,16 @@ import {
 } from "./shared";
 import { useAppDispatch } from "../../app/hooks";
 import { login } from "../auth/userSlice";
-import { useCookies } from "react-cookie";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [_, setCookie] = useCookies(["user"]);
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const authData = await processForm(formData);
     if (authData.code === AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY) {
       dispatch(login(authData));
-      setCookie("user", authData);
       navigate("/dashboard");
     } else {
       // display that the login is unsuccessful and why

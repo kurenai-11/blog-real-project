@@ -12,8 +12,8 @@
     "@reduxjs/toolkit": "^1.9.1",
     "axios": "^1.2.1",
     "clsx": "^1.2.1",
+    "js-cookie": "^3.0.1",
     "react": "^18.2.0",
-    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
@@ -22,6 +22,7 @@
     "tailwind-merge": "^1.8.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.2",
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@unocss/transformer-variant-group": "^0.47.5",
