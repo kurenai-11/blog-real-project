@@ -1,13 +1,11 @@
-import axios, { AxiosError, AxiosResponse } from "axios";
 // tsx extension is so the syntax highlighting for UnoCSS work
+import axios, { AxiosResponse } from "axios";
+import { useAppDispatch } from "../../app/hooks";
+import { AuthData } from "../auth/userSlice";
 export const formContainerClasses = "flex flex-col";
 export const formInfoClasses =
   "h-16 flex justify-center items-center text-zinc-1 text-2xl font-mono cursor-default bg-opacity-50 rounded-2 my-6";
 export const formClasses = "flex flex-col";
-
-export type Action = {
-  request: Request;
-};
 
 export type authUser = {
   username: string;
@@ -16,20 +14,37 @@ export type authUser = {
 };
 
 export type AuthDataResponse = {
-  username: string;
-  auth: {
+  username?: string;
+  auth?: {
     authKey: string;
     validUntil: Date;
   };
-  successful: boolean;
-  code?: number;
+  code: number;
 };
 
-export const processForm = async (request: Request) => {
-  const userData = await request.formData();
-  const username = userData.get("username")?.toString();
-  const password = userData.get("password")?.toString();
-  const confirmPassword = userData.get("confirmPassword")?.toString();
+export enum AuthCodes {
+  SUCCESSFUL_SIGNUP,
+  // login by authkey ↓
+  SUCCESSFUL_LOGIN_AUTHKEY,
+  // login by login and password, returns authkey ↓
+  SUCCESSFUL_LOGIN_NOAUTHKEY,
+  SIGNUP_ACCOUNT_EXISTS,
+  SIGNUP_AXIOS_UNKNOWN,
+  SIGNUP_CLIENT_UNKNOWN,
+  SIGNUP_SERVER_UNKNOWN,
+  LOGIN_WRONG,
+  LOGIN_AUTH_KEY_FAIL,
+  LOGIN_AUTH_KEY_EXPIRED,
+  LOGIN_AXIOS_UNKNOWN,
+  LOGIN_UNKNOWN,
+  SERVER_WRONG_DATA,
+  CLIENT_INPUT_INVALID,
+}
+
+export const processForm = async (formData: FormData): Promise<AuthData> => {
+  const username = formData.get("username")?.toString();
+  const password = formData.get("password")?.toString();
+  const confirmPassword = formData.get("confirmPassword")?.toString();
   // todo: do **proper** validation
   if (username && password) {
     let user: authUser;
@@ -45,17 +60,29 @@ export const processForm = async (request: Request) => {
         // save authentication in cookies and application wide state here
         // we are handling the error if it happens so we know that
         // auth will not be undefined, so we use !
-        console.log("successfully signed in");
         const auth = response!.data;
+        return {
+          ...auth,
+          authenticated: true,
+          code: AuthCodes.SUCCESSFUL_SIGNUP,
+        };
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response?.status === 409) {
-            console.error("Account already exists");
-            // todo: change ui accordingly
+            return {
+              authenticated: false,
+              code: AuthCodes.SIGNUP_ACCOUNT_EXISTS,
+            };
           }
+          return {
+            authenticated: false,
+            code: AuthCodes.SIGNUP_CLIENT_UNKNOWN,
+          };
         } else {
-          console.error("unkown error while creating a new user account");
-          console.log("error :>> ", error);
+          return {
+            authenticated: false,
+            code: AuthCodes.SIGNUP_SERVER_UNKNOWN,
+          };
         }
       }
       // else login
@@ -68,26 +95,25 @@ export const processForm = async (request: Request) => {
         });
         // we know that it is not undefined because we handle the error
         const auth = response!.data;
-        if (!auth.successful) {
-          console.error("wrong login or password");
+        if (auth.code === AuthCodes.LOGIN_WRONG) {
+          return { authenticated: false, code: AuthCodes.LOGIN_WRONG };
         }
-        // todo: handle codes 11 and 12
-        if (auth.code === 10) {
-          // to save authentication in cookies and application wide state here
-          console.log("successfully logged in");
-        } else if (auth.code === 11) {
-          console.error("login failed, auth key invalid");
-        } else if (auth.code === 12) {
-          console.error("login failed, auth key expired");
+        if (auth.code === AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY) {
+          return {
+            ...auth,
+            authenticated: true,
+            code: AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY,
+          };
         }
       } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log("axios error: ");
-        } else {
-          console.log("unknown erorr:");
-        }
         console.error(error);
+        if (axios.isAxiosError(error)) {
+          return { authenticated: false, code: AuthCodes.LOGIN_AXIOS_UNKNOWN };
+        } else {
+          return { authenticated: false, code: AuthCodes.LOGIN_UNKNOWN };
+        }
       }
     }
   }
+  return { authenticated: false, code: AuthCodes.CLIENT_INPUT_INVALID };
 };

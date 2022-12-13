@@ -16,6 +16,25 @@ export interface AuthData {
   authKey?: string;
 }
 
+export enum AuthCodes {
+  SUCCESSFUL_SIGNUP,
+  // login by authkey ↓
+  SUCCESSFUL_LOGIN_AUTHKEY,
+  // login by login and password, returns authkey ↓
+  SUCCESSFUL_LOGIN_NOAUTHKEY,
+  SIGNUP_ACCOUNT_EXISTS,
+  SIGNUP_AXIOS_UNKNOWN,
+  SIGNUP_CLIENT_UNKNOWN,
+  SIGNUP_SERVER_UNKNOWN,
+  LOGIN_WRONG,
+  LOGIN_AUTH_KEY_FAIL,
+  LOGIN_AUTH_KEY_EXPIRED,
+  LOGIN_AXIOS_UNKNOWN,
+  LOGIN_UNKNOWN,
+  SERVER_WRONG_DATA,
+  CLIENT_INPUT_INVALID,
+}
+
 export const checkAuthKey = (
   user: AuthData,
   foundUser: FoundUserType,
@@ -27,23 +46,15 @@ export const checkAuthKey = (
     foundUser.auth.validUntil.getTime() > dateNow.getTime();
   if (!isValidKey) {
     res.status(200).send({
-      username: null,
-      auth: null,
-      successful: false,
-      message: "Auth key is not valid, relogin.",
-      // code 11 - not valid auth key
-      code: 11,
+      error: "Auth key is not valid, relogin.",
+      code: AuthCodes.LOGIN_AUTH_KEY_FAIL,
     });
     return false;
   }
   if (!isValidKeyDate) {
     res.status(200).send({
-      username: null,
-      auth: null,
-      successful: false,
-      message: "Auth key has expired, relogin.",
-      // code 12 - expired auth key
-      code: 12,
+      error: "Auth key has expired, relogin.",
+      code: AuthCodes.LOGIN_AUTH_KEY_EXPIRED,
     });
     return false;
   }

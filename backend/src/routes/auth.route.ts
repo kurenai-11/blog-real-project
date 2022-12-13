@@ -6,6 +6,7 @@ import {
   signUpWithLogin,
 } from "../controllers/auth.controller.js";
 import { User } from "../models/user.model.js";
+import { AuthCodes } from "../controllers/auth.controller.js";
 const router = express.Router();
 
 // Auth route
@@ -31,7 +32,9 @@ router.post("/", async (req, res) => {
     return true;
   };
   if (!checkValidity(userData)) {
-    res.status(200).send({ error: "input is invalid" });
+    res
+      .status(200)
+      .send({ error: "request is invalid", code: AuthCodes.SERVER_WRONG_DATA });
     return;
   }
   const userToAuth: AuthData = req.body;
@@ -40,23 +43,24 @@ router.post("/", async (req, res) => {
   if (userToAuth.confirmPassword) {
     // Check if user already exists
     if (foundUser) {
-      res.status(409).send({ error: "user already exists" });
+      res.status(409).send({
+        error: "user already exists",
+        code: AuthCodes.SIGNUP_ACCOUNT_EXISTS,
+      });
       return;
     }
     const [authKey, validUntil] = await signUpWithLogin(userToAuth);
     res.status(200).send({
       username: userToAuth.username,
       auth: { authKey, validUntil },
-      successful: true,
+      code: AuthCodes.SUCCESSFUL_SIGNUP,
     });
     // else login
   } else {
     // user does not exist so login is not successful
     if (!foundUser) {
       res.status(200).send({
-        username: null,
-        auth: null,
-        successful: false,
+        code: AuthCodes.LOGIN_WRONG,
       });
       return;
     }
@@ -73,8 +77,9 @@ router.post("/", async (req, res) => {
         username: userToAuth.username,
         auth: {
           authKey: userToAuth.authKey,
+          validUntil: foundUser.auth.validUntil,
         },
-        successful: true,
+        code: AuthCodes.SUCCESSFUL_LOGIN_AUTHKEY,
       });
       // else login with login credentials
     } else {
@@ -82,9 +87,7 @@ router.post("/", async (req, res) => {
       // if the login is unsuccessful = wrong password
       if (!result) {
         res.status(200).send({
-          username: null,
-          auth: null,
-          successful: false,
+          code: AuthCodes.LOGIN_WRONG,
         });
         return;
       }
@@ -102,9 +105,7 @@ router.post("/", async (req, res) => {
           authKey: foundUser.auth.authKey,
           validUntil: foundUser.auth.validUntil,
         },
-        successful: true,
-        // code 10 means "successful login which returns authKey"
-        code: 10,
+        code: AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY,
       });
     }
   }

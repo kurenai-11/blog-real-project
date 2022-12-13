@@ -4,7 +4,10 @@ import LoginForm from "./LoginForm.component";
 import SignupForm from "./SignupForm.component";
 import { IoMdArrowBack } from "react-icons/io";
 import { HiSwitchHorizontal } from "react-icons/hi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import { useAppDispatch } from "../../app/hooks";
+import { AuthData, login } from "../auth/userSlice";
 
 const AuthPages = {
   login: "login",

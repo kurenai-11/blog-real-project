@@ -1,4 +1,6 @@
-import { redirect } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthenticated } from "../app/hooks";
 import AuthPage from "../features/auth-page/AuthPage.component";
 
 type AuthPageProps = {
@@ -10,10 +12,13 @@ const AuthPageRoute = ({
   isLoggedIn = false,
   loginPage = true,
 }: AuthPageProps) => {
-  if (isLoggedIn) {
-    // todo: redirect to existing user profile
-    redirect("/");
-  }
+  isLoggedIn = useAuthenticated();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, []);
   return loginPage ? <AuthPage page="login" /> : <AuthPage page="signup" />;
 };
 

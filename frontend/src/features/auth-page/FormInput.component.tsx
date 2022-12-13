@@ -7,6 +7,7 @@ type FormInputProps = {
   value?: string;
   name?: string;
   id?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
   additionalClasses?: string;
 };
 
@@ -28,7 +29,6 @@ const FormInput = ({
       name={name}
       id={id}
       className={withClasses(classes, additionalClasses)}
-      onChange={() => {}}
     />
   );
 };
