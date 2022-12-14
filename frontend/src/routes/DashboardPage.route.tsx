@@ -8,7 +8,7 @@ const DashboardRoute = () => {
   const isAuthenticated = useAuthenticated();
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/auth");
+      navigate("/");
     }
   }, [isAuthenticated]);
   return <Dashboard />;
