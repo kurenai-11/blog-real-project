@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
-    <div className="mt-8 text-lg self-center">
-      Made by{" "}
+    <div className="my-4 text-lg flex justify-center gap-1">
+      Made by
       <a
         href="https://github.com/kurenai-11"
         target="_blank"

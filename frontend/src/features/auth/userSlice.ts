@@ -13,7 +13,8 @@ export type AuthData = {
 };
 
 export type UserData = {
-  blogs?: [];
+  blogs?: Array<any>;
+  avatarUrl?: string;
 };
 
 export type userState = AuthData & UserData;

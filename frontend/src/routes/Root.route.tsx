@@ -4,7 +4,7 @@ import Navbar from "../features/shared/Navbar.component";
 
 const RootRoute = () => {
   return (
-    <div className="bg-gray-8 min-h-screen text-zinc-3 flex flex-col">
+    <div className="bg-zinc-8 min-h-screen text-zinc-3 flex flex-col">
       <Navbar />
       <MainPage />
       <Footer />
