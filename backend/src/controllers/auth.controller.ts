@@ -10,11 +10,6 @@ type FoundUserType = Document<unknown, any, IUser> &
     _id: Types.ObjectId;
   };
 
-type AuthDataSignUp = {
-  username: string;
-  password: string;
-};
-
 export enum AuthCodes {
   SUCCESSFUL_SIGNUP,
   // login by authkey ↓
