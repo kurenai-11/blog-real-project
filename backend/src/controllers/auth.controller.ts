@@ -2,19 +2,18 @@ import { IUser, User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { Document, Types } from "mongoose";
+import { Response } from "express";
+import { errorResponse } from "../routes/auth.route.js";
 
 type FoundUserType = Document<unknown, any, IUser> &
   IUser & {
     _id: Types.ObjectId;
   };
 
-export interface AuthData {
+type AuthDataSignUp = {
   username: string;
-  password?: string;
-  confirmPassword?: string;
-  foundUser?: FoundUserType;
-  authKey?: string;
-}
+  password: string;
+};
 
 export enum AuthCodes {
   SUCCESSFUL_SIGNUP,
@@ -36,33 +35,37 @@ export enum AuthCodes {
 }
 
 export const checkAuthKey = (
-  user: AuthData,
+  authKey: string,
   foundUser: FoundUserType,
-  res: any
+  res: Response
 ) => {
-  const isValidKey = user.authKey === foundUser.auth.authKey;
+  const isValidKey = authKey === foundUser.auth.authKey;
   const dateNow = new Date();
   const isValidKeyDate =
     foundUser.auth.validUntil.getTime() > dateNow.getTime();
   if (!isValidKey) {
-    res.status(200).send({
-      error: "Auth key is not valid, relogin.",
-      code: AuthCodes.LOGIN_AUTH_KEY_FAIL,
-    });
+    errorResponse(
+      "auth key is not valid, relogin",
+      AuthCodes.LOGIN_AUTH_KEY_FAIL,
+      res
+    );
     return false;
   }
   if (!isValidKeyDate) {
-    res.status(200).send({
-      error: "Auth key has expired, relogin.",
-      code: AuthCodes.LOGIN_AUTH_KEY_EXPIRED,
-    });
+    errorResponse(
+      "auth key has expired, relogin",
+      AuthCodes.LOGIN_AUTH_KEY_EXPIRED,
+      res
+    );
     return false;
   }
   return true;
 };
 
-export const signUpWithLogin = async (user: AuthData) => {
-  const { username, password } = user;
+export const signUpWithLogin = async (
+  username: string,
+  password: string
+): Promise<[string, Date]> => {
   const cryptedPassword = await bcrypt.hash(password, 12);
   const authKey = crypto.randomUUID();
   const dateNow = new Date();
@@ -80,9 +83,9 @@ export const signUpWithLogin = async (user: AuthData) => {
   return [authKey, validUntil];
 };
 
-export const loginWithLogin = async (
-  userToAuth: AuthData,
+export const checkPassword = async (
+  password: string,
   foundUser: FoundUserType
 ) => {
-  return await bcrypt.compare(userToAuth.password, foundUser.password);
+  return await bcrypt.compare(password, foundUser.password);
 };
