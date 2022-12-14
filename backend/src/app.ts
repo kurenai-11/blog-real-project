@@ -6,7 +6,7 @@ import userRouter from "./routes/user.route.js";
 import blogRouter from "./routes/blog.route.js";
 import postRouter from "./routes/post.route.js";
 import authRouter from "./routes/auth.route.js";
-import { MongooseError } from "mongoose";
+import { Error } from "mongoose";
 
 dotenv.config({
   path: ".env",
@@ -38,7 +38,7 @@ const start = async () => {
       console.log(`listening on port ${port}`);
     });
   } catch (error) {
-    if (error instanceof MongooseError) {
+    if (error instanceof Error.MongooseServerSelectionError) {
       if (error.name === "MongooseServerSelectionError") {
         console.error(`Can't connect to db ${process.env.DB_URL}`);
       } else {

@@ -91,7 +91,7 @@ export const processForm = async (formData: FormData): Promise<AuthData> => {
       try {
         response = await axios.post("http://127.0.0.1:5000/auth", {
           ...user,
-          action: "login",
+          action: "login_noauthkey",
         });
         // we know that it is not undefined because we handle the error
         const auth = response!.data;
