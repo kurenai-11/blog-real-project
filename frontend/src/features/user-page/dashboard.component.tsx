@@ -8,9 +8,6 @@ const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const { username, avatarUrl, blogs } = user;
-  const clickHandler = () => {
-    dispatch(logout());
-  };
   return (
     <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col">
       <Navbar />
@@ -27,7 +24,7 @@ const Dashboard = () => {
           Hello <span className="text-red-5 font-bold">{username}!</span>
         </div>
         <button
-          onClick={clickHandler}
+          onClick={() => dispatch(logout())}
           className="border-none px-4 py-2 text-lg bg-zinc-6 rounded-lg text-zinc-2"
         >
           Log out
