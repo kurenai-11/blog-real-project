@@ -9,7 +9,7 @@ A blog project made with the MERN stack with the modern approach.
 1. Install [concurrently](https://www.npmjs.com/package/concurrently) locally with `npm run install` in this project's root folder or skip this step to use your global installation if you already have it installed.
 
 2. Make sure to install actual project dependencies.
-   You can use **install-deps** script for that or go into _frontend/_ and _backend/_ do it manually.
+   You can use **install-deps** script for that or go into _frontend/_ and _backend/_ and do it manually.
 
    `npm run install-deps`
 
