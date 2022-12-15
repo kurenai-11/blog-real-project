@@ -18,9 +18,10 @@ const FormInput = ({
   name,
   id,
   additionalClasses,
+  onChange,
 }: FormInputProps) => {
   const classes =
-    "my-2 outline-none border-none p-2 rounded-2 text-center text-lg bg-slate-5 text-zinc-2 placeholder:text-zinc-4 placeholder-text-center";
+    "w-full text-center my-2 outline-none border-none py-2 rounded-2 text-lg bg-slate-5 text-zinc-2 placeholder:text-zinc-4 placeholder-text-center transition-all duration-300";
   return (
     <input
       type={type}
@@ -29,6 +30,7 @@ const FormInput = ({
       name={name}
       id={id}
       className={withClasses(classes, additionalClasses)}
+      onChange={onChange}
     />
   );
 };

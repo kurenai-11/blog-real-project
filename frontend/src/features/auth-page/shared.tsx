@@ -1,11 +1,10 @@
 // tsx extension is so the syntax highlighting for UnoCSS work
 import axios, { AxiosResponse } from "axios";
-import { useAppDispatch } from "../../app/hooks";
 import { AuthData } from "../auth/userSlice";
-export const formContainerClasses = "flex flex-col";
+export const formContainerClasses = "flex flex-col w-full items-center";
 export const formInfoClasses =
-  "h-16 flex justify-center items-center text-zinc-1 text-2xl font-mono cursor-default bg-opacity-50 rounded-2 my-6";
-export const formClasses = "flex flex-col";
+  "h-16 w-72 flex justify-center items-center text-zinc-1 text-2xl font-mono cursor-default bg-opacity-50 rounded-2 my-6";
+export const formClasses = "flex flex-col w-72";
 
 export type authUser = {
   username: string;

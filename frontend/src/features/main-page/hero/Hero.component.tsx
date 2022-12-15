@@ -1,9 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthenticated } from "../../../app/hooks";
 import { withClasses } from "../../shared/utils";
 
 const Hero = () => {
-  const navigate = useNavigate();
   const isAuthenticated = useAuthenticated();
   const linkClasses =
     "decoration-none bg-emerald-8 bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
@@ -19,9 +18,9 @@ const Hero = () => {
         <span className="text-red-7">XBlog</span> - a tool to rule all blogs.
       </div>
       <div className="flex justify-center items-center px-8 text-center rounded-lg text-slate-3 text-stroke-sm text-stroke-emerald-500 text-2xl relative">
-        XBlog is a tool that will let you manage multiple blogs at once. One
-        blog for your work, one blog for your hobby... and even one for your dog
-        if you so choose!
+        XBlog is a tool that will let you create and manage multiple blogs at
+        once. One blog for your work, one blog for your hobby... and even one
+        for your dog if you so choose!
       </div>
       <div className="mt-4 space-x-4">
         <Link to="/blogs" className={linkClasses}>

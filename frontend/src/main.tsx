@@ -9,6 +9,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import DashboardRoute from "./routes/DashboardPage.route";
 import Ghost from "./features/shared/Ghost.component";
+import "./main.css";
 
 const router = createBrowserRouter([
   {
@@ -26,10 +27,10 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <Ghost />
-      <RouterProvider router={router} />
-    </Provider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <Provider store={store}>
+    <Ghost />
+    <RouterProvider router={router} />
+  </Provider>
+  // </React.StrictMode>
 );

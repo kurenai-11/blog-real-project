@@ -11,6 +11,7 @@ import {
 } from "./shared";
 import { useAppDispatch } from "../../app/hooks";
 import { login } from "../auth/userSlice";
+import { withClasses } from "../shared/utils";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -29,7 +30,7 @@ const LoginForm = () => {
   };
   return (
     <div className={formContainerClasses}>
-      <div className={[formInfoClasses, "bg-cyan-8"].join(" ")}>LOGIN</div>
+      <div className={withClasses(formInfoClasses, "bg-cyan-8")}>LOGIN</div>
       <form onSubmit={submitHandler} className={formClasses}>
         <FormInput type="text" name="username" placeholder="Login" />
         <FormInput type="password" name="password" placeholder="Password" />
