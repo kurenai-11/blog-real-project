@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 
 export interface IUser {
-  id: number;
+  userId: number;
   username: string;
   displayName: string;
   password: string;
@@ -16,7 +16,7 @@ export interface IUser {
 }
 
 const userSchema = new Schema<IUser>({
-  id: Number,
+  userId: Number,
   username: String,
   displayName: String,
   password: String,

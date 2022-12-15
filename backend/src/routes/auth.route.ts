@@ -172,6 +172,7 @@ router.post("/", async (req, res) => {
         AuthCodes.SIGNUP_ACCOUNT_EXISTS,
         res
       );
+      return;
     }
     const { username, password } = authSignupData;
     const [authKey, validUntil] = await signUpWithLogin(username, password);
