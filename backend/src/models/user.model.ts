@@ -1,20 +1,24 @@
 import { Schema, model, Types } from "mongoose";
 
 export interface IUser {
+  id: number;
   username: string;
+  displayName: string;
   password: string;
   auth: {
     authKey: string;
     validUntil: Date;
   };
   email: string;
-  blogs: Array<Types.ObjectId>;
+  blogs: Array<number>;
   creationDate: Date;
   avatarUrl: string;
 }
 
 const userSchema = new Schema<IUser>({
+  id: Number,
   username: String,
+  displayName: String,
   password: String,
   auth: {
     authKey: String,
@@ -24,7 +28,7 @@ const userSchema = new Schema<IUser>({
     },
   },
   email: String,
-  blogs: [Schema.Types.ObjectId],
+  blogs: [Number],
   creationDate: {
     type: Date,
     default: Date.now,
