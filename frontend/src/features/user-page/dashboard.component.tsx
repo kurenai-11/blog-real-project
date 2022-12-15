@@ -25,7 +25,7 @@ const Dashboard = () => {
         </div>
         <button
           onClick={() => dispatch(logout())}
-          className="border-none px-4 py-2 text-lg bg-zinc-6 rounded-lg text-zinc-2"
+          className="cursor-pointer border-none px-4 py-2 text-lg bg-zinc-6 rounded-lg text-zinc-2"
         >
           Log out
         </button>

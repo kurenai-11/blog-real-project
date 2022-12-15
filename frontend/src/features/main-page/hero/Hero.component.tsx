@@ -1,12 +1,12 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthenticated } from "../../../app/hooks";
 import { withClasses } from "../../shared/utils";
 
 const Hero = () => {
   const navigate = useNavigate();
   const isAuthenticated = useAuthenticated();
-  const buttonClasses =
-    "cursor-pointer border-none bg-emerald-8 bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
+  const linkClasses =
+    "decoration-none bg-emerald-8 bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
   const imgUrl =
     "https://images.unsplash.com/photo-1600952912114-7e2aecc0f64f?ixlib=rb-4.0.3&dl=decry-yae-1B_Ssfyhocg-unsplash.jpg&w=1920&q=80&fm=jpg&crop=entropy&cs=tinysrgb";
   return (
@@ -24,22 +24,18 @@ const Hero = () => {
         if you so choose!
       </div>
       <div className="mt-4 space-x-4">
-        <button className={buttonClasses} onClick={() => navigate("/blogs")}>
+        <Link to="/blogs" className={linkClasses}>
           See all public blogs
-        </button>
-        <button
+        </Link>
+        <Link
           className={withClasses(
-            buttonClasses,
+            linkClasses,
             isAuthenticated ? "bg-blue-8" : "bg-amber-8"
           )}
-          onClick={
-            isAuthenticated
-              ? () => navigate("/dashboard")
-              : () => navigate("/auth")
-          }
+          to={isAuthenticated ? "/dashboard" : "/auth"}
         >
           {isAuthenticated ? "See your blogs" : "Login"}
-        </button>
+        </Link>
       </div>
     </div>
   );
