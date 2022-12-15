@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import { useAuthenticated } from "../../../app/hooks";
 import { withClasses } from "../../shared/utils";
 
 const Hero = () => {
+  const navigate = useNavigate();
   const isAuthenticated = useAuthenticated();
   const buttonClasses =
     "cursor-pointer border-none bg-emerald-8 bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
@@ -22,12 +24,19 @@ const Hero = () => {
         if you so choose!
       </div>
       <div className="mt-4 space-x-4">
-        <button className={buttonClasses}>See all public blogs</button>
+        <button className={buttonClasses} onClick={() => navigate("/blogs")}>
+          See all public blogs
+        </button>
         <button
           className={withClasses(
             buttonClasses,
             isAuthenticated ? "bg-blue-8" : "bg-amber-8"
           )}
+          onClick={
+            isAuthenticated
+              ? () => navigate("/dashboard")
+              : () => navigate("/auth")
+          }
         >
           {isAuthenticated ? "See your blogs" : "Login"}
         </button>
