@@ -9,7 +9,7 @@ const Dashboard = () => {
   const user = useAppSelector((state) => state.user);
   const { username, avatarUrl, blogs } = user;
   return (
-    <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col">
+    <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans">
       <Navbar />
       <div className="flex flex-col items-center pt-8">
         <div className="text-4xl pb-4 font-bold">Dashboard</div>

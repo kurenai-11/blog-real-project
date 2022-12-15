@@ -2,7 +2,7 @@ import Hero from "./hero/Hero.component";
 
 const MainPage = () => {
   return (
-    <div className="">
+    <div className="font-sans">
       <Hero />
     </div>
   );

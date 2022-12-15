@@ -11,7 +11,7 @@ const Navbar = () => {
   const isAuthenticated = useAuthenticated();
   const dispatch = useAppDispatch();
   return (
-    <div className="flex justify-between h-14 mb-2">
+    <div className="flex justify-between h-14 mb-2 font-sans">
       <NavLink
         to="/"
         className="flex cursor-pointer decoration-none justify-center items-center px-4 bg-amber-4 hover:( bg-green-4 text-zinc-9 ) rounded-b-md transition-all duration-200 text-coolgray-8 font-mono text-2xl"

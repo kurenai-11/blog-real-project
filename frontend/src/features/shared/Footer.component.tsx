@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="py-3 text-lg flex justify-center gap-1 bg-zinc-9">
+    <div className="py-3 text-lg flex justify-center gap-1 bg-zinc-9 font-sans">
       Made by
       <a
         href="https://github.com/kurenai-11"

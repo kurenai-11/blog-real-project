@@ -20,7 +20,7 @@ const AuthPage = ({ page }: AuthPageProps) => {
   const [form, setForm] = useState(page);
   const isLogin = form === "login";
   return (
-    <div className="min-h-screen bg-zinc-8 flex flex-col justify-center items-center">
+    <div className="min-h-screen bg-zinc-8 flex flex-col justify-center items-center font-sans">
       {isLogin ? <LoginForm /> : <SignupForm />}
       <FormButton
         type="button"
