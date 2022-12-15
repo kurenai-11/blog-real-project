@@ -15,11 +15,6 @@ export const ZPasswordInput = z
     (password) => password.match(lowerCasePattern) !== null,
     "Password should contain at least one lowercase letter"
   );
-export const ZLoginForm = z.object({
-  username: ZUsernameInput,
-  password: ZPasswordInput,
-});
-
 export const ZSignupForm = z
   .object({
     username: ZUsernameInput,
