@@ -3,7 +3,7 @@ import { IoIosLogIn } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import { login } from "../auth/userSlice";
-import { ZPasswordInput, ZUsernameInput } from "../auth/zod";
+import { ZPasswordInput, ZSignupForm, ZUsernameInput } from "../auth/zod";
 import { withClasses } from "../shared/utils";
 import FormButton from "./FormButton.component";
 import FormInput from "./FormInput.component";
@@ -28,8 +28,20 @@ const SignupForm = () => {
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const username = formData.get("username")?.toString();
+    const password = formData.get("password")?.toString();
+    const confirmPassword = formData.get("confirmPassword")?.toString();
+    const isValidForm = ZSignupForm.safeParse({
+      username,
+      password,
+      confirmPassword,
+    }).success;
+    if (!isValidForm) {
+      console.log("form not valid");
+      return;
+    }
     const authData = await processForm(formData);
-    if (authData.code === AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY) {
+    if (authData.code === AuthCodes.SUCCESSFUL_SIGNUP) {
       dispatch(login(authData));
       navigate("/dashboard");
     } else {
