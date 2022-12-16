@@ -16,22 +16,27 @@ export interface IUser {
 }
 
 const userSchema = new Schema<IUser>({
-  userId: Number,
-  username: String,
+  userId: { type: Number, required: true },
+  username: { type: String, required: true },
   displayName: String,
-  password: String,
+  password: { type: String, required: true },
   auth: {
-    authKey: String,
-    // to post-process with 1 week validity
-    validUntil: {
-      type: Date,
+    type: {
+      authKey: { type: String, required: true },
+      // to post-process with 1 week validity
+      validUntil: {
+        type: Date,
+        required: true,
+      },
     },
+    required: true,
   },
   email: String,
   blogs: [Number],
   creationDate: {
     type: Date,
     default: Date.now,
+    required: true,
   },
   avatarUrl: String,
 });
