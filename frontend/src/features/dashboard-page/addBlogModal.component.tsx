@@ -20,7 +20,7 @@ const AddBlogModal = ({ setShowModal }: ModalProps) => {
         )}
       >
         <button
-          className="fixed top-20% right-10% w-12 h-12 text-xl flex justify-center items-center text-amber-3 outline-none border-none bg-red-5 rounded-xl"
+          className="fixed top-20% right-10% w-12 h-12 text-xl flex justify-center items-center text-amber-3 outline-none border-none bg-red-5 rounded-xl cursor-pointer"
           onClick={() => setShowModal(false)}
         >
           X
