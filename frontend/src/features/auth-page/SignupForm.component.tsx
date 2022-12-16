@@ -25,6 +25,10 @@ const SignupForm = () => {
   const [isValidUsername, setIsValidUsername] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState(false);
   const [isConfirmedPassword, setIsConfirmedPassword] = useState(false);
+  // 0 - user did not yet input anything in the form
+  // 1 - input happened
+  const [usernameInputStatus, setUsernameInputStatus] = useState(0);
+  const [passwordInputStatus, setPasswordInputStatus] = useState(0);
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -73,6 +77,7 @@ const SignupForm = () => {
           placeholder="Login"
           value={username}
           onChange={(e) => {
+            setUsernameInputStatus(1);
             setUsername(e.target.value);
           }}
           additionalClasses={withClasses(
@@ -82,7 +87,7 @@ const SignupForm = () => {
         <div
           className={withClasses(
             "flex items-center text-red-7 font-bold text-center",
-            isValidUsername && "hidden"
+            (isValidUsername || usernameInputStatus === 0) && "hidden"
           )}
         >
           <MdErrorOutline className="w-8 flex-shrink-0 h-full color-red-6" />
@@ -94,6 +99,7 @@ const SignupForm = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => {
+            setPasswordInputStatus(1);
             setPassword(e.target.value);
           }}
           additionalClasses={withClasses(
@@ -103,7 +109,7 @@ const SignupForm = () => {
         <div
           className={withClasses(
             "flex items-center text-red-7 font-bold text-center",
-            isValidPassword && "hidden"
+            (isValidPassword || passwordInputStatus === 0) && "hidden"
           )}
         >
           <MdErrorOutline className="w-8 flex-shrink-0 h-full color-red-6" />
