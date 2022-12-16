@@ -32,7 +32,6 @@ const ZSignUpData = z.object({
     .string()
     .min(6, "Password is too short.")
     .max(64, "Password is too long."),
-  confirmPassword: z.string(),
 });
 
 const AuthActions = {

@@ -25,3 +25,8 @@ export const ZSignupForm = z
     (values) => values.password === values.confirmPassword,
     "Confirm password must equal password"
   );
+
+export const ZLoginForm = z.object({
+  username: ZUsernameInput,
+  password: ZPasswordInput,
+});

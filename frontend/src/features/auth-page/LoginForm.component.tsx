@@ -6,14 +6,15 @@ import {
   formContainerClasses,
   formInfoClasses,
   formClasses,
-  processForm,
   AuthCodes,
 } from "./shared";
 import { useAppDispatch, useAuthenticated } from "../../app/hooks";
-import { login } from "../auth/userSlice";
+import { storeLogin } from "../auth/userSlice";
 import { withClasses } from "../shared/utils";
 import { MdErrorOutline } from "react-icons/md";
 import { useState } from "react";
+import { ZLoginForm } from "../auth/zod";
+import { useLoginCMutation } from "../api/apiSlice";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -25,12 +26,23 @@ const LoginForm = () => {
   // 0 - no interaction since last login attempt
   // 1 - did interact since last login attempt
   const [inputStatus, setInputStatus] = useState(0);
+  const [loginByCredentials, { isLoading: isSubmittingLogin }] =
+    useLoginCMutation();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const authData = await processForm(formData);
+    const [username, password] = [
+      formData.get("username")?.toString(),
+      formData.get("password")?.toString(),
+    ];
+    const loginData = ZLoginForm.safeParse({ username, password });
+    if (!loginData.success) {
+      // don't bother to submit the form if the data is incorrect
+      return;
+    }
+    const authData = await loginByCredentials(loginData.data).unwrap();
     if (authData.code === AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY) {
-      dispatch(login(authData));
+      dispatch(storeLogin({ ...authData, authenticated: true }));
       navigate("/dashboard");
     } else {
       // display that the login is unsuccessful and why

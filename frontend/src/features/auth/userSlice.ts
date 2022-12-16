@@ -25,7 +25,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (_, action: PayloadAction<AuthData>) => {
+    storeLogin: (_, action: PayloadAction<AuthData>) => {
       Cookies.set("user", JSON.stringify({ ...action.payload }));
       return { ...action.payload };
     },
@@ -36,6 +36,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout } = userSlice.actions;
+export const { storeLogin, logout } = userSlice.actions;
 
 export default userSlice.reducer;

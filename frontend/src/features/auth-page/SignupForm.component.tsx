@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { IoIosLogIn } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
-import { login } from "../auth/userSlice";
+import { storeLogin } from "../auth/userSlice";
 import { ZPasswordInput, ZSignupForm, ZUsernameInput } from "../auth/zod";
 import { withClasses } from "../shared/utils";
 import FormButton from "./FormButton.component";
@@ -12,9 +12,9 @@ import {
   formClasses,
   formContainerClasses,
   formInfoClasses,
-  processForm,
 } from "./shared";
 import { MdErrorOutline } from "react-icons/md";
+import { useSignupMutation } from "../api/apiSlice";
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();
@@ -34,23 +34,27 @@ const SignupForm = () => {
   // 2 - other request problem(no internet etc.)
   const [signupStatus, setSignupStatus] = useState(0);
   const [existingUser, setExistingUser] = useState("");
+  const [signup, { isLoading }] = useSignupMutation();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const username = formData.get("username")?.toString();
-    const password = formData.get("password")?.toString();
-    const confirmPassword = formData.get("confirmPassword")?.toString();
-    const isValidForm = ZSignupForm.safeParse({
+    const [username, password, confirmPassword] = [
+      formData.get("username")?.toString(),
+      formData.get("password")?.toString(),
+      formData.get("confirmPassword")?.toString(),
+    ];
+    const signupData = ZSignupForm.safeParse({
       username,
       password,
       confirmPassword,
-    }).success;
-    if (!isValidForm) {
+    });
+    if (!signupData.success) {
+      // don't bother to submit the form if the data is incorrect
       return;
     }
-    const authData = await processForm(formData);
+    const authData = await signup(signupData.data).unwrap();
     if (authData.code === AuthCodes.SUCCESSFUL_SIGNUP) {
-      dispatch(login(authData));
+      dispatch(storeLogin({ ...authData, authenticated: true }));
       navigate("/dashboard");
     } else {
       // display that the signup is unsuccessful and why
