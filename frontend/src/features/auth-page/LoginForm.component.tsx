@@ -22,6 +22,9 @@ const LoginForm = () => {
   // 1 - incorrect login or password
   // 2 - request error(no internet or stuff)
   const [loginCode, setLoginCode] = useState(0);
+  // 0 - no interaction since last login attempt
+  // 1 - did interact since last login attempt
+  const [inputStatus, setInputStatus] = useState(0);
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -33,6 +36,7 @@ const LoginForm = () => {
       // display that the login is unsuccessful and why
       if (authData.code === AuthCodes.LOGIN_WRONG) {
         setLoginCode(1);
+        setInputStatus(0);
       } else {
         setLoginCode(2);
       }
@@ -42,12 +46,22 @@ const LoginForm = () => {
     <div className={formContainerClasses}>
       <div className={withClasses(formInfoClasses, "bg-cyan-8")}>LOGIN</div>
       <form onSubmit={submitHandler} className={formClasses}>
-        <FormInput type="text" name="username" placeholder="Login" />
-        <FormInput type="password" name="password" placeholder="Password" />
+        <FormInput
+          type="text"
+          name="username"
+          placeholder="Login"
+          onChange={() => loginCode === 1 && setInputStatus(1)}
+        />
+        <FormInput
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={() => loginCode === 1 && setInputStatus(1)}
+        />
         <div
           className={withClasses(
             "flex items-center text-red-7 font-bold text-center",
-            (loginCode === 0 || loginCode === 2) && "hidden"
+            (loginCode === 0 || inputStatus === 1) && "hidden"
           )}
         >
           <MdErrorOutline className="w-8 flex-shrink-0 h-full color-red-6" />
