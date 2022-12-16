@@ -29,6 +29,11 @@ const SignupForm = () => {
   // 1 - input happened
   const [usernameInputStatus, setUsernameInputStatus] = useState(0);
   const [passwordInputStatus, setPasswordInputStatus] = useState(0);
+  // 0 - user did not submit the form yet
+  // 1 - user already exists
+  // 2 - other request problem(no internet etc.)
+  const [signupStatus, setSignupStatus] = useState(0);
+  const [existingUser, setExistingUser] = useState("");
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -51,6 +56,12 @@ const SignupForm = () => {
     } else {
       // display that the signup is unsuccessful and why
       console.log("error while creating user account, code: ", authData.code);
+      if (authData.code === AuthCodes.SIGNUP_ACCOUNT_EXISTS) {
+        setSignupStatus(1);
+        setExistingUser(username!);
+      } else {
+        setSignupStatus(2);
+      }
     }
   };
   useEffect(() => {
@@ -81,17 +92,28 @@ const SignupForm = () => {
             setUsername(e.target.value);
           }}
           additionalClasses={withClasses(
-            isValidUsername && "bg-green-4 bg-opacity-40"
+            isValidUsername &&
+              username !== existingUser &&
+              "bg-green-4 bg-opacity-40",
+            username === existingUser &&
+              signupStatus !== 0 &&
+              "bg-red-4 bg-opacity-40"
           )}
         />
         <div
           className={withClasses(
             "flex items-center text-red-7 font-bold text-center",
-            (isValidUsername || usernameInputStatus === 0) && "hidden"
+            (isValidUsername || usernameInputStatus === 0) &&
+              (signupStatus === 0 ||
+                (signupStatus === 1 && username !== existingUser)) &&
+              "hidden"
           )}
         >
           <MdErrorOutline className="w-8 flex-shrink-0 h-full color-red-6" />
-          Username must be between 6 and 20 characters.
+          {!isValidUsername && "Username must be between 6 and 20 characters."}
+          {signupStatus === 1 &&
+            username === existingUser &&
+            `User ${existingUser} already exists`}
         </div>
         <FormInput
           type="password"
@@ -135,7 +157,10 @@ const SignupForm = () => {
           )}
         >
           <MdErrorOutline className="w-8 flex-shrink-0 h-full color-red-6" />
-          Password and confirm password should be identical
+          {!isConfirmedPassword &&
+            "Password and confirm password should be identical"}
+          {signupStatus === 2 &&
+            "Unknown error while creating a user, check your internet connection."}
         </div>
         <FormButton type="submit">
           <IoIosLogIn />

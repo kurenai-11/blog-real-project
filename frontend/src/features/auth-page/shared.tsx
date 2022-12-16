@@ -58,6 +58,12 @@ export const processForm = async (formData: FormData): Promise<AuthData> => {
       // we are handling the error if it happens so we know that
       // auth will not be undefined, so we use !
       const auth = response!.data;
+      if (auth.code === AuthCodes.SIGNUP_ACCOUNT_EXISTS) {
+        return {
+          authenticated: false,
+          code: AuthCodes.SIGNUP_ACCOUNT_EXISTS,
+        };
+      }
       return {
         ...auth,
         authenticated: true,
@@ -65,12 +71,6 @@ export const processForm = async (formData: FormData): Promise<AuthData> => {
       };
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        if (error.response?.status === 409) {
-          return {
-            authenticated: false,
-            code: AuthCodes.SIGNUP_ACCOUNT_EXISTS,
-          };
-        }
         return {
           authenticated: false,
           code: AuthCodes.SIGNUP_CLIENT_UNKNOWN,
