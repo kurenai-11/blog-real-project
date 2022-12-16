@@ -46,7 +46,6 @@ const SignupForm = () => {
       confirmPassword,
     }).success;
     if (!isValidForm) {
-      console.log("form not valid");
       return;
     }
     const authData = await processForm(formData);
@@ -55,7 +54,6 @@ const SignupForm = () => {
       navigate("/dashboard");
     } else {
       // display that the signup is unsuccessful and why
-      console.log("error while creating user account, code: ", authData.code);
       if (authData.code === AuthCodes.SIGNUP_ACCOUNT_EXISTS) {
         setSignupStatus(1);
         setExistingUser(username!);
