@@ -1,25 +1,22 @@
 import { withClasses } from "../shared/utils";
 
 type ModalProps = {
-  showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const AddBlogModal = ({ showModal, setShowModal }: ModalProps) => {
+const AddBlogModal = ({ setShowModal }: ModalProps) => {
   return (
     <>
       {/* overlay */}
       <div
         className={withClasses(
-          "fixed z-1 top-0 left-0 w-full h-full bg-zinc-9 opacity-60 hidden",
-          showModal && "block"
+          "fixed z-1 top-0 left-0 w-full h-full bg-zinc-9 opacity-60"
         )}
       ></div>
       {/* modal itself */}
       <div
         className={withClasses(
-          "w-[80vw] h-[70vh] bg-zinc-9 fixed z-2 left-10% top-20% flex flex-col items-center text-xl rounded-xl hidden",
-          showModal && "block"
+          "w-[80vw] h-[70vh] bg-zinc-9 fixed z-2 left-10% top-20% flex flex-col items-center text-xl rounded-xl"
         )}
       >
         <button

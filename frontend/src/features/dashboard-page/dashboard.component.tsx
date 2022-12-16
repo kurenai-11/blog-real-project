@@ -38,7 +38,7 @@ const Dashboard = () => {
           Log out
         </button>
       </div>
-      <AddBlogModal setShowModal={setShowModal} showModal={showModal} />
+      {showModal ? <AddBlogModal setShowModal={setShowModal} /> : null}
       {blogs ? (
         <div>
           <div className="text-center text-3xl py-6">Your blogs:</div>
