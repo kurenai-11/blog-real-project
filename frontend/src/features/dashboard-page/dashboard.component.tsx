@@ -3,13 +3,21 @@ import { logout } from "../auth/userSlice";
 import Footer from "../shared/Footer.component";
 import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
+import { useState } from "react";
+import { withClasses } from "../shared/utils";
+import AddBlogModal from "./addBlogModal.component";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const [showModal, setShowModal] = useState(false);
   const { username, avatarUrl, blogs } = user;
   return (
-    <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans">
+    <div
+      className={withClasses(
+        "bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans"
+      )}
+    >
       <Navbar />
       <div className="flex flex-col items-center pt-8">
         <div className="text-4xl pb-4 font-bold">Dashboard</div>
@@ -30,6 +38,7 @@ const Dashboard = () => {
           Log out
         </button>
       </div>
+      <AddBlogModal setShowModal={setShowModal} showModal={showModal} />
       {blogs ? (
         <div>
           <div className="text-center text-3xl py-6">Your blogs:</div>
@@ -39,10 +48,13 @@ const Dashboard = () => {
           <div className="font-bold text-blueGray-5 mb-1">
             You don't have any blogs yet...
           </div>
-          <div className="text-xl text-amber-6 animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer">
+          <button
+            className="text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer"
+            onClick={() => setShowModal(true)}
+          >
             <AiOutlinePlus />
             Want to create one?
-          </div>
+          </button>
         </div>
       )}
       <Footer />
