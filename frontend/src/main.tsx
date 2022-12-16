@@ -5,9 +5,10 @@ import "reset.css";
 import "virtual:uno.css";
 import RootRoute from "./routes/Root.route";
 import AuthPageRoute from "./routes/AuthPage.route";
+import DashboardRoute from "./routes/DashboardPage.route";
+import BlogsRoute from "./routes/Blogs.route";
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-import DashboardRoute from "./routes/DashboardPage.route";
 import Ghost from "./features/shared/Ghost.component";
 import "./main.css";
 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardRoute />,
+  },
+  {
+    path: "/blogs",
+    element: <BlogsRoute />,
   },
 ]);
 
