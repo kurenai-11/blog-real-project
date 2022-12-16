@@ -65,6 +65,16 @@ export const signUpWithLogin = async (
   const authKey = crypto.randomUUID();
   const dateNow = new Date();
   const validUntil = new Date(dateNow.setDate(dateNow.getDate() + 7));
+  let userId: number;
+  // finding userId to set
+  const lastDoc = (await User.find({}).sort({ _id: -1 }).limit(1).exec())[0];
+  // if this is the first entry in the database...
+  if (!lastDoc) {
+    userId = 0;
+    // or if (expected) previous entry exists
+  } else {
+    userId = lastDoc.userId + 1;
+  }
   const newUser = new User({
     username,
     password: cryptedPassword,
@@ -72,6 +82,7 @@ export const signUpWithLogin = async (
       authKey,
       validUntil,
     },
+    userId,
   });
   await newUser.save();
   console.log(`user ${username} created.`);
