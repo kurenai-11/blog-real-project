@@ -2,14 +2,14 @@
 // regardless of the route.
 import Cookies from "js-cookie";
 import { useAppDispatch } from "../../app/hooks";
-import { AuthData, login } from "../auth/userSlice";
+import { AuthData, storeLogin } from "../auth/userSlice";
 
 const Ghost = () => {
   const dispatch = useAppDispatch();
   let cookie: AuthData | undefined;
   if (Cookies.get("user") !== undefined) {
     cookie = JSON.parse(Cookies.get("user") as string) as AuthData;
-    dispatch(login(cookie));
+    dispatch(storeLogin(cookie));
   }
   return <></>;
 };
