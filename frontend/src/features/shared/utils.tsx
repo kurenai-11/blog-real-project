@@ -128,7 +128,7 @@ export const createTailwindComponent = <T extends keyof JSX.IntrinsicElements>({
 
 export type ImplementedElementProps<T extends keyof JSX.IntrinsicElements> =
   JSX.IntrinsicElements[T] & {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     additionalClasses?: string;
   };
 // invocation
