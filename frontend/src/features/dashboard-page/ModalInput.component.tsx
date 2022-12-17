@@ -1,31 +1,21 @@
-import { twMerge } from "tailwind-merge";
 import {
-  createTailwindInputComponent,
-  createTailwindTextareaComponent,
-  ImplementedInputProps,
-  ImplementedTextareaProps,
+  createTailwindComponent,
+  ImplementedElementProps,
 } from "../shared/utils";
 
 const ModalInput = ({
   additionalClasses,
-  inputType = "input",
+  children,
   ...reactProps
-}: { inputType?: "input" | "textarea" } & ImplementedInputProps &
-  ImplementedTextareaProps) => {
+}: ImplementedElementProps<"input">) => {
   const baseClasses =
     "bg-zinc-8 outline-none border-none text-zinc-2 px-3 py-2 text-lg my-2 rounded-xl w-full";
-  const areaClasses = twMerge(baseClasses, "resize-none overflow-hidden h-36");
-  if (inputType === "textarea") {
-    return createTailwindTextareaComponent({
-      reactProps,
-      baseClasses: areaClasses,
-      additionalClasses,
-    });
-  }
-  return createTailwindInputComponent({
-    reactProps,
+  return createTailwindComponent({
+    elementType: "input",
     baseClasses,
     additionalClasses,
+    children,
+    reactProps,
   });
 };
 

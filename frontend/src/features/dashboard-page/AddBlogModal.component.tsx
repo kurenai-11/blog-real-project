@@ -4,6 +4,8 @@ import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreateBlogMutation } from "../api/apiSlice";
 import ModalButton from "./ModalButton.component";
 import ModalInput from "./ModalInput.component";
+import ModalLink from "./ModalLink.component";
+import ModalTextArea from "./ModalTextarea.component";
 
 const AddBlogModal = () => {
   const authKey = useAuthKey();
@@ -62,15 +64,13 @@ const AddBlogModal = () => {
           </div>
           <div className="px-3 flex flex-col gap-2 justify-center items-center">
             <span className="text-xl font-bold">Description</span>
-            <ModalInput name="description" inputType="textarea" />
+            <ModalTextArea name="description" />
           </div>
           <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
             <ModalButton type="submit" additionalClasses="bg-green-8">
               Create
             </ModalButton>
-            <ModalButton buttonType="link" href="#">
-              Cancel
-            </ModalButton>
+            <ModalLink href="#">Cancel</ModalLink>
           </div>
         </form>
       </div>

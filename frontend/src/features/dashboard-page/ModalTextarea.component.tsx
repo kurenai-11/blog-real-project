@@ -3,15 +3,15 @@ import {
   ImplementedElementProps,
 } from "../shared/utils";
 
-const ModalButton = ({
+const ModalTextArea = ({
   additionalClasses,
   children,
   ...reactProps
-}: ImplementedElementProps<"button">) => {
+}: ImplementedElementProps<"textarea">) => {
   const baseClasses =
-    "border-none decoration-none outline-none bg-zinc-8 py-2 px-3 text-xl text-zinc-2 rounded-xl cursor-pointer";
+    "bg-zinc-8 outline-none border-none text-zinc-2 px-3 py-2 text-lg my-2 rounded-xl w-full resize-none overflow-hidden h-36";
   return createTailwindComponent({
-    elementType: "button",
+    elementType: "textarea",
     baseClasses,
     additionalClasses,
     children,
@@ -19,4 +19,4 @@ const ModalButton = ({
   });
 };
 
-export default ModalButton;
+export default ModalTextArea;
