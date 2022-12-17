@@ -24,6 +24,11 @@ const AuthPage = ({ page }: AuthPageProps) => {
       {isLogin ? <LoginForm /> : <SignupForm />}
       <FormButton
         type="button"
+        additionalClasses={
+          isLogin
+            ? "bg-emerald-8 hover:(bg-emerald-9)"
+            : "bg-cyan-8 hover:(bg-cyan-9)"
+        }
         onClick={() => {
           isLogin ? setForm("signup") : setForm("login");
         }}
@@ -31,7 +36,11 @@ const AuthPage = ({ page }: AuthPageProps) => {
         <HiSwitchHorizontal />
         {isLogin ? "Signup?" : "Login?"}
       </FormButton>
-      <FormButton type="button" onClick={() => navigate("/")}>
+      <FormButton
+        additionalClasses="bg-fuchsia-8 hover:(bg-fuchsia-9)"
+        type="button"
+        onClick={() => navigate("/")}
+      >
         <IoMdArrowBack />
         Return
       </FormButton>
