@@ -1,10 +1,9 @@
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 import {
   createTailwindInputComponent,
   createTailwindTextareaComponent,
   ImplementedInputProps,
   ImplementedTextareaProps,
-  withClasses,
 } from "../shared/utils";
 
 const ModalInput = ({
@@ -15,7 +14,7 @@ const ModalInput = ({
   ImplementedTextareaProps) => {
   const baseClasses =
     "bg-zinc-8 outline-none border-none text-zinc-2 px-3 py-2 text-lg my-2 rounded-xl w-full";
-  const areaClasses = clsx(baseClasses, "resize-none overflow-hidden h-36");
+  const areaClasses = twMerge(baseClasses, "resize-none overflow-hidden h-36");
   if (inputType === "textarea") {
     return createTailwindTextareaComponent({
       reactProps,

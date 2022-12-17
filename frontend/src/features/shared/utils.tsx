@@ -1,11 +1,4 @@
-import clsx, { ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-
-// clsx - to merge classes
-// twMerge - to remove conflicting classes that were merged
-export const withClasses = (...classes: ClassValue[]) => {
-  return twMerge(clsx(...classes));
-};
 
 //
 // Styled tailwind component implementation
@@ -62,10 +55,7 @@ export const createTailwindButtonComponent = ({
   additionalClasses,
 }: CreateButtonProps) => {
   return (
-    <button
-      {...reactProps}
-      className={withClasses(baseClasses, additionalClasses)}
-    >
+    <button {...reactProps} className={twMerge(baseClasses, additionalClasses)}>
       {children}
     </button>
   );
@@ -78,7 +68,7 @@ export const createTailwindInputComponent = ({
   return (
     <input
       {...reactProps}
-      className={withClasses(baseClasses, additionalClasses)}
+      className={twMerge(baseClasses, additionalClasses)}
     />
   );
 };
@@ -90,7 +80,7 @@ export const createTailwindTextareaComponent = ({
   return (
     <textarea
       {...reactProps}
-      className={withClasses(baseClasses, additionalClasses)}
+      className={twMerge(baseClasses, additionalClasses)}
     />
   );
 };
@@ -101,7 +91,7 @@ export const createTailwindAComponent = ({
   additionalClasses,
 }: CreateAProps) => {
   return (
-    <a {...reactProps} className={withClasses(baseClasses, additionalClasses)}>
+    <a {...reactProps} className={twMerge(baseClasses, additionalClasses)}>
       {children}
     </a>
   );

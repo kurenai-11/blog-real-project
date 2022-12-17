@@ -1,7 +1,7 @@
 import { AiOutlineClose } from "react-icons/ai";
+import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreateBlogMutation } from "../api/apiSlice";
-import { withClasses } from "../shared/utils";
 import ModalButton from "./ModalButton.component";
 import ModalInput from "./ModalInput.component";
 
@@ -41,7 +41,7 @@ const AddBlogModal = () => {
   return (
     <div
       id="addBlog"
-      className={withClasses(
+      className={twMerge(
         // z--1 - below everything z-0 main content of the page
         // z-1 above main content of the page
         "fixed z--1 top-0 left-0 w-full h-full bg-zinc-9 bg-opacity-0 opacity-0 transition-all duration-300",
@@ -49,7 +49,7 @@ const AddBlogModal = () => {
       )}
     >
       <div
-        className={withClasses(
+        className={twMerge(
           "w-[80vw] bg-zinc-9 fixed z-2 left-10% top-20% items-center text-xl rounded-xl transition-all duration-1000 flex flex-col"
         )}
       >

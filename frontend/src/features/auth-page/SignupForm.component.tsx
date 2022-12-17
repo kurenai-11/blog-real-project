@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import { storeLogin } from "../auth/userSlice";
 import { ZPasswordInput, ZSignupForm, ZUsernameInput } from "../auth/zod";
-import { withClasses } from "../shared/utils";
 import FormButton from "./FormButton.component";
 import FormInput from "./FormInput.component";
 import {
@@ -15,6 +14,7 @@ import {
 } from "./shared";
 import { MdErrorOutline } from "react-icons/md";
 import { useSignupMutation } from "../api/apiSlice";
+import { twMerge } from "tailwind-merge";
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();
@@ -82,7 +82,7 @@ const SignupForm = () => {
   }, [confirmPassword]);
   return (
     <div className={formContainerClasses}>
-      <div className={withClasses(formInfoClasses, "bg-emerald-8")}>SIGNUP</div>
+      <div className={twMerge(formInfoClasses, "bg-emerald-8")}>SIGNUP</div>
       <form onSubmit={submitHandler} className={formClasses}>
         <FormInput
           type="text"
@@ -93,7 +93,7 @@ const SignupForm = () => {
             setUsernameInputStatus(1);
             setUsername(e.target.value);
           }}
-          additionalClasses={withClasses(
+          additionalClasses={twMerge(
             isValidUsername &&
               username !== existingUser &&
               "bg-green-4 bg-opacity-40",
@@ -103,7 +103,7 @@ const SignupForm = () => {
           )}
         />
         <div
-          className={withClasses(
+          className={twMerge(
             "flex items-center text-red-7 font-bold text-center",
             (isValidUsername || usernameInputStatus === 0) &&
               (signupStatus === 0 ||
@@ -126,12 +126,12 @@ const SignupForm = () => {
             setPasswordInputStatus(1);
             setPassword(e.target.value);
           }}
-          additionalClasses={withClasses(
+          additionalClasses={twMerge(
             isValidPassword && "bg-green-4 bg-opacity-40"
           )}
         />
         <div
-          className={withClasses(
+          className={twMerge(
             "flex items-center text-red-7 font-bold text-center",
             (isValidPassword || passwordInputStatus === 0) && "hidden"
           )}
@@ -148,12 +148,12 @@ const SignupForm = () => {
           onChange={(e) => {
             setConfirmPassword(e.target.value);
           }}
-          additionalClasses={withClasses(
+          additionalClasses={twMerge(
             isConfirmedPassword && password && "bg-green-4 bg-opacity-40"
           )}
         />
         <div
-          className={withClasses(
+          className={twMerge(
             "flex items-center text-red-7 font-bold text-center",
             isConfirmedPassword && "hidden"
           )}

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import { twMerge } from "tailwind-merge";
 import { useAuthenticated } from "../../../app/hooks";
-import { withClasses } from "../../shared/utils";
 
 const Hero = () => {
   const isAuthenticated = useAuthenticated();
@@ -27,7 +27,7 @@ const Hero = () => {
           See all public blogs
         </Link>
         <Link
-          className={withClasses(
+          className={twMerge(
             linkClasses,
             isAuthenticated ? "bg-blue-8" : "bg-amber-8"
           )}

@@ -10,11 +10,11 @@ import {
 } from "./shared";
 import { useAppDispatch, useAuthenticated } from "../../app/hooks";
 import { storeLogin } from "../auth/userSlice";
-import { withClasses } from "../shared/utils";
 import { MdErrorOutline } from "react-icons/md";
 import { useState } from "react";
 import { ZLoginForm } from "../auth/zod";
 import { useLoginCMutation } from "../api/apiSlice";
+import { twMerge } from "tailwind-merge";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -56,7 +56,7 @@ const LoginForm = () => {
   };
   return (
     <div className={formContainerClasses}>
-      <div className={withClasses(formInfoClasses, "bg-cyan-8")}>LOGIN</div>
+      <div className={twMerge(formInfoClasses, "bg-cyan-8")}>LOGIN</div>
       <form onSubmit={submitHandler} className={formClasses}>
         <FormInput
           type="text"
@@ -71,7 +71,7 @@ const LoginForm = () => {
           onChange={() => loginCode === 1 && setInputStatus(1)}
         />
         <div
-          className={withClasses(
+          className={twMerge(
             "flex items-center text-red-7 font-bold text-center",
             (loginCode === 0 || inputStatus === 1) && "hidden"
           )}

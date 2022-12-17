@@ -3,9 +3,8 @@ import { logout } from "../auth/userSlice";
 import Footer from "../shared/Footer.component";
 import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useState } from "react";
-import { withClasses } from "../shared/utils";
 import AddBlogModal from "./AddBlogModal.component";
+import { twMerge } from "tailwind-merge";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -13,7 +12,7 @@ const Dashboard = () => {
   const { username, avatarUrl, blogs } = user;
   return (
     <div
-      className={withClasses(
+      className={twMerge(
         "bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans"
       )}
     >

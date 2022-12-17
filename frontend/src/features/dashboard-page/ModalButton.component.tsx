@@ -1,9 +1,9 @@
+import { twMerge } from "tailwind-merge";
 import {
   createTailwindAComponent,
   createTailwindButtonComponent,
   ImplementedAProps,
   ImplementedButtonProps,
-  withClasses,
 } from "../shared/utils";
 
 const ModalButton = ({
