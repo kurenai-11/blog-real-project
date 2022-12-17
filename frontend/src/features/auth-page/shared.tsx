@@ -10,6 +10,7 @@ export type AuthDataResponse = {
     authKey: string;
     validUntil: Date;
   };
+  userId?: number;
   code: number;
 };
 
