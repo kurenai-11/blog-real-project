@@ -8,7 +8,7 @@ const AddBlogModal = () => {
         id="addBlog"
         className={withClasses(
           // z--1 - below everything z-0 main content of the page
-          // z-1 above main conten of the page
+          // z-1 above main content of the page
           "fixed z--1 top-0 left-0 w-full h-full bg-zinc-9 bg-opacity-0 opacity-0 transition-all duration-300",
           "target:(opacity-100 bg-opacity-60 block z-1)"
         )}
