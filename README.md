@@ -1,6 +1,7 @@
 # XBlog MERN Project
 
-A blog project made with the MERN stack with the modern approach.
+A full stack project made with the MERN stack with the modern(?) approach.
+The concept is to create a web site that lets you create and manage multiple blogs at once.
 
 # Starting in development mode
 
