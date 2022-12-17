@@ -5,6 +5,7 @@ interface IPost {
   title: string;
   content: string;
   authorId: number;
+  creationDate: Date;
   isChild: boolean;
   parentId?: number;
   childrenPosts: Array<number>;
@@ -16,6 +17,7 @@ const postSchema = new Schema<IPost>({
   title: { type: String, required: true },
   content: { type: String, required: true },
   authorId: { type: Number, required: true },
+  creationDate: { type: Date, default: Date.now, required: true },
   isChild: { type: Boolean, required: true },
   parentId: Number,
   childrenPosts: [Number],

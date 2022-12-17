@@ -47,6 +47,7 @@ export const errorResponse = (
   res: Response
 ) => {
   res.status(200).send({
+    status: "fail",
     error: errorText,
     code,
   });
@@ -54,6 +55,7 @@ export const errorResponse = (
 
 type AuthenticatedUser = {
   username: string;
+  userId: number;
   auth: {
     authKey: string;
     validUntil: Date;
@@ -62,7 +64,7 @@ type AuthenticatedUser = {
 };
 
 const successfulResponse = (user: AuthenticatedUser, res: Response) => {
-  res.status(200).send(user);
+  res.status(200).send({ ...user, status: "success" });
 };
 
 // Auth route
@@ -111,6 +113,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_AUTHKEY,
+        userId: foundUser.userId,
       },
       res
     );
@@ -153,6 +156,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY,
+        userId: foundUser.userId,
       },
       res
     );
@@ -174,12 +178,16 @@ router.post("/", async (req, res) => {
       return;
     }
     const { username, password } = authSignupData;
-    const [authKey, validUntil] = await signUpWithLogin(username, password);
+    const [authKey, validUntil, userId] = await signUpWithLogin(
+      username,
+      password
+    );
     successfulResponse(
       {
         username: authSignupData.username,
         auth: { authKey, validUntil },
         code: AuthCodes.SUCCESSFUL_SIGNUP,
+        userId,
       },
       res
     );

@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 
 interface IBlog {
   blogId: number;
@@ -6,6 +6,7 @@ interface IBlog {
   description: string;
   authorName: string;
   authorId: number;
+  creationDate: Date;
   posts: Array<number>;
 }
 
@@ -15,6 +16,7 @@ const blogSchema = new Schema<IBlog>({
   description: String,
   authorName: { type: String, required: true },
   authorId: { type: Number, required: true },
+  creationDate: { type: Date, default: Date.now, required: true },
   posts: [Number],
 });
 

@@ -1,9 +1,43 @@
 import { AiOutlineClose } from "react-icons/ai";
+import { useAppSelector, useAuthKey } from "../../app/hooks";
+import { useCreateBlogMutation } from "../api/apiSlice";
 import { withClasses } from "../shared/utils";
 import ModalButton from "./ModalButton.component";
 import ModalInput from "./ModalInput.component";
 
 const AddBlogModal = () => {
+  const authKey = useAuthKey();
+  const userId = useAppSelector((state) => state.user.userId);
+  const [createBlog, { isLoading }] = useCreateBlogMutation();
+  const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    let [title, description] = [
+      formData.get("title")?.toString(),
+      formData.get("description")?.toString(),
+    ];
+    if (!authKey || userId === undefined) {
+      // just to be sure, don't submit
+      // todo: validation and showing errors to the user
+      // but not needed at the moment because user should not have
+      // access to the modal if not authenticated
+      console.log("there is no auth, why?");
+      return;
+    }
+    if (!description) {
+      description = "No description";
+    }
+    if (!title) {
+      title = "No title";
+    }
+    const response = await createBlog({
+      title,
+      description,
+      authKey,
+      userId,
+    }).unwrap();
+    console.log("response", response);
+  };
   return (
     <div
       id="addBlog"
@@ -28,20 +62,24 @@ const AddBlogModal = () => {
         <div className="bg-zinc-8 w-full h-12 py-3 text-center rounded-xl mb-4">
           Create a new blog
         </div>
-        <div className="w-full px-3 flex flex-col gap-2 justify-center items-center">
-          <span className="text-xl font-bold">Title</span>
-          <ModalInput additionalClasses="text-center" />
-        </div>
-        <div className="w-full px-3 flex flex-col gap-2 justify-center items-center">
-          <span className="text-xl font-bold">Description</span>
-          <ModalInput inputType="textarea" />
-        </div>
-        <div className="w-full flex gap-2 pt-2 pb-4 px-3 justify-end">
-          <ModalButton additionalClasses="bg-green-8">Create</ModalButton>
-          <ModalButton buttonType="link" toHref="#">
-            Cancel
-          </ModalButton>
-        </div>
+        <form className="w-full" onSubmit={submitHandler}>
+          <div className="px-3 flex flex-col gap-2 justify-center items-center">
+            <span className="text-xl font-bold">Title</span>
+            <ModalInput name="title" additionalClasses="text-center" />
+          </div>
+          <div className="px-3 flex flex-col gap-2 justify-center items-center">
+            <span className="text-xl font-bold">Description</span>
+            <ModalInput name="description" inputType="textarea" />
+          </div>
+          <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
+            <ModalButton type="submit" additionalClasses="bg-green-8">
+              Create
+            </ModalButton>
+            <ModalButton buttonType="link" toHref="#">
+              Cancel
+            </ModalButton>
+          </div>
+        </form>
       </div>
     </div>
   );

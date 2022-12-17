@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Document, Types } from "mongoose";
 import { Response } from "express";
 import { errorResponse } from "../routes/auth.route.js";
+import { findLastCreated } from "../db/db.js";
 
 type FoundUserType = Document<unknown, any, IUser> &
   IUser & {
@@ -60,14 +61,14 @@ export const checkAuthKey = (
 export const signUpWithLogin = async (
   username: string,
   password: string
-): Promise<[string, Date]> => {
+): Promise<[string, Date, number]> => {
   const cryptedPassword = await bcrypt.hash(password, 12);
   const authKey = crypto.randomUUID();
   const dateNow = new Date();
   const validUntil = new Date(dateNow.setDate(dateNow.getDate() + 7));
   let userId: number;
   // finding userId to set
-  const lastDoc = (await User.find({}).sort({ _id: -1 }).limit(1).exec())[0];
+  const lastDoc = await findLastCreated(User);
   // if this is the first entry in the database...
   if (!lastDoc) {
     userId = 0;
@@ -86,7 +87,7 @@ export const signUpWithLogin = async (
   });
   await newUser.save();
   console.log(`user ${username} created.`);
-  return [authKey, validUntil];
+  return [authKey, validUntil, userId];
 };
 
 export const checkPassword = async (

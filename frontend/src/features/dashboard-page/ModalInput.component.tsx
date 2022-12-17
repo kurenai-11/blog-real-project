@@ -8,6 +8,7 @@ type InputProps = React.DetailedHTMLProps<
 
 const ModalInput = ({
   type = "text",
+  name,
   additionalClasses = "",
   inputType = "input",
 }: InputProps) => {
@@ -16,6 +17,7 @@ const ModalInput = ({
   if (inputType === "textarea") {
     return (
       <textarea
+        name={name}
         className={withClasses(
           baseClasses,
           "resize-none overflow-hidden h-36",
@@ -26,6 +28,7 @@ const ModalInput = ({
   }
   return (
     <input
+      name={name}
       className={withClasses(baseClasses, additionalClasses)}
       type={type}
     />

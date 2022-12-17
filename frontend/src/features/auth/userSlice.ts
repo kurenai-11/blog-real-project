@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 export type AuthData = {
   authenticated: boolean;
   username?: string;
+  userId?: number;
   auth?: {
     authKey: string;
     validUntil: Date;
