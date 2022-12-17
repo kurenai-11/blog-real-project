@@ -10,7 +10,6 @@ import AddBlogModal from "./addBlogModal.component";
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const [showModal, setShowModal] = useState(false);
   const { username, avatarUrl, blogs } = user;
   return (
     <div
@@ -38,7 +37,7 @@ const Dashboard = () => {
           Log out
         </button>
       </div>
-      {showModal ? <AddBlogModal setShowModal={setShowModal} /> : null}
+      <AddBlogModal />
       {blogs ? (
         <div>
           <div className="text-center text-3xl py-6">Your blogs:</div>
@@ -48,13 +47,13 @@ const Dashboard = () => {
           <div className="font-bold text-blueGray-5 mb-1">
             You don't have any blogs yet...
           </div>
-          <button
-            className="text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer"
-            onClick={() => setShowModal(true)}
+          <a
+            href="#addBlog"
+            className="text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none"
           >
             <AiOutlinePlus />
             Want to create one?
-          </button>
+          </a>
         </div>
       )}
       <Footer />
