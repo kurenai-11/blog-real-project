@@ -1,15 +1,10 @@
 import React from "react";
 import { withClasses } from "../shared/utils";
 
-type FormInputProps = {
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  value?: string;
-  name?: string;
-  id?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  additionalClasses?: string;
-};
+type FormInputProps = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+> & { additionalClasses?: string };
 
 const FormInput = ({
   type = "text",
@@ -17,7 +12,7 @@ const FormInput = ({
   value,
   name,
   id,
-  additionalClasses,
+  additionalClasses = "",
   onChange,
 }: FormInputProps) => {
   const classes =

@@ -5,7 +5,7 @@ import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useState } from "react";
 import { withClasses } from "../shared/utils";
-import AddBlogModal from "./addBlogModal.component";
+import AddBlogModal from "./AddBlogModal.component";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
