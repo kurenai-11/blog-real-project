@@ -75,7 +75,7 @@ const AddBlogModal = () => {
             <ModalButton type="submit" additionalClasses="bg-green-8">
               Create
             </ModalButton>
-            <ModalButton buttonType="link" toHref="#">
+            <ModalButton buttonType="link" href="#">
               Cancel
             </ModalButton>
           </div>
