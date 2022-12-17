@@ -8,26 +8,45 @@ export const withClasses = (...classes: ClassValue[]) => {
   return twMerge(clsx(...classes));
 };
 
+//
+// Styled tailwind component implementation
+//
+
 // default props that react elements can receive
 type ReactButtonProps = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement
 >;
+type ReactInputProps = React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 
-// props needed to create a tailwind styled element
-export type CreateButtonProps = {
-  reactProps: ReactButtonProps;
-  children: React.ReactNode;
+// Props our styled tailwind component will additionally have
+// on top of the above defaults
+type TailwindProps = {
   baseClasses: string;
   additionalClasses?: string;
 };
 
-// props our styled elements will use
-export type ImplementButtonProps = ReactButtonProps & {
+// props needed to create a tailwind styled component
+export type CreateButtonProps = TailwindProps & {
+  reactProps: ReactButtonProps;
+  children: React.ReactNode;
+};
+export type CreateInputProps = TailwindProps & {
+  reactProps: ReactInputProps;
+};
+
+// props our implemented styled components will use
+export type ImplementedButtonProps = ReactButtonProps & {
+  additionalClasses?: string;
+};
+export type ImplementedInputProps = ReactInputProps & {
   additionalClasses?: string;
 };
 
-// factory functions to create a styled tailwind element
+// factory functions to create a styled tailwind component
 export const createTailwindButtonComponent = ({
   children,
   reactProps,
@@ -41,5 +60,17 @@ export const createTailwindButtonComponent = ({
     >
       {children}
     </button>
+  );
+};
+export const createTailwindInputComponent = ({
+  reactProps,
+  baseClasses,
+  additionalClasses,
+}: CreateInputProps) => {
+  return (
+    <input
+      {...reactProps}
+      className={withClasses(baseClasses, additionalClasses)}
+    />
   );
 };
