@@ -1,5 +1,6 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useGetBlogDataByBlogIdQuery } from "../features/api/apiSlice";
+import Root from "../features/shared/Root.component";
 import PageNotExist from "./404.route";
 
 const BlogRoute = () => {
@@ -23,7 +24,9 @@ const BlogRoute = () => {
     </div>
   ) : isSuccess ? (
     blogData.status === "success" ? (
-      <div>{blogData.title}</div>
+      <Root>
+        <div>{blogData.title}</div>
+      </Root>
     ) : (
       <PageNotExist />
     )

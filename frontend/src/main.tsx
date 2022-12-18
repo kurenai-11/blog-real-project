@@ -1,9 +1,7 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "reset.css";
 import "virtual:uno.css";
-import RootRoute from "./routes/Root.route";
 import AuthPageRoute from "./routes/AuthPage.route";
 import DashboardRoute from "./routes/DashboardPage.route";
 import BlogsRoute from "./routes/Blogs.route";
@@ -13,6 +11,8 @@ import Ghost from "./features/shared/Ghost.component";
 import "./main.css";
 import BlogRoute from "./routes/Blog.route";
 import PageNotExist from "./routes/404.route";
+import MainPage from "./features/main-page/MainPage.component";
+import Root from "./features/shared/Root.component";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <RootRoute />,
+        element: (
+          <Root>
+            <MainPage />
+          </Root>
+        ),
       },
       {
         path: "/auth",
