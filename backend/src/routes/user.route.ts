@@ -1,7 +1,7 @@
 import express from "express";
 import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
-import { getBlogsByUserId } from "../controllers/blog.controllet.js";
+import { getBlogsByUserId } from "../controllers/blog.controller.js";
 import { User } from "../models/user.model.js";
 const router = express.Router();
 
