@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Blog } from "../../app/types";
 import { AuthDataResponse, userAuthCredentials } from "../auth-page/shared";
 
 type CreateBlogResponse = {
@@ -22,7 +23,7 @@ export type GetBlogDataResponse = {
 export type GetUserDataResponse = {
   status: "success" | "fail";
   error?: string;
-  blogs?: any[];
+  blogs?: Blog[];
   user?: {
     avatarUrl: string;
     creationDate: Date;

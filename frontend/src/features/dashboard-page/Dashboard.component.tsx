@@ -6,7 +6,8 @@ import { AiOutlinePlus } from "react-icons/ai";
 import AddBlogModal from "./AddBlogModal.component";
 import { twMerge } from "tailwind-merge";
 import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import BlogList from "../blog-list/BlogList.component";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,8 @@ const Dashboard = () => {
     dispatch(storeUserData(userData));
   }, [userData]);
   console.log("userData", userData);
+  const linkClasses =
+    "text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none";
   return (
     <div
       className={twMerge(
@@ -62,18 +65,30 @@ const Dashboard = () => {
       </div>
       <AddBlogModal />
       {blogs ? (
-        <div>
-          <div className="text-center text-3xl py-6">Your blogs:</div>
+        <div className="">
+          <div className="relative">
+            <a
+              href="#addBlog"
+              className={twMerge(
+                linkClasses,
+                "absolute top-6 bottom-2 left-75% bg-zinc-9 rounded-xl py-4 px-4"
+              )}
+            >
+              <AiOutlinePlus />
+              Create new!
+            </a>
+            <div className="m-auto text-center text-emerald-6 font-bold text-3xl pt-6 pb-2 w-fit">
+              Your blogs:
+            </div>
+          </div>
+          <BlogList blogs={blogs} />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
           <div className="font-bold text-blueGray-5 mb-1">
             You don't have any blogs yet...
           </div>
-          <a
-            href="#addBlog"
-            className="text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none"
-          >
+          <a href="#addBlog" className={linkClasses}>
             <AiOutlinePlus />
             Want to create one?
           </a>

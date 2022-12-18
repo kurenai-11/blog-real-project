@@ -50,7 +50,7 @@ const AddBlogModal = () => {
       <div className="w-[80vw] bg-zinc-9 fixed z-2 left-10% top-20% items-center text-xl rounded-xl transition-all duration-1000 flex flex-col">
         <a
           href="#"
-          className="fixed top-20% right-10% w-12 h-12 text-4xl decoration-none flex justify-center items-center text-amber-3 outline-none border-none bg-red-5 rounded-xl cursor-pointer"
+          className="absolute left-[calc(100%-3rem)] w-12 h-12 text-4xl decoration-none flex justify-center items-center text-amber-3 outline-none border-none bg-red-5 rounded-xl cursor-pointer"
         >
           <AiOutlineClose />
         </a>

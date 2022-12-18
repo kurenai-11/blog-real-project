@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { GetUserDataResponse } from "../api/apiSlice";
+import { Blog } from "../../app/types";
 
 export type AuthData = {
   authenticated: boolean;
@@ -15,7 +16,7 @@ export type AuthData = {
 };
 
 export type UserData = {
-  blogs?: Array<any>;
+  blogs?: Blog[];
   avatarUrl?: string;
 };
 
