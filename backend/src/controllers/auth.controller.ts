@@ -1,15 +1,9 @@
 import { IUser, User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { Document, Types } from "mongoose";
 import { Response } from "express";
 import { errorResponse } from "../routes/auth.route.js";
-import { findLastCreated } from "../db/db.js";
-
-type FoundUserType = Document<unknown, any, IUser> &
-  IUser & {
-    _id: Types.ObjectId;
-  };
+import { findLastCreated, FoundDocumentType } from "../db/db.js";
 
 export enum AuthCodes {
   SUCCESSFUL_SIGNUP,
@@ -32,7 +26,7 @@ export enum AuthCodes {
 
 export const checkAuthKey = (
   authKey: string,
-  foundUser: FoundUserType,
+  foundUser: FoundDocumentType<IUser>,
   res: Response
 ) => {
   const isValidKey = authKey === foundUser.auth.authKey;
@@ -92,7 +86,7 @@ export const signUpWithLogin = async (
 
 export const checkPassword = async (
   password: string,
-  foundUser: FoundUserType
+  foundUser: FoundDocumentType<IUser>
 ) => {
   return await bcrypt.compare(password, foundUser.password);
 };
