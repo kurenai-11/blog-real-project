@@ -4,7 +4,6 @@ import PageNotExist from "./404.route";
 
 const BlogRoute = () => {
   const { blogId } = useParams();
-  const navigate = useNavigate();
   const {
     data: blogData,
     isLoading,
