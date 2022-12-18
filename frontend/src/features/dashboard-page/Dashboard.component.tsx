@@ -13,6 +13,9 @@ const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const { username, avatarUrl, blogs, userId, auth } = user;
+  // ternary operator even on an empty array always returns true,
+  // so we need to check manually if blogs data exist to use it there
+  const areThereAnyBlogs = blogs ? (blogs.length === 0 ? false : true) : false;
   const {
     data: userData,
     isLoading,
@@ -64,7 +67,7 @@ const Dashboard = () => {
         </button>
       </div>
       <AddBlogModal />
-      {blogs ? (
+      {areThereAnyBlogs ? (
         <div className="">
           <div className="relative">
             <a
@@ -81,7 +84,7 @@ const Dashboard = () => {
               Your blogs:
             </div>
           </div>
-          <BlogList blogs={blogs} />
+          <BlogList blogs={blogs!} />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
