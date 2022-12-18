@@ -7,8 +7,11 @@ export const connect = (url: string) => {
 
 // utility stuff
 
-export const findLastCreated = async <T>(model: Model<T>) => {
-  return (await model.find({}).sort({ _id: -1 }).limit(1).exec())[0];
+export const findLastCreated = async <T>(
+  model: Model<T>,
+  limit: number = 1
+) => {
+  return await model.find({}).sort({ _id: -1 }).limit(limit).exec();
 };
 
 // types

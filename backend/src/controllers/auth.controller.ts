@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { Response } from "express";
 import { errorResponse } from "../routes/auth.route.js";
-import { findLastCreated, FoundDocumentType } from "../db/db.js";
+import { FoundDocumentType } from "../db/db.js";
 
 export enum AuthCodes {
   SUCCESSFUL_SIGNUP,
@@ -60,16 +60,9 @@ export const signUpWithLogin = async (
   const authKey = crypto.randomUUID();
   const dateNow = new Date();
   const validUntil = new Date(dateNow.setDate(dateNow.getDate() + 7));
-  let userId: number;
   // finding userId to set
-  const lastDoc = await findLastCreated(User);
-  // if this is the first entry in the database...
-  if (!lastDoc) {
-    userId = 0;
-    // or if (expected) previous entry exists
-  } else {
-    userId = lastDoc.userId + 1;
-  }
+  // countDocuments counts from 1, and our db index goes from 0
+  const userId = await User.countDocuments();
   const newUser = new User({
     username,
     password: cryptedPassword,

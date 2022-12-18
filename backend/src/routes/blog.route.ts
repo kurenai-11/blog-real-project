@@ -1,7 +1,6 @@
 import express from "express";
 import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
-import { findLastCreated } from "../db/db.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
 const router = express.Router();
@@ -13,7 +12,7 @@ const ZCreateBlogData = z.object({
   authKey: z.string(),
 });
 
-// Display all blogs
+// Get recently created blogs by default
 router.get("/", (req, res) => {
   console.log("req :>> ", req);
 });
@@ -38,14 +37,7 @@ router.post("/", async (req, res) => {
   }
   // now we are sure that all the data is correct
   // and the user's request is all valid
-  const lastBlog = await findLastCreated(Blog);
-  let blogId: number;
-  if (!lastBlog) {
-    // if it is the first blog... ever
-    blogId = 0;
-  } else {
-    blogId = lastBlog.blogId + 1;
-  }
+  const blogId = await Blog.countDocuments();
   const newBlog = new Blog({
     title,
     description,
@@ -54,6 +46,11 @@ router.post("/", async (req, res) => {
     blogId,
   });
   newBlog.save();
+  // update user data
+  await User.updateOne(
+    { userId: foundUser.userId },
+    { $push: { blogs: blogId } }
+  );
   console.log(`blog ${title} by the user ${foundUser.username} is created.`);
   res.status(200).send({
     status: "success",
@@ -61,9 +58,18 @@ router.post("/", async (req, res) => {
   });
 });
 
-// Get blog data
+// Get blog data by the blog Id
 router.get("/:id", (req, res) => {
-  console.log("req");
+  const rawData = req.params;
+  console.log("rawData :>> ", rawData);
+  // Blog.find({authorId: })
+});
+
+// Same as above but for authenticated users
+// to be able to retrieve private data
+router.post("/:id", (req, res) => {
+  const rawData = req.body;
+  console.log("rawData", rawData);
 });
 
 // Edit a blog == add a new post

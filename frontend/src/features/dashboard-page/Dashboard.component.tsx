@@ -1,15 +1,34 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { logout } from "../auth/userSlice";
+import { logout, storeUserData } from "../auth/userSlice";
 import Footer from "../shared/Footer.component";
 import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
 import AddBlogModal from "./AddBlogModal.component";
 import { twMerge } from "tailwind-merge";
+import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const { username, avatarUrl, blogs } = user;
+  const { username, avatarUrl, blogs, userId, auth } = user;
+  const {
+    data: userData,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetAuthenticatedUserDataQuery({
+    authorId: userId,
+    authKey: auth?.authKey,
+  });
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+    dispatch(storeUserData(userData));
+  }, [userData]);
+  console.log("userData", userData);
   return (
     <div
       className={twMerge(
@@ -20,7 +39,9 @@ const Dashboard = () => {
       <div className="flex flex-col items-center pt-8">
         <div className="text-4xl pb-4 font-bold">Dashboard</div>
         <div className="flex justify-center items-center rounded-full border border-zinc-2 w-28 h-28 bg-zinc-6 mb-2">
-          {avatarUrl ? null : (
+          {avatarUrl ? (
+            <img src={avatarUrl} className="w-full h-full rounded-full" />
+          ) : (
             <span className="font-bold text-lg cursor-default select-none">
               No avatar
             </span>

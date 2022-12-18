@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
+import { GetUserDataResponse } from "../api/apiSlice";
 
 export type AuthData = {
   authenticated: boolean;
@@ -34,9 +35,12 @@ export const userSlice = createSlice({
       Cookies.remove("user");
       return { authenticated: false };
     },
+    storeUserData: (state, action: PayloadAction<GetUserDataResponse>) => {
+      return { ...state, ...action.payload.user, blogs: action.payload.blogs };
+    },
   },
 });
 
-export const { storeLogin, logout } = userSlice.actions;
+export const { storeLogin, logout, storeUserData } = userSlice.actions;
 
 export default userSlice.reducer;

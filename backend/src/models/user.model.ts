@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 
 export interface IUser {
   userId: number;
@@ -38,7 +38,7 @@ const userSchema = new Schema<IUser>({
     default: Date.now,
     required: true,
   },
-  avatarUrl: String,
+  avatarUrl: { type: String, default: "https://cataas.com/cat" },
 });
 
 export const User = model<IUser>("User", userSchema);
