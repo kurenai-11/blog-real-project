@@ -19,7 +19,7 @@ const Dashboard = () => {
     isError,
     error,
   } = useGetAuthenticatedUserDataQuery({
-    authorId: userId,
+    userId,
     authKey: auth?.authKey,
   });
   useEffect(() => {

@@ -45,7 +45,7 @@ type GetBlogDataByBlogIdRequest = {
 };
 // data to send to the server to get a certain user's list of blogs
 type GetAuthenticatedUserDataRequest = {
-  authorId?: number;
+  userId?: number;
   authKey?: string;
 };
 
@@ -91,8 +91,8 @@ export const apiSlice = createApi({
       GetUserDataResponse,
       GetAuthenticatedUserDataRequest
     >({
-      query: ({ authorId, authKey }) => ({
-        url: `user/${authorId}`,
+      query: ({ userId, authKey }) => ({
+        url: `user/${userId}`,
         method: "POST",
         body: { authKey },
       }),
@@ -102,8 +102,8 @@ export const apiSlice = createApi({
       GetUserDataResponse,
       GetAuthenticatedUserDataRequest
     >({
-      query: ({ authorId }) => ({
-        url: `user/${authorId}`,
+      query: ({ userId }) => ({
+        url: `user/${userId}`,
         method: "GET",
       }),
     }),
