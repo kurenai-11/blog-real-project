@@ -25,7 +25,6 @@ router.get("/", (req, res) => {
 
 // Create a blog
 router.post("/", async (req, res) => {
-  console.log("create blog request");
   const createBlogData = ZCreateBlogData.safeParse(req.body);
   if (!createBlogData.success) {
     res.status(200).send({ status: "fail", error: "Invalid request" });
@@ -57,7 +56,6 @@ router.post("/", async (req, res) => {
     { userId: foundUser.userId },
     { $push: { blogs: blogId } }
   );
-  console.log(`blog ${title} by the user ${foundUser.username} is created.`);
   res.status(200).send({
     status: "success",
     blogId,

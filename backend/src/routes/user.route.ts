@@ -27,8 +27,6 @@ router.get("/:id", (req, res) => {
 
 // same as above, but for the authorized user who has authKey
 router.post("/:userId", async (req, res) => {
-  console.log("req.params", req.params);
-  console.log("req.body", req.body);
   const userAuth = ZAuthData.safeParse(req.body);
   if (!userAuth.success) {
     res

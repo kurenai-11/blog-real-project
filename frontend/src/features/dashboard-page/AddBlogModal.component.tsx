@@ -1,4 +1,5 @@
 import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreateBlogMutation } from "../api/apiSlice";
@@ -11,6 +12,7 @@ const AddBlogModal = () => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user.userId);
   const [createBlog, { isLoading }] = useCreateBlogMutation();
+  const navigate = useNavigate();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -38,7 +40,9 @@ const AddBlogModal = () => {
       authKey,
       userId,
     }).unwrap();
-    console.log("response", response);
+    if (response.blogId) {
+      navigate(`/blogs/${response.blogId}`);
+    }
   };
   return (
     <div
