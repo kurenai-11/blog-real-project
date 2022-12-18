@@ -1,6 +1,5 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreateBlogMutation } from "../api/apiSlice";
 import ModalButton from "./ModalButton.component";
