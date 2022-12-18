@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Blog } from "../../app/types";
+import { Blog, Post } from "../../app/types";
 import { AuthDataResponse, userAuthCredentials } from "../auth-page/shared";
 
 type CreateBlogResponse = {
@@ -17,8 +17,8 @@ export type GetBlogDataResponse = {
   description?: string;
   authorName?: string;
   authorId?: string;
-  // for now
-  posts?: any[];
+  posts?: Post[];
+  creationDate: Date;
 };
 export type GetUserDataResponse = {
   status: "success" | "fail";
@@ -40,7 +40,7 @@ type CreateBlogData = {
 };
 // data to send to the server to get blog's data by blog's id
 type GetBlogDataByBlogIdRequest = {
-  blogId?: string;
+  blogId?: number;
   // optional, to be able to retrieve personal private blogs later
   authKey?: string;
 };
@@ -82,10 +82,9 @@ export const apiSlice = createApi({
       GetBlogDataResponse,
       GetBlogDataByBlogIdRequest
     >({
-      query: ({ blogId, authKey }) => ({
+      query: ({ blogId }) => ({
         url: `blog/${blogId}`,
         method: "GET",
-        body: { authKey },
       }),
     }),
     getAuthenticatedUserData: builder.query<

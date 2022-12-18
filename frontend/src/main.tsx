@@ -11,23 +11,36 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Ghost from "./features/shared/Ghost.component";
 import "./main.css";
+import BlogRoute from "./routes/Blog.route";
+import PageNotExist from "./routes/404.route";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <RootRoute />,
-  },
-  {
-    path: "/auth",
-    element: <AuthPageRoute />,
-  },
-  {
-    path: "/dashboard",
-    element: <DashboardRoute />,
-  },
-  {
-    path: "/blogs",
-    element: <BlogsRoute />,
+    // universal 404 page
+    errorElement: <PageNotExist />,
+    // all routes
+    children: [
+      {
+        path: "/",
+        element: <RootRoute />,
+      },
+      {
+        path: "/auth",
+        element: <AuthPageRoute />,
+      },
+      {
+        path: "/dashboard",
+        element: <DashboardRoute />,
+      },
+      {
+        path: "/blogs",
+        element: <BlogsRoute />,
+      },
+      {
+        path: "/blogs/:blogId",
+        element: <BlogRoute />,
+      },
+    ],
   },
 ]);
 

@@ -11,10 +11,16 @@ const ZCreateBlogData = z.object({
   userId: z.number(),
   authKey: z.string(),
 });
+const ZGetBlogData = z.object({
+  id: z.coerce.number().nonnegative(),
+});
+const ZGetAuthenticatedBlogData = z.object({
+  id: z.coerce.number().nonnegative(),
+});
 
 // Get recently created blogs by default
 router.get("/", (req, res) => {
-  console.log("req :>> ", req);
+  console.log("req.params :>> ", req.params);
 });
 
 // Create a blog
@@ -59,10 +65,20 @@ router.post("/", async (req, res) => {
 });
 
 // Get blog data by the blog Id
-router.get("/:id", (req, res) => {
+router.get("/:id", async (req, res) => {
   const rawData = req.params;
-  console.log("rawData :>> ", rawData);
-  // Blog.find({authorId: })
+  const getBlogData = ZGetBlogData.safeParse(rawData);
+  if (!getBlogData.success) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  const blogId = getBlogData.data.id;
+  const blogData = await Blog.findOne({ blogId }, { _id: 0, __v: 0 });
+  if (!blogData) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  res.status(200).send({ status: "success", ...blogData.toJSON() });
 });
 
 // Same as above but for authenticated users
