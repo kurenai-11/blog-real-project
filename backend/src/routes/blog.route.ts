@@ -5,6 +5,7 @@ import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
 import { findCount, incrementCounter } from "../db/counter.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
+import { genericInvalidRequest } from "../utils.js";
 const router = express.Router();
 
 const ZCreateBlogData = z.object({
@@ -36,13 +37,13 @@ router.get("/", (req, res) => {
 router.post("/", async (req, res) => {
   const createBlogData = ZCreateBlogData.safeParse(req.body);
   if (!createBlogData.success) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const { title, description, userId, authKey } = createBlogData.data;
   const foundUser = await User.findOne({ _id: userId });
   if (!foundUser) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   if (!checkAuthKey(authKey, foundUser, res)) {
@@ -80,13 +81,13 @@ router.patch("/", async (req, res) => {
   const rawData = req.body;
   const blogData = ZEditBlogData.safeParse(rawData);
   if (!blogData.success) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const { title, description, authKey, userId, blogId } = blogData.data;
   const foundUser = await User.findOne({ _id: userId });
   if (!foundUser) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const isAuth = checkAuthKey(authKey, foundUser, res);
@@ -95,11 +96,11 @@ router.patch("/", async (req, res) => {
   }
   const foundBlog = await Blog.findById(blogId);
   if (!foundBlog) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   if (foundBlog.authorId !== userId) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   foundBlog.title = title;
@@ -118,13 +119,13 @@ router.get("/:id", async (req, res) => {
   const rawData = req.params;
   const getBlogData = ZGetBlogData.safeParse(rawData);
   if (!getBlogData.success) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const blogId = getBlogData.data.id;
   const blogData = await getBlodDataByBlogId(blogId);
   if (!blogData) {
-    res.status(200).send({ status: "fail", error: "Invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   res.status(200).send({ status: "success", ...blogData.toJSON() });

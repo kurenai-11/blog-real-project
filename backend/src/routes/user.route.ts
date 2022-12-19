@@ -2,6 +2,7 @@ import express from "express";
 import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
 import { User } from "../models/user.model.js";
+import { genericInvalidRequest } from "../utils.js";
 const router = express.Router();
 
 const ZAuthData = z.object({
@@ -28,23 +29,17 @@ router.get("/:id", (req, res) => {
 router.post("/:userId", async (req, res) => {
   const userAuth = ZAuthData.safeParse(req.body);
   if (!userAuth.success) {
-    res
-      .status(200)
-      .send({ user: null, status: "fail", error: "invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const userRequest = ZUserRequest.safeParse(req.params);
   if (!userRequest.success) {
-    res
-      .status(200)
-      .send({ user: null, status: "fail", error: "invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const foundUser = await User.findOne({ _id: userRequest.data.userId });
   if (!foundUser) {
-    res
-      .status(200)
-      .send({ user: null, status: "fail", error: "invalid request" });
+    genericInvalidRequest(res);
     return;
   }
   const isValidAuth = checkAuthKey(userAuth.data.authKey, foundUser, res);
