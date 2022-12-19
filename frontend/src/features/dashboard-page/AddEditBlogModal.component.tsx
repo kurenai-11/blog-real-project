@@ -11,8 +11,10 @@ type ModalProps = {
   modalTitle: string;
   type: "addBlog" | "editBlog";
   currentBlog: number;
+  setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
+// means Add OR Edit blog modal
 const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);

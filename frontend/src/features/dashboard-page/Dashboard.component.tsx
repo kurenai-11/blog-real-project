@@ -19,12 +19,14 @@ const Dashboard = () => {
   // so check if undefined first, and then check if it is an empty array or not then
   const areThereAnyBlogs = blogs ? (blogs.length !== 0 ? true : false) : false;
   const [currentBlog, setCurrentBlog] = useState(-1);
+  const [isChanged, setIsChanged] = useState(false);
   const {
     data: userData,
     isLoading,
     isSuccess,
     isError,
     error,
+    refetch,
   } = useGetAuthenticatedUserDataQuery({
     userId,
     authKey: auth?.authKey,
@@ -35,7 +37,9 @@ const Dashboard = () => {
     }
     dispatch(storeUserData(userData));
   }, [userData]);
-  console.log("userData", userData);
+  useEffect(() => {
+    refetch();
+  }, [isChanged]);
   const linkClasses =
     "text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none";
   return (
@@ -73,11 +77,13 @@ const Dashboard = () => {
         type="addBlog"
         modalTitle="Create a blog"
         currentBlog={currentBlog}
+        setIsChanged={setIsChanged}
       />
       <AddEditBlogModal
         type="editBlog"
         modalTitle="Edit a blog"
         currentBlog={currentBlog}
+        setIsChanged={setIsChanged}
       />
       {areThereAnyBlogs ? (
         <div className="">
