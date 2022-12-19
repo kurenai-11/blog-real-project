@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { GetUserDataResponse } from "../api/apiSlice";
-import { Blog, User } from "../../app/types";
+import { User } from "../../app/types";
 
 export type AuthData = {
   authenticated: boolean;
@@ -24,6 +24,7 @@ const initialState: userState = {
   _id: -1,
   avatarUrl: "",
   creationDate: "",
+  blogs: [],
 };
 
 export const userSlice = createSlice({

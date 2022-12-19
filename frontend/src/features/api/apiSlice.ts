@@ -2,30 +2,33 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Blog, Post, User } from "../../app/types";
 import { AuthDataResponse, userAuthCredentials } from "../auth-page/shared";
 
-type CreateBlogResponse = {
-  status: "success" | "fail";
-  error?: string;
-  blogId?: number;
-};
+type CreateBlogResponse =
+  | { status: "fail"; error: string }
+  | {
+      status: "success";
+      blogId: number;
+    };
 // Data we will receive after querying for blog data
 // with the blog id
-export type GetBlogDataResponse = {
-  status: "success" | "fail";
-  error?: string;
-  _id?: string;
-  title?: string;
-  description?: string;
-  authorName?: string;
-  authorId?: string;
-  posts?: Post[];
-  creationDate?: Date;
-};
-export type GetUserDataResponse = {
-  status: "success" | "fail";
-  error?: string;
-  blogs?: Blog[];
-  user?: User;
-};
+export type GetBlogDataResponse =
+  | { status: "fail"; error: string }
+  | {
+      status: "success";
+      _id: number;
+      title: string;
+      description: string;
+      authorName: string;
+      authorId: number;
+      posts: Post[];
+      creationDate: string;
+    };
+export type GetUserDataResponse =
+  | { status: "fail"; error: string }
+  | {
+      status: "success";
+      blogs: Blog[];
+      user: User;
+    };
 // data to send to the server to create a blog
 type CreateBlogData = {
   title: string;

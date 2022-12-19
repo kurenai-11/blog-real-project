@@ -5,13 +5,14 @@ export const formInfoClasses =
 export const formClasses = "flex flex-col w-72";
 
 export type AuthDataResponse = {
-  username?: string;
-  auth?: {
+  username: string;
+  auth: {
     authKey: string;
-    validUntil: Date;
+    validUntil: string;
   };
-  userId?: number;
+  userId: number;
   code: number;
+  error?: string;
 };
 
 export type userAuthCredentials = {
