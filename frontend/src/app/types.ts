@@ -4,7 +4,7 @@ export type Blog = {
   authorName: string;
   creationDate: string;
   description: string;
-  posts: Post[] | number[];
+  posts: Post[];
   title: string;
 };
 export type User = {
@@ -15,7 +15,7 @@ export type User = {
     authKey: string;
     validUntil: string;
   };
-  blogs?: Blog[] | number[];
+  blogs: Blog[];
   avatarUrl: string;
   creationDate: string;
 };
