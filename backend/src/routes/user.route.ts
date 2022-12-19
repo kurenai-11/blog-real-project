@@ -63,18 +63,6 @@ router.post("/:userId", async (req, res) => {
     status: "success",
     ...user!.toJSON(),
   });
-  // const blogs = await getBlogsByUserId(user._id);
-  // const { username, _id, creationDate, avatarUrl } = user;
-  // res.status(200).send({
-  //   status: "success",
-  //   user: {
-  //     username,
-  //     userId: _id,
-  //     creationDate,
-  //     avatarUrl,
-  //   },
-  //   blogs,
-  // });
 });
 
 // Updating user data
