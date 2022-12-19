@@ -82,6 +82,7 @@ export const apiSlice = createApi({
         method: "GET",
       }),
     }),
+    // user related
     getAuthenticatedUserData: builder.query<
       GetUserDataResponse,
       GetAuthenticatedUserDataRequest

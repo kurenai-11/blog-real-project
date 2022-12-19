@@ -8,6 +8,10 @@ import postRouter from "./routes/post.route.js";
 import authRouter from "./routes/auth.route.js";
 import { Error } from "mongoose";
 import { initializeCounters } from "./db/counter.js";
+import { User } from "./models/user.model.js";
+import { Blog } from "./models/blog.model.js";
+import { Post } from "./models/post.model.js";
+import { Comment } from "./models/comment.model.js";
 
 dotenv.config({
   path: ".env",
@@ -18,6 +22,12 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
+// loading models before setting up the routers
+User;
+Blog;
+Post;
+Comment;
 
 // Routes
 app.get("/", (req, res) => {
