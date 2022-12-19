@@ -18,7 +18,7 @@ export type GetBlogDataResponse = {
   authorName?: string;
   authorId?: string;
   posts?: Post[];
-  creationDate: Date;
+  creationDate?: Date;
 };
 export type GetUserDataResponse = {
   status: "success" | "fail";
