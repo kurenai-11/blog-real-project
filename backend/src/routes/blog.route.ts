@@ -78,7 +78,6 @@ router.put("/", (req, res) => {
 // Edit blog parameters
 router.patch("/", async (req, res) => {
   const rawData = req.body;
-  console.log("rawData", rawData);
   const blogData = ZEditBlogData.safeParse(rawData);
   if (!blogData.success) {
     res.status(200).send({ status: "fail", error: "Invalid request" });
