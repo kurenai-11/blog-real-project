@@ -16,7 +16,7 @@ const Dashboard = () => {
   const { username, avatarUrl, blogs, _id: userId, auth } = user;
   // ternary operator even on an empty array always returns true,
   // so we need to check manually if blogs data exist to use it there
-  const areThereAnyBlogs = blogs ? (blogs.length === 0 ? false : true) : false;
+  const areThereAnyBlogs = blogs ? (blogs.length !== 0 ? true : false) : false;
   const {
     data: userData,
     isLoading,
