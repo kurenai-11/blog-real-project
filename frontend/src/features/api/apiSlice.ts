@@ -12,7 +12,7 @@ type CreateBlogResponse = {
 export type GetBlogDataResponse = {
   status: "success" | "fail";
   error?: string;
-  blogId?: string;
+  _id?: string;
   title?: string;
   description?: string;
   authorName?: string;
@@ -40,13 +40,13 @@ type CreateBlogData = {
 };
 // data to send to the server to get blog's data by blog's id
 type GetBlogDataByBlogIdRequest = {
-  blogId?: number;
+  blogId: number;
   // optional, to be able to retrieve personal private blogs later
   authKey?: string;
 };
 // data to send to the server to get a certain user's list of blogs
 type GetAuthenticatedUserDataRequest = {
-  userId?: number;
+  userId: number;
   authKey?: string;
 };
 

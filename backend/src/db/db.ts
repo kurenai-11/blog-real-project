@@ -18,5 +18,5 @@ export const findLastCreated = async <T>(
 
 export type FoundDocumentType<T> = Document<unknown, any, T> &
   T & {
-    _id: Types.ObjectId;
+    _id: number;
   };

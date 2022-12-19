@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 
 export interface IUser {
-  userId: number;
+  _id: number;
   username: string;
   displayName: string;
   password: string;
@@ -10,13 +10,13 @@ export interface IUser {
     validUntil: Date;
   };
   email: string;
-  blogs: Array<number>;
+  blogs: number[];
   creationDate: Date;
   avatarUrl: string;
 }
 
 const userSchema = new Schema<IUser>({
-  userId: { type: Number, required: true },
+  _id: { type: Number, required: true },
   username: { type: String, required: true },
   displayName: String,
   password: { type: String, required: true },
@@ -32,7 +32,7 @@ const userSchema = new Schema<IUser>({
     required: true,
   },
   email: String,
-  blogs: [Number],
+  blogs: { type: [Number], ref: "Blog", required: true, default: [] },
   creationDate: {
     type: Date,
     default: Date.now,

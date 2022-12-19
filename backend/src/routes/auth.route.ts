@@ -113,7 +113,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_AUTHKEY,
-        userId: foundUser.userId,
+        userId: foundUser._id,
       },
       res
     );
@@ -156,7 +156,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY,
-        userId: foundUser.userId,
+        userId: foundUser._id,
       },
       res
     );

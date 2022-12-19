@@ -39,7 +39,9 @@ const AddBlogModal = () => {
       authKey,
       userId,
     }).unwrap();
-    if (response.blogId) {
+    // it may be zero if it is the first blog... ever
+    // so we check against undefined
+    if (response.blogId !== undefined) {
       navigate(`/blogs/${response.blogId}`);
     }
   };

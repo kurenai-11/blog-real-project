@@ -1,7 +1,7 @@
 export type Blog = {
+  _id: number;
   authorId: number;
   authorName: string;
-  blogId: number;
   creationDate: Date;
   description: string;
   posts: Post[];

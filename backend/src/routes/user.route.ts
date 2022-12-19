@@ -41,7 +41,7 @@ router.post("/:userId", async (req, res) => {
       .send({ user: null, status: "fail", error: "invalid request" });
     return;
   }
-  const user = await User.findOne({ userId: userRequest.data.userId });
+  const user = await User.findOne({ _id: userRequest.data.userId });
   if (!user) {
     res
       .status(200)
@@ -50,16 +50,16 @@ router.post("/:userId", async (req, res) => {
   }
   const isValidAuth = checkAuthKey(userAuth.data.authKey, user, res);
   if (!isValidAuth) {
-    res.status(200).send({ user: null, status: "fail", error: "invalid auth" });
+    // response is already sent in the checkAuthKey()
     return;
   }
-  const blogs = await getBlogsByUserId(user.userId);
-  const { username, userId, creationDate, avatarUrl } = user;
+  const blogs = await getBlogsByUserId(user._id);
+  const { username, _id, creationDate, avatarUrl } = user;
   res.status(200).send({
     status: "success",
     user: {
       username,
-      userId,
+      userId: _id,
       creationDate,
       avatarUrl,
     },

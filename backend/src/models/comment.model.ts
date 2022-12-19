@@ -1,23 +1,28 @@
 import { model, Schema } from "mongoose";
 
 interface IComment {
-  commentId: number;
+  _id: number;
   content: string;
   authorId: number;
   creationDate: Date;
-  parentId: number;
-  childrenComments: Array<number>;
+  parentPostId: number;
+  childrenComments: number[];
   likes: number;
 }
 
 const commentSchema = new Schema<IComment>({
-  commentId: { type: Number, required: true },
+  _id: { type: Number, required: true },
   content: { type: String, required: true },
-  authorId: { type: Number, required: true },
+  authorId: { type: Number, ref: "User", required: true },
   creationDate: { type: Date, default: Date.now, required: true },
-  parentId: { type: Number, required: true },
-  childrenComments: [Number],
-  likes: { type: Number, required: true },
+  parentPostId: { type: Number, ref: "Post", required: true },
+  childrenComments: {
+    type: [Number],
+    ref: "Comment",
+    required: true,
+    default: [],
+  },
+  likes: { type: Number, required: true, default: 0 },
 });
 
 export const Comment = model<IComment>("Comment", commentSchema);

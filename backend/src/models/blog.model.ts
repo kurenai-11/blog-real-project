@@ -1,23 +1,23 @@
 import { Schema, model } from "mongoose";
 
 interface IBlog {
-  blogId: number;
+  _id: number;
   title: string;
   description: string;
   authorName: string;
   authorId: number;
   creationDate: Date;
-  posts: Array<number>;
+  posts: number[];
 }
 
 const blogSchema = new Schema<IBlog>({
-  blogId: { type: Number, required: true },
+  _id: { type: Number, required: true },
   title: { type: String, required: true },
-  description: String,
+  description: { type: String, required: true },
   authorName: { type: String, required: true },
-  authorId: { type: Number, required: true },
+  authorId: { type: Number, ref: "User", required: true },
   creationDate: { type: Date, default: Date.now, required: true },
-  posts: [Number],
+  posts: { type: [Number], ref: "Post", required: true, default: [] },
 });
 
 export const Blog = model<IBlog>("Blog", blogSchema);

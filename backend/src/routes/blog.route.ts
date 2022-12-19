@@ -1,6 +1,8 @@
 import express from "express";
 import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
+import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
+import { findCount, incrementCounter } from "../db/counter.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
 const router = express.Router();
@@ -31,7 +33,7 @@ router.post("/", async (req, res) => {
     return;
   }
   const { title, description, userId, authKey } = createBlogData.data;
-  const foundUser = await User.findOne({ userId });
+  const foundUser = await User.findOne({ _id: userId });
   if (!foundUser) {
     res.status(200).send({ status: "fail", error: "Invalid request" });
     return;
@@ -42,20 +44,19 @@ router.post("/", async (req, res) => {
   }
   // now we are sure that all the data is correct
   // and the user's request is all valid
-  const blogId = await Blog.countDocuments();
+  const blogCount = await findCount("blog");
+  const blogId = blogCount + 1;
   const newBlog = new Blog({
+    _id: blogId,
     title,
     description,
     authorName: foundUser.username,
     authorId: userId,
-    blogId,
   });
-  newBlog.save();
+  await newBlog.save();
+  await incrementCounter("blog");
   // update user data
-  await User.updateOne(
-    { userId: foundUser.userId },
-    { $push: { blogs: blogId } }
-  );
+  await User.updateOne({ _id: foundUser._id }, { $push: { blogs: blogId } });
   res.status(200).send({
     status: "success",
     blogId,
@@ -71,7 +72,7 @@ router.get("/:id", async (req, res) => {
     return;
   }
   const blogId = getBlogData.data.id;
-  const blogData = await Blog.findOne({ blogId }, { _id: 0, __v: 0 });
+  const blogData = await getBlodDataByBlogId(blogId);
   if (!blogData) {
     res.status(200).send({ status: "fail", error: "Invalid request" });
     return;

@@ -17,7 +17,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
           description,
           authorId,
           authorName,
-          blogId,
+          _id: blogId,
           creationDate,
         } = blog;
         return (

@@ -4,6 +4,7 @@ import crypto from "crypto";
 import { Response } from "express";
 import { errorResponse } from "../routes/auth.route.js";
 import { FoundDocumentType } from "../db/db.js";
+import { findCount, incrementCounter } from "../db/counter.js";
 
 export enum AuthCodes {
   SUCCESSFUL_SIGNUP,
@@ -28,7 +29,7 @@ export const checkAuthKey = (
   authKey: string,
   foundUser: FoundDocumentType<IUser>,
   res: Response
-) => {
+): boolean => {
   const isValidKey = authKey === foundUser.auth.authKey;
   const dateNow = new Date();
   const isValidKeyDate =
@@ -60,19 +61,19 @@ export const signUpWithLogin = async (
   const authKey = crypto.randomUUID();
   const dateNow = new Date();
   const validUntil = new Date(dateNow.setDate(dateNow.getDate() + 7));
-  // finding userId to set
-  // countDocuments counts from 1, and our db index goes from 0
-  const userId = await User.countDocuments();
+  const userCount = await findCount("user");
+  const userId = userCount + 1;
   const newUser = new User({
+    _id: userId,
     username,
     password: cryptedPassword,
     auth: {
       authKey,
       validUntil,
     },
-    userId,
   });
   await newUser.save();
+  await incrementCounter("user");
   console.log(`user ${username} created.`);
   return [authKey, validUntil, userId];
 };
