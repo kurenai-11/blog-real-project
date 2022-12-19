@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Blog, Post } from "../../app/types";
+import { Blog, Post, User } from "../../app/types";
 import { AuthDataResponse, userAuthCredentials } from "../auth-page/shared";
 
 type CreateBlogResponse = {
   status: "success" | "fail";
   error?: string;
-  blogId?: string;
+  blogId?: number;
 };
 // Data we will receive after querying for blog data
 // with the blog id
@@ -24,12 +24,7 @@ export type GetUserDataResponse = {
   status: "success" | "fail";
   error?: string;
   blogs?: Blog[];
-  user?: {
-    avatarUrl: string;
-    creationDate: Date;
-    userId: number;
-    username: string;
-  };
+  user?: User;
 };
 // data to send to the server to create a blog
 type CreateBlogData = {
@@ -47,7 +42,7 @@ type GetBlogDataByBlogIdRequest = {
 // data to send to the server to get a certain user's list of blogs
 type GetAuthenticatedUserDataRequest = {
   userId: number;
-  authKey?: string;
+  authKey: string;
 };
 
 export const apiSlice = createApi({

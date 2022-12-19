@@ -2,42 +2,44 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { GetUserDataResponse } from "../api/apiSlice";
-import { Blog } from "../../app/types";
+import { Blog, User } from "../../app/types";
 
 export type AuthData = {
   authenticated: boolean;
-  username?: string;
-  userId?: number;
-  auth?: {
+  username: string;
+  auth: {
     authKey: string;
-    validUntil: Date;
+    validUntil: string;
   };
-  code?: number;
+  code: number;
 };
 
-export type UserData = {
-  blogs?: Blog[];
-  avatarUrl?: string;
+export type userState = AuthData & User;
+
+const initialState: userState = {
+  authenticated: false,
+  username: "",
+  auth: { authKey: "", validUntil: "" },
+  code: -1,
+  _id: -1,
+  avatarUrl: "",
+  creationDate: "",
 };
-
-export type userState = AuthData & UserData;
-
-const initialState: userState = { authenticated: false };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    storeLogin: (_, action: PayloadAction<AuthData>) => {
+    storeLogin: (state, action: PayloadAction<AuthData>) => {
       Cookies.set("user", JSON.stringify({ ...action.payload }));
-      return { ...action.payload };
+      return { ...state, ...action.payload };
     },
     logout: () => {
       Cookies.remove("user");
-      return { authenticated: false };
+      return initialState;
     },
     storeUserData: (state, action: PayloadAction<GetUserDataResponse>) => {
-      return { ...state, ...action.payload.user, blogs: action.payload.blogs };
+      return { ...state, ...action.payload };
     },
   },
 });

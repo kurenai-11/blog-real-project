@@ -9,7 +9,7 @@ import ModalTextArea from "./ModalTextarea.component";
 
 const AddBlogModal = () => {
   const authKey = useAuthKey();
-  const userId = useAppSelector((state) => state.user.userId);
+  const userId = useAppSelector((state) => state.user._id);
   const [createBlog, { isLoading }] = useCreateBlogMutation();
   const navigate = useNavigate();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {

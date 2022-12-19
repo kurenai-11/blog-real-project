@@ -55,7 +55,7 @@ export const errorResponse = (
 
 type AuthenticatedUser = {
   username: string;
-  userId: number;
+  _id: number;
   auth: {
     authKey: string;
     validUntil: Date;
@@ -113,7 +113,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_AUTHKEY,
-        userId: foundUser._id,
+        _id: foundUser._id,
       },
       res
     );
@@ -156,7 +156,7 @@ router.post("/", async (req, res) => {
           validUntil: foundUser.auth.validUntil,
         },
         code: AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY,
-        userId: foundUser._id,
+        _id: foundUser._id,
       },
       res
     );
@@ -187,7 +187,7 @@ router.post("/", async (req, res) => {
         username: authSignupData.username,
         auth: { authKey, validUntil },
         code: AuthCodes.SUCCESSFUL_SIGNUP,
-        userId,
+        _id: userId,
       },
       res
     );

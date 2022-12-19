@@ -53,18 +53,28 @@ router.post("/:userId", async (req, res) => {
     // response is already sent in the checkAuthKey()
     return;
   }
-  const blogs = await getBlogsByUserId(user._id);
-  const { username, _id, creationDate, avatarUrl } = user;
+  const user2 = await User.findOne(
+    { _id: userRequest.data.userId },
+    { password: 0, auth: 0 }
+  )
+    .populate("blogs")
+    .exec();
   res.status(200).send({
     status: "success",
-    user: {
-      username,
-      userId: _id,
-      creationDate,
-      avatarUrl,
-    },
-    blogs,
+    ...user2?.toJSON(),
   });
+  // const blogs = await getBlogsByUserId(user._id);
+  // const { username, _id, creationDate, avatarUrl } = user;
+  // res.status(200).send({
+  //   status: "success",
+  //   user: {
+  //     username,
+  //     userId: _id,
+  //     creationDate,
+  //     avatarUrl,
+  //   },
+  //   blogs,
+  // });
 });
 
 // Updating user data

@@ -8,11 +8,12 @@ import { twMerge } from "tailwind-merge";
 import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
 import { useEffect, useState } from "react";
 import BlogList from "../blog-list/BlogList.component";
+import { Blog } from "../../app/types";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
-  const { username, avatarUrl, blogs, userId, auth } = user;
+  const { username, avatarUrl, blogs, _id: userId, auth } = user;
   // ternary operator even on an empty array always returns true,
   // so we need to check manually if blogs data exist to use it there
   const areThereAnyBlogs = blogs ? (blogs.length === 0 ? false : true) : false;
@@ -84,7 +85,7 @@ const Dashboard = () => {
               Your blogs:
             </div>
           </div>
-          <BlogList blogs={blogs!} />
+          <BlogList blogs={blogs as Blog[]} />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
