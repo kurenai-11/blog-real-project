@@ -8,6 +8,9 @@ type CreateBlogResponse =
       status: "success";
       blogId: number;
     };
+type EditBlogResponse =
+  | { status: "fail"; error: string }
+  | { status: "success"; blogId: number };
 // Data we will receive after querying for blog data
 // with the blog id
 export type GetBlogDataResponse =
@@ -30,11 +33,12 @@ export type GetUserDataResponse =
       user: User;
     };
 // data to send to the server to create a blog
-type CreateBlogData = {
+type CreateEditBlogData = {
   title: string;
   description: string;
   authKey: string;
   userId: number;
+  blogId?: number;
 };
 // data to send to the server to get blog's data by blog's id
 type GetBlogDataByBlogIdRequest = {
@@ -69,11 +73,18 @@ export const apiSlice = createApi({
       }),
     }),
     // blog related
-    createBlog: builder.mutation<CreateBlogResponse, CreateBlogData>({
+    createBlog: builder.mutation<CreateBlogResponse, CreateEditBlogData>({
       query: (createBlogData) => ({
         url: "blog",
         method: "POST",
         body: createBlogData,
+      }),
+    }),
+    editBlog: builder.mutation<EditBlogResponse, CreateEditBlogData>({
+      query: (editBlogData) => ({
+        url: "blog",
+        method: "PATCH",
+        body: { ...editBlogData },
       }),
     }),
     getBlogDataByBlogId: builder.query<
@@ -113,6 +124,7 @@ export const {
   useLoginCMutation,
   useSignupMutation,
   useCreateBlogMutation,
+  useEditBlogMutation,
   useGetAuthenticatedUserDataQuery,
   useGetUserDataQuery,
   useGetBlogDataByBlogIdQuery,

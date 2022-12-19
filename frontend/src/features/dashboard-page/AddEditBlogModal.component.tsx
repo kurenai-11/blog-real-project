@@ -1,16 +1,23 @@
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
-import { useCreateBlogMutation } from "../api/apiSlice";
+import { useCreateBlogMutation, useEditBlogMutation } from "../api/apiSlice";
 import ModalButton from "./ModalButton.component";
 import ModalInput from "./ModalInput.component";
 import ModalLink from "./ModalLink.component";
 import ModalTextArea from "./ModalTextarea.component";
 
-const AddBlogModal = () => {
+type ModalProps = {
+  modalTitle: string;
+  type: "addBlog" | "editBlog";
+  currentBlog: number;
+};
+
+const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
-  const [createBlog, { isLoading }] = useCreateBlogMutation();
+  const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
+  const [editBlog, { isLoading: isEditing }] = useEditBlogMutation();
   const navigate = useNavigate();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -33,19 +40,35 @@ const AddBlogModal = () => {
     if (!title) {
       title = "No title";
     }
-    const response = await createBlog({
-      title,
-      description,
-      authKey,
-      userId,
-    }).unwrap();
-    if (response.status === "success") {
-      navigate(`/blogs/${response.blogId}`);
+    if (type === "addBlog") {
+      const response = await createBlog({
+        title,
+        description,
+        authKey,
+        userId,
+      }).unwrap();
+      if (response.status === "success") {
+        navigate(`/blogs/${response.blogId}`);
+      }
+    } else {
+      const response = await editBlog({
+        title,
+        description,
+        authKey,
+        userId,
+        blogId: currentBlog,
+      }).unwrap();
+      if (response.status === "success") {
+        navigate(0);
+      } else {
+        // this shouldn't happen...
+        console.log("something went wrong...");
+      }
     }
   };
   return (
     <div
-      id="addBlog"
+      id={type}
       // z--1 - below everything z-0 main content of the page
       // z-1 above main content of the page
       className="fixed z--1 top-0 left-0 w-full h-full bg-zinc-9 bg-opacity-0 opacity-0 transition-all duration-300 target:(opacity-100 bg-opacity-60 block z-1)"
@@ -58,7 +81,7 @@ const AddBlogModal = () => {
           <AiOutlineClose />
         </a>
         <div className="bg-zinc-8 w-full h-12 py-3 text-center rounded-xl mb-4">
-          Create a new blog
+          {modalTitle}
         </div>
         <form className="w-full" onSubmit={submitHandler}>
           <div className="px-3 flex flex-col gap-2 justify-center items-center">
@@ -70,8 +93,13 @@ const AddBlogModal = () => {
             <ModalTextArea name="description" />
           </div>
           <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
-            <ModalButton type="submit" additionalClasses="bg-green-8">
-              Create
+            <ModalButton
+              type="submit"
+              additionalClasses={
+                type === "addBlog" ? "bg-green-8" : "bg-blue-8"
+              }
+            >
+              Confirm
             </ModalButton>
             <ModalLink href="#">Cancel</ModalLink>
           </div>
@@ -81,4 +109,4 @@ const AddBlogModal = () => {
   );
 };
 
-export default AddBlogModal;
+export default AddEditBlogModal;

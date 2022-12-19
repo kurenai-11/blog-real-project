@@ -4,9 +4,10 @@ import { Blog } from "../../app/types";
 
 type BlogListProps = {
   blogs: Blog[];
+  setCurrentBlog: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const BlogList = ({ blogs }: BlogListProps) => {
+const BlogList = ({ blogs, setCurrentBlog }: BlogListProps) => {
   const linkClasses =
     "decoration-none mx-2 text-white text-lg bg-zinc-6 rounded-lg px-4 py-2 hover:text-zinc-3 transition-all";
   return (
@@ -38,6 +39,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
                   linkClasses,
                   "bg-amber-6 hover:(bg-amber-7)"
                 )}
+                onClick={() => setCurrentBlog(blog._id)}
               >
                 Edit
               </a>
@@ -53,6 +55,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
               <a
                 href="#deleteBlog"
                 className={twMerge(linkClasses, "bg-red-6 hover:(bg-red-7)")}
+                onClick={() => setCurrentBlog(blog._id)}
               >
                 Delete
               </a>

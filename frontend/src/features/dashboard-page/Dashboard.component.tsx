@@ -3,7 +3,7 @@ import { logout, storeUserData } from "../auth/userSlice";
 import Footer from "../shared/Footer.component";
 import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
-import AddBlogModal from "./AddBlogModal.component";
+import AddEditBlogModal from "./AddEditBlogModal.component";
 import { twMerge } from "tailwind-merge";
 import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
 import { useEffect, useState } from "react";
@@ -18,6 +18,7 @@ const Dashboard = () => {
   // so we need to check manually if blogs data exist to use it there
   // so check if undefined first, and then check if it is an empty array or not then
   const areThereAnyBlogs = blogs ? (blogs.length !== 0 ? true : false) : false;
+  const [currentBlog, setCurrentBlog] = useState(-1);
   const {
     data: userData,
     isLoading,
@@ -68,7 +69,16 @@ const Dashboard = () => {
           Log out
         </button>
       </div>
-      <AddBlogModal />
+      <AddEditBlogModal
+        type="addBlog"
+        modalTitle="Create a blog"
+        currentBlog={currentBlog}
+      />
+      <AddEditBlogModal
+        type="editBlog"
+        modalTitle="Edit a blog"
+        currentBlog={currentBlog}
+      />
       {areThereAnyBlogs ? (
         <div className="">
           <div className="relative">
@@ -86,7 +96,7 @@ const Dashboard = () => {
               Your blogs:
             </div>
           </div>
-          <BlogList blogs={blogs as Blog[]} />
+          <BlogList blogs={blogs as Blog[]} setCurrentBlog={setCurrentBlog} />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">

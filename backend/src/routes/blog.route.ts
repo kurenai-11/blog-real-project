@@ -13,6 +13,13 @@ const ZCreateBlogData = z.object({
   userId: z.number(),
   authKey: z.string(),
 });
+const ZEditBlogData = z.object({
+  title: z.string(),
+  description: z.string(),
+  authKey: z.string(),
+  userId: z.number().nonnegative(),
+  blogId: z.number().nonnegative(),
+});
 const ZGetBlogData = z.object({
   id: z.coerce.number().nonnegative(),
 });
@@ -63,6 +70,50 @@ router.post("/", async (req, res) => {
   });
 });
 
+// Add a new post
+router.put("/", (req, res) => {
+  console.log("req");
+});
+
+// Edit blog parameters
+router.patch("/", async (req, res) => {
+  const rawData = req.body;
+  console.log("rawData", rawData);
+  const blogData = ZEditBlogData.safeParse(rawData);
+  if (!blogData.success) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  const { title, description, authKey, userId, blogId } = blogData.data;
+  const foundUser = await User.findOne({ _id: userId });
+  if (!foundUser) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  const isAuth = checkAuthKey(authKey, foundUser, res);
+  if (!isAuth) {
+    return;
+  }
+  const foundBlog = await Blog.findById(blogId);
+  if (!foundBlog) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  if (foundBlog.authorId !== userId) {
+    res.status(200).send({ status: "fail", error: "Invalid request" });
+    return;
+  }
+  foundBlog.title = title;
+  foundBlog.description = description;
+  await foundBlog.save();
+  res.status(200).send({ status: "success", blogId });
+});
+
+// Delete a blog
+router.delete("/", (req, res) => {
+  console.log("req");
+});
+
 // Get blog data by the blog Id
 router.get("/:id", async (req, res) => {
   const rawData = req.params;
@@ -78,23 +129,6 @@ router.get("/:id", async (req, res) => {
     return;
   }
   res.status(200).send({ status: "success", ...blogData.toJSON() });
-});
-
-// Same as above but for authenticated users
-// to be able to retrieve private data
-router.post("/:id", (req, res) => {
-  const rawData = req.body;
-  console.log("rawData", rawData);
-});
-
-// Edit a blog == add a new post
-router.put("/:id", (req, res) => {
-  console.log("req");
-});
-
-// Delete a blog
-router.delete("/:id", (req, res) => {
-  console.log("req");
 });
 
 export default router;
