@@ -41,19 +41,19 @@ router.post("/:userId", async (req, res) => {
       .send({ user: null, status: "fail", error: "invalid request" });
     return;
   }
-  const user = await User.findOne({ _id: userRequest.data.userId });
-  if (!user) {
+  const foundUser = await User.findOne({ _id: userRequest.data.userId });
+  if (!foundUser) {
     res
       .status(200)
       .send({ user: null, status: "fail", error: "invalid request" });
     return;
   }
-  const isValidAuth = checkAuthKey(userAuth.data.authKey, user, res);
+  const isValidAuth = checkAuthKey(userAuth.data.authKey, foundUser, res);
   if (!isValidAuth) {
     // response is already sent in the checkAuthKey()
     return;
   }
-  const user2 = await User.findOne(
+  const user = await User.findOne(
     { _id: userRequest.data.userId },
     { password: 0, auth: 0 }
   )
@@ -61,7 +61,7 @@ router.post("/:userId", async (req, res) => {
     .exec();
   res.status(200).send({
     status: "success",
-    ...user2?.toJSON(),
+    ...user!.toJSON(),
   });
   // const blogs = await getBlogsByUserId(user._id);
   // const { username, _id, creationDate, avatarUrl } = user;
