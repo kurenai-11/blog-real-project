@@ -10,6 +10,7 @@ export const getBlodDataByBlogId = async (
   blogId: number,
   postLimit: number = 10
 ) => {
+  // todo - pagination
   const foundBlog = await Blog.findOne(
     { _id: blogId },
     { posts: { $slice: postLimit } }
