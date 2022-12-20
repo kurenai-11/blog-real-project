@@ -24,6 +24,7 @@ export type Post = {
   title: string;
   content: string;
   authorId: number;
+  authorName: string;
   creationDate: string;
   likes: number;
 };

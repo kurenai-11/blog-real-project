@@ -8,9 +8,22 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
   const currentUserId = useAppSelector((state) => state.user._id);
   return (
     <div className="flex flex-col items-center mt-2 mb-3">
-      <div className="text-3xl mb-3">
+      <div className="text-3xl pb-3">
         <span className="text-blue-6 font-bold">{blog.title}</span> by{" "}
         <span className="text-red-6 font-mono">{blog.authorName}</span>
+      </div>
+      <div className="w-85% h-1 bg-teal-8 rounded-lg" />
+      <div className="flex flex-col w-full items-center">
+        <div className="text-lg font-serif mt-2 mb-2 text-center rounded-lg">
+          {blog.description}
+        </div>
+        <div className="w-85% h-1 bg-teal-8 rounded-lg mb-2" />
+        <div className="text-xl mb-3 text-center">
+          Blog created at{" "}
+          <span className="font-bold">
+            {new Date(blog.creationDate).toDateString()}
+          </span>
+        </div>
       </div>
       {currentUserId === blog.authorId && (
         <>
@@ -31,12 +44,10 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
           </div>
         </div>
       ) : (
-        <div>
-          <div className="flex flex-col gap-2">
-            {blog.posts.map((post) => (
-              <BlogPost post={post} key={post._id} />
-            ))}
-          </div>
+        <div className="flex flex-col gap-2 min-w-75%">
+          {blog.posts.map((post) => (
+            <BlogPost post={post} key={post._id} />
+          ))}
         </div>
       )}
     </div>

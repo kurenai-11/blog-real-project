@@ -5,6 +5,7 @@ interface IPost {
   title: string;
   content: string;
   authorId: number;
+  authorName: string;
   creationDate: Date;
   likes: number;
 }
@@ -14,6 +15,7 @@ const postSchema = new Schema<IPost>({
   title: { type: String, required: true },
   content: { type: String, required: true },
   authorId: { type: Number, ref: "User", required: true },
+  authorName: { type: String, required: true },
   creationDate: { type: Date, default: Date.now, required: true },
   likes: { type: Number, required: true, default: 0 },
 });
