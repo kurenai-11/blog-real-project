@@ -60,7 +60,6 @@ router.get("/", async (req, res) => {
   } else {
     postLimit = 10;
   }
-  console.log("query", query);
   const foundBlogs = await Blog.find({}, { posts: { $slice: postLimit } })
     .sort({ creationDate: -1 })
     .limit(blogLimit)
