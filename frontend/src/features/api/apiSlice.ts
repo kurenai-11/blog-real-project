@@ -25,6 +25,10 @@ type DeletePostResponse =
 type EditPostResponse =
   | { status: "fail"; error: string }
   | { status: "success" };
+type GetBlogListResponse = {
+  status: "success";
+  blogs: Blog[];
+};
 // Data we will receive after querying for blog data
 // with the blog id
 export type GetBlogDataResponse =
@@ -39,6 +43,10 @@ export type GetBlogDataResponse =
       posts: Post[];
       creationDate: string;
     };
+type GetBlogListRequest = {
+  blogLimit: number;
+  postLimit: number;
+};
 export type GetUserDataResponse =
   | { status: "fail"; error: string }
   | {
@@ -164,6 +172,14 @@ export const apiSlice = createApi({
         method: "GET",
       }),
     }),
+    // get blog list
+    getBlogList: builder.query<GetBlogListResponse, GetBlogListRequest>({
+      query: (getBlogListData) => ({
+        url: "blog",
+        method: "GET",
+        params: getBlogListData,
+      }),
+    }),
     // user related
     getAuthenticatedUserData: builder.query<
       GetUserDataResponse,
@@ -196,6 +212,7 @@ export const {
   useGetAuthenticatedUserDataQuery,
   useGetUserDataQuery,
   useGetBlogDataByBlogIdQuery,
+  useGetBlogListQuery,
   useDeleteBlogMutation,
   useCreatePostMutation,
   useDeletePostMutation,
