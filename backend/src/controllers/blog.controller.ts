@@ -7,13 +7,13 @@ export const getBlogsByUserId = async (authorId: number) => {
 };
 
 export const getBlodDataByBlogId = async (
-  blogId: number,
-  postLimit: number = 10
+  blogId: number
+  // postLimit: number = 10
 ) => {
-  // todo - pagination
+  // todo - pagination, but not now...
   const foundBlog = await Blog.findOne(
-    { _id: blogId },
-    { posts: { $slice: postLimit } }
+    { _id: blogId }
+    // { posts: { $slice: postLimit } }
   ).populate("posts");
   if (!foundBlog) {
     return null;
