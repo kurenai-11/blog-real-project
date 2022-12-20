@@ -1,7 +1,10 @@
 import express from "express";
 import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
-import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
+import {
+  deleteBlogPosts,
+  getBlodDataByBlogId,
+} from "../controllers/blog.controller.js";
 import { findCount, incrementCounter } from "../db/counter.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
@@ -184,6 +187,8 @@ router.delete("/", async (req, res) => {
     genericInvalidRequest(res);
     return;
   }
+  const blogPosts = foundBlog.posts;
+  await deleteBlogPosts(blogPosts);
   await Blog.deleteOne({ _id: blogId });
   await User.findByIdAndUpdate({ _id: userId }, { $pull: { blogs: blogId } });
   res.status(200).send({ status: "success" });
