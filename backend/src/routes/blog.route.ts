@@ -41,9 +41,33 @@ const ZGetBlogData = z.object({
   id: z.coerce.number().nonnegative(),
 });
 
-// Get recently created blogs by default
-router.get("/", (req, res) => {
-  console.log("req.params :>> ", req.params);
+// Get recently created blogs
+router.get("/", async (req, res) => {
+  const query = req.query;
+  let blogLimit: number;
+  let postLimit: number;
+  if (
+    z.coerce.number().nonnegative().max(15).safeParse(query.blogLimit).success
+  ) {
+    blogLimit = Number(query.blogLimit);
+  } else {
+    blogLimit = 5;
+  }
+  if (
+    z.coerce.number().nonnegative().max(30).safeParse(query.postLimit).success
+  ) {
+    postLimit = Number(query.postLimit);
+  } else {
+    postLimit = 10;
+  }
+  console.log("query", query);
+  // get recently created blogs and populate the first 3 posts there
+  const foundBlogs = await Blog.find({}, { posts: { $slice: postLimit } })
+    .sort({ creationDate: -1 })
+    .limit(blogLimit)
+    .populate("posts")
+    .exec();
+  res.status(200).json(foundBlogs);
 });
 
 // Create a blog

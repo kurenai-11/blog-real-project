@@ -6,8 +6,14 @@ export const getBlogsByUserId = async (authorId: number) => {
   return result;
 };
 
-export const getBlodDataByBlogId = async (blogId: number) => {
-  const foundBlog = await Blog.findOne({ _id: blogId }).populate("posts");
+export const getBlodDataByBlogId = async (
+  blogId: number,
+  postLimit: number = 10
+) => {
+  const foundBlog = await Blog.findOne(
+    { _id: blogId },
+    { posts: { $slice: postLimit } }
+  ).populate("posts");
   if (!foundBlog) {
     return null;
   }
