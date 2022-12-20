@@ -44,7 +44,7 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col gap-2 min-w-75%">
+        <div className="flex flex-col gap-2 w-85%">
           {blog.posts.map((post) => (
             <BlogPost post={post} key={post._id} />
           ))}
