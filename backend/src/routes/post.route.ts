@@ -10,8 +10,8 @@ const ZEditPostData = z.object({
   authKey: z.string(),
   userId: z.number().nonnegative(),
   postId: z.number().nonnegative(),
-  blogId: z.number().nonnegative(),
   content: z.string(),
+  title: z.string(),
 });
 const ZDeletePostData = z.object({
   authKey: z.string(),
@@ -55,9 +55,42 @@ router.delete("/", async (req, res) => {
   res.status(200).send({ status: "success" });
 });
 
+// Update a post
+router.patch("/", async (req, res) => {
+  const rawData = req.body;
+  const updateData = ZEditPostData.safeParse(rawData);
+  if (!updateData.success) {
+    genericInvalidRequest(res);
+    return;
+  }
+  const { authKey, userId, postId, content, title } = updateData.data;
+  const foundUser = await User.findById(userId);
+  if (!foundUser) {
+    genericInvalidRequest(res);
+    return;
+  }
+  const isAuth = checkAuthKey(authKey, foundUser, res);
+  if (!isAuth) {
+    return;
+  }
+  const foundPost = await Post.findById(postId);
+  if (!foundPost) {
+    genericInvalidRequest(res);
+    return;
+  }
+  if (foundPost.authorId !== foundUser._id) {
+    genericInvalidRequest(res);
+    return;
+  }
+  foundPost.content = content;
+  foundPost.title = title;
+  await foundPost.save();
+  res.status(200).send({ status: "success" });
+});
+
 // Return recent public posts by a user id
 router.get("/user/:id", (req, res) => {
-  res.send("ok");
+  const rawData = req.params;
 });
 
 // Return recent public posts by a blog id
