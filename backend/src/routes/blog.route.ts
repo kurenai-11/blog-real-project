@@ -1,5 +1,5 @@
 import express from "express";
-import { string, z } from "zod";
+import { z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
 import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
 import { findCount, incrementCounter } from "../db/counter.js";
@@ -27,9 +27,6 @@ const ZDeleteBlogData = z.object({
   blogId: z.number().nonnegative(),
 });
 const ZGetBlogData = z.object({
-  id: z.coerce.number().nonnegative(),
-});
-const ZGetAuthenticatedBlogData = z.object({
   id: z.coerce.number().nonnegative(),
 });
 
