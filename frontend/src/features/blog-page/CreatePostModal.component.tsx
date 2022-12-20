@@ -12,7 +12,7 @@ import {
 import { z } from "zod";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreatePostMutation } from "../api/apiSlice";
-import { useNavigate } from "react-router-dom";
+import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 
 const ZCreatePostData = z.object({
   title: z.string().min(1),
@@ -20,13 +20,13 @@ const ZCreatePostData = z.object({
 });
 type ModalProps = {
   currentBlog: number;
+  refetch: () => QueryActionCreatorResult<any>;
 };
 
-const CreatePostModal = ({ currentBlog }: ModalProps) => {
+const CreatePostModal = ({ currentBlog, refetch }: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [createPost, { isLoading }] = useCreatePostMutation();
-  const navigate = useNavigate();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -44,7 +44,8 @@ const CreatePostModal = ({ currentBlog }: ModalProps) => {
       blogId: currentBlog,
     }).unwrap();
     if (response.status === "success") {
-      navigate(0);
+      refetch();
+      window.location.hash = "#";
     } else {
       console.log("Post could not be created", response.error);
     }

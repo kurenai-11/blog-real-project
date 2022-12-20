@@ -1,11 +1,21 @@
+import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useAppSelector } from "../../app/hooks";
 import { Blog } from "../../app/types";
 import CreatePostModal from "./CreatePostModal.component";
-import BlogPost from "./Post.component";
+import DeletePostModal from "./DeletePostModal.component";
+import BlogPost from "./BlogPost.component";
+import { useState } from "react";
 
-const BlogPage = ({ blog }: { blog: Blog }) => {
+const BlogPage = ({
+  blog,
+  refetch,
+}: {
+  blog: Blog;
+  refetch: () => QueryActionCreatorResult<any>;
+}) => {
   const currentUserId = useAppSelector((state) => state.user._id);
+  const [currentPost, setCurrentPost] = useState(-1);
   return (
     <div className="flex flex-col items-center mt-2 mb-3">
       <div className="text-3xl pb-3">
@@ -34,7 +44,7 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
             <AiOutlinePlus />
             Create a new post!
           </a>
-          <CreatePostModal currentBlog={blog._id} />
+          <CreatePostModal refetch={refetch} currentBlog={blog._id} />
         </>
       )}
       {blog.posts.length === 0 ? (
@@ -45,8 +55,13 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
         </div>
       ) : (
         <div className="flex flex-col gap-2 w-85%">
+          <DeletePostModal refetch={refetch} currentPost={currentPost} />
           {blog.posts.map((post) => (
-            <BlogPost post={post} key={post._id} />
+            <BlogPost
+              post={post}
+              setCurrentPost={setCurrentPost}
+              key={post._id}
+            />
           ))}
         </div>
       )}

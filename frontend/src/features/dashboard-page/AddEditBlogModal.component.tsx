@@ -1,3 +1,4 @@
+import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
@@ -17,11 +18,16 @@ type ModalProps = {
   modalTitle: string;
   type: "addBlog" | "editBlog";
   currentBlog: number;
-  setIsChanged: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => QueryActionCreatorResult<any>;
 };
 
 // means Add OR Edit blog modal
-const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
+const AddEditBlogModal = ({
+  modalTitle,
+  type,
+  currentBlog,
+  refetch,
+}: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
@@ -56,6 +62,9 @@ const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
         userId,
       }).unwrap();
       if (response.status === "success") {
+        // refetches our blog list in the dashboard, if the user decides
+        // to return there at a later point
+        refetch();
         navigate(`/blogs/${response.blogId}`);
       }
     } else {
@@ -67,7 +76,8 @@ const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
         blogId: currentBlog,
       }).unwrap();
       if (response.status === "success") {
-        navigate(0);
+        refetch();
+        window.location.hash = "";
       } else {
         // this shouldn't happen...
         console.log("something went wrong...");

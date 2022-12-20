@@ -8,7 +8,6 @@ import { twMerge } from "tailwind-merge";
 import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
 import { useEffect, useState } from "react";
 import BlogList from "../blog-list/BlogList.component";
-import { Blog } from "../../app/types";
 import DeleteBlogModal from "./DeleteBlogModal.component";
 
 const Dashboard = () => {
@@ -20,7 +19,6 @@ const Dashboard = () => {
   // so check if undefined first, and then check if it is an empty array or not then
   const areThereAnyBlogs = blogs ? (blogs.length !== 0 ? true : false) : false;
   const [currentBlog, setCurrentBlog] = useState(-1);
-  const [isChanged, setIsChanged] = useState(false);
   const {
     data: userData,
     isLoading,
@@ -38,9 +36,6 @@ const Dashboard = () => {
     }
     dispatch(storeUserData(userData));
   }, [userData]);
-  useEffect(() => {
-    refetch();
-  }, [isChanged]);
   const linkClasses =
     "text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none";
   return (
@@ -78,7 +73,7 @@ const Dashboard = () => {
         type="addBlog"
         modalTitle="Create a blog"
         currentBlog={currentBlog}
-        setIsChanged={setIsChanged}
+        refetch={refetch}
       />
       {areThereAnyBlogs ? (
         <div className="">
@@ -101,12 +96,9 @@ const Dashboard = () => {
             type="editBlog"
             modalTitle="Edit a blog"
             currentBlog={currentBlog}
-            setIsChanged={setIsChanged}
+            refetch={refetch}
           />
-          <DeleteBlogModal
-            currentBlog={currentBlog}
-            setIsChanged={setIsChanged}
-          />
+          <DeleteBlogModal currentBlog={currentBlog} refetch={refetch} />
           <BlogList blogs={blogs} setCurrentBlog={setCurrentBlog} />
         </div>
       ) : (
