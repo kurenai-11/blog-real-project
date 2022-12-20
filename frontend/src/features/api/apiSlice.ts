@@ -11,6 +11,9 @@ type CreateBlogResponse =
 type EditBlogResponse =
   | { status: "fail"; error: string }
   | { status: "success"; blogId: number };
+type DeleteBlogResponse =
+  | { status: "fail"; error: string }
+  | { status: "success" };
 // Data we will receive after querying for blog data
 // with the blog id
 export type GetBlogDataResponse =
@@ -39,6 +42,11 @@ type CreateEditBlogData = {
   authKey: string;
   userId: number;
   blogId?: number;
+};
+type DeleteBlogRequest = {
+  authKey: string;
+  userId: number;
+  blogId: number;
 };
 // data to send to the server to get blog's data by blog's id
 type GetBlogDataByBlogIdRequest = {
@@ -87,6 +95,13 @@ export const apiSlice = createApi({
         body: { ...editBlogData },
       }),
     }),
+    deleteBlog: builder.mutation<DeleteBlogResponse, DeleteBlogRequest>({
+      query: (deleteBlogData) => ({
+        url: "blog",
+        method: "DELETE",
+        body: deleteBlogData,
+      }),
+    }),
     getBlogDataByBlogId: builder.query<
       GetBlogDataResponse,
       GetBlogDataByBlogIdRequest
@@ -128,4 +143,5 @@ export const {
   useGetAuthenticatedUserDataQuery,
   useGetUserDataQuery,
   useGetBlogDataByBlogIdQuery,
+  useDeleteBlogMutation,
 } = apiSlice;

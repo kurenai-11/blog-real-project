@@ -9,6 +9,7 @@ import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
 import { useEffect, useState } from "react";
 import BlogList from "../blog-list/BlogList.component";
 import { Blog } from "../../app/types";
+import DeleteBlogModal from "./DeleteBlogModal.component";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -79,12 +80,6 @@ const Dashboard = () => {
         currentBlog={currentBlog}
         setIsChanged={setIsChanged}
       />
-      <AddEditBlogModal
-        type="editBlog"
-        modalTitle="Edit a blog"
-        currentBlog={currentBlog}
-        setIsChanged={setIsChanged}
-      />
       {areThereAnyBlogs ? (
         <div className="">
           <div className="relative">
@@ -102,6 +97,16 @@ const Dashboard = () => {
               Your blogs:
             </div>
           </div>
+          <AddEditBlogModal
+            type="editBlog"
+            modalTitle="Edit a blog"
+            currentBlog={currentBlog}
+            setIsChanged={setIsChanged}
+          />
+          <DeleteBlogModal
+            currentBlog={currentBlog}
+            setIsChanged={setIsChanged}
+          />
           <BlogList blogs={blogs as Blog[]} setCurrentBlog={setCurrentBlog} />
         </div>
       ) : (

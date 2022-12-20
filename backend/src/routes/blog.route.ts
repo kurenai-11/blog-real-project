@@ -1,5 +1,5 @@
 import express from "express";
-import { z } from "zod";
+import { string, z } from "zod";
 import { checkAuthKey } from "../controllers/auth.controller.js";
 import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
 import { findCount, incrementCounter } from "../db/counter.js";
@@ -17,6 +17,11 @@ const ZCreateBlogData = z.object({
 const ZEditBlogData = z.object({
   title: z.string(),
   description: z.string(),
+  authKey: z.string(),
+  userId: z.number().nonnegative(),
+  blogId: z.number().nonnegative(),
+});
+const ZDeleteBlogData = z.object({
   authKey: z.string(),
   userId: z.number().nonnegative(),
   blogId: z.number().nonnegative(),
@@ -110,8 +115,35 @@ router.patch("/", async (req, res) => {
 });
 
 // Delete a blog
-router.delete("/", (req, res) => {
-  console.log("req");
+router.delete("/", async (req, res) => {
+  const rawData = req.body;
+  const deleteBlogData = ZDeleteBlogData.safeParse(rawData);
+  if (!deleteBlogData.success) {
+    genericInvalidRequest(res);
+    return;
+  }
+  const { authKey, userId, blogId } = deleteBlogData.data;
+  const foundUser = await User.findById(userId);
+  if (!foundUser) {
+    genericInvalidRequest(res);
+    return;
+  }
+  const isAuth = checkAuthKey(authKey, foundUser, res);
+  if (!isAuth) {
+    return;
+  }
+  const foundBlog = await Blog.findById(blogId);
+  if (!foundBlog) {
+    genericInvalidRequest(res);
+    return;
+  }
+  if (foundBlog.authorId !== userId) {
+    genericInvalidRequest(res);
+    return;
+  }
+  await Blog.deleteOne({ _id: blogId });
+  await User.findByIdAndUpdate({ _id: userId }, { $pull: { blogs: blogId } });
+  res.status(200).send({ status: "success" });
 });
 
 // Get blog data by the blog Id
