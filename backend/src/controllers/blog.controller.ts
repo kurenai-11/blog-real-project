@@ -6,6 +6,8 @@ export const getBlogsByUserId = async (authorId: number) => {
 };
 
 export const getBlodDataByBlogId = async (blogId: number) => {
-  const result = await Blog.findOne({ _id: blogId }).populate("posts");
-  return result;
+  const foundBlog = await Blog.findOne({ _id: blogId }).populate("posts");
+  const blogData = foundBlog!.toJSON();
+  blogData.posts = [...blogData.posts].reverse();
+  return blogData;
 };

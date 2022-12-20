@@ -6,7 +6,6 @@ import { findCount, incrementCounter } from "../db/counter.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
 import { Post } from "../models/post.model.js";
-import { Counter } from "../models/counter.model.js";
 import { genericInvalidRequest } from "../utils.js";
 const router = express.Router();
 
@@ -204,7 +203,7 @@ router.get("/:id", async (req, res) => {
     genericInvalidRequest(res);
     return;
   }
-  res.status(200).send({ status: "success", ...blogData.toJSON() });
+  res.status(200).send({ status: "success", ...blogData });
 });
 
 export default router;
