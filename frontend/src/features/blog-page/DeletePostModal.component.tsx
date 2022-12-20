@@ -24,7 +24,6 @@ const DeletePostModal = ({
   const [deletePost] = useDeletePostMutation();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    console.log("submit delete");
     const result = await deletePost({
       authKey,
       userId,
