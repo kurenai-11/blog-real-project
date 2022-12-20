@@ -14,7 +14,9 @@ The concept is to create a web site that lets you create and manage multiple blo
 
    `npm run install-deps`
 
-3. You can then start both the frontend and backend at the same time with
-   `npm run dev` in this project's root folder.
+3. By default frontend will run at port **5173** and backend at port **5000**. You can change the ports in _backend/.env_ (create the file if you need it) and _frontend/vite.config.ts_.
 
-By default frontend will run at port **5173** and backend at port **5000**. You can change the ports in _backend/.env_ (create the file if you need it) and (todo) _frontend/vite.config.ts_
+4. To make frontend be able to connect to the backend properly, change the base url for the backend api in the _apiSlice.ts_
+
+5. You can then start both the frontend and backend at the same time with
+   `npm run dev` in this project's root folder.
