@@ -61,7 +61,6 @@ router.get("/", async (req, res) => {
     postLimit = 10;
   }
   console.log("query", query);
-  // get recently created blogs and populate the first 3 posts there
   const foundBlogs = await Blog.find({}, { posts: { $slice: postLimit } })
     .sort({ creationDate: -1 })
     .limit(blogLimit)
