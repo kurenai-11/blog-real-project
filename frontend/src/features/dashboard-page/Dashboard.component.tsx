@@ -107,7 +107,7 @@ const Dashboard = () => {
             currentBlog={currentBlog}
             setIsChanged={setIsChanged}
           />
-          <BlogList blogs={blogs as Blog[]} setCurrentBlog={setCurrentBlog} />
+          <BlogList blogs={blogs} setCurrentBlog={setCurrentBlog} />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
