@@ -82,18 +82,18 @@ const Dashboard = () => {
       />
       {areThereAnyBlogs ? (
         <div className="">
-          <div className="relative">
+          <div className="flex flex-col items-center md:relative">
             <a
               href="#addBlog"
               className={twMerge(
                 linkClasses,
-                "absolute top-6 bottom-2 left-75% bg-zinc-9 rounded-xl py-4 px-4"
+                "md:(absolute top-6 bottom-2 left-[calc(100vw-35vw)] py-4 px-4 mt-0) mt-4 w-fit bg-zinc-9 rounded-xl py-2 px-4"
               )}
             >
               <AiOutlinePlus />
               Create new!
             </a>
-            <div className="m-auto text-center text-emerald-6 font-bold text-3xl pt-6 pb-2 w-fit">
+            <div className="m-auto text-center text-emerald-6 font-bold text-3xl pt-4 md:pt-6 pb-2 w-fit">
               Your blogs:
             </div>
           </div>
