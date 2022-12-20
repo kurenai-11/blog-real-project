@@ -22,6 +22,9 @@ type DeletePostResponse =
   | {
       status: "success";
     };
+type EditPostResponse =
+  | { status: "fail"; error: string }
+  | { status: "success" };
 // Data we will receive after querying for blog data
 // with the blog id
 export type GetBlogDataResponse =
@@ -64,6 +67,13 @@ type CreatePostRequest = {
   blogId: number;
 };
 type DeletePostRequest = {
+  authKey: string;
+  userId: number;
+  postId: number;
+};
+type EditPostRequest = {
+  title: string;
+  content: string;
   authKey: string;
   userId: number;
   postId: number;
@@ -135,6 +145,14 @@ export const apiSlice = createApi({
         url: "post",
         method: "DELETE",
         body: deletePostData,
+      }),
+    }),
+    // edit post
+    editPost: builder.mutation<EditPostResponse, EditPostRequest>({
+      query: (editPostData) => ({
+        url: "post",
+        method: "PATCH",
+        body: editPostData,
       }),
     }),
     getBlogDataByBlogId: builder.query<
