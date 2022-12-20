@@ -61,7 +61,7 @@ router.post("/:userId", async (req, res) => {
 
 // Updating user data
 // changing username, avatar etc
-router.put("/:id", (req, res) => {
+router.patch("/:id", (req, res) => {
   res.status(200).send("todo");
 });
 
