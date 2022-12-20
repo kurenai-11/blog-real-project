@@ -5,6 +5,8 @@ import { getBlodDataByBlogId } from "../controllers/blog.controller.js";
 import { findCount, incrementCounter } from "../db/counter.js";
 import { Blog } from "../models/blog.model.js";
 import { User } from "../models/user.model.js";
+import { Post } from "../models/post.model.js";
+import { Counter } from "../models/counter.model.js";
 import { genericInvalidRequest } from "../utils.js";
 const router = express.Router();
 
@@ -22,6 +24,13 @@ const ZEditBlogData = z.object({
   blogId: z.number().nonnegative(),
 });
 const ZDeleteBlogData = z.object({
+  authKey: z.string(),
+  userId: z.number().nonnegative(),
+  blogId: z.number().nonnegative(),
+});
+const ZAddPostData = z.object({
+  title: z.string(),
+  content: z.string(),
   authKey: z.string(),
   userId: z.number().nonnegative(),
   blogId: z.number().nonnegative(),
@@ -74,8 +83,46 @@ router.post("/", async (req, res) => {
 });
 
 // Add a new post
-router.put("/", (req, res) => {
-  console.log("req");
+router.put("/", async (req, res) => {
+  const rawData = req.body;
+  const addPostData = ZAddPostData.safeParse(rawData);
+  if (!addPostData.success) {
+    genericInvalidRequest(res);
+    return;
+  }
+  const { content, authKey, userId, blogId, title } = addPostData.data;
+  const foundUser = await User.findOne({ _id: userId });
+  if (!foundUser) {
+    genericInvalidRequest(res);
+    return;
+  }
+  if (!checkAuthKey(authKey, foundUser, res)) {
+    return;
+  }
+  const foundBlog = await Blog.findOne({ _id: blogId });
+  if (!foundBlog) {
+    genericInvalidRequest(res);
+    return;
+  }
+  if (foundBlog.authorId !== foundUser._id) {
+    genericInvalidRequest(res);
+    return;
+  }
+  // creating a new post
+  const postCount = await findCount("post");
+  const postId = postCount + 1;
+  const newPost = new Post({
+    _id: postId,
+    title,
+    content,
+    authorName: foundUser.username,
+    authorId: foundUser._id,
+    blogId: blogId,
+  });
+  await newPost.save();
+  await incrementCounter("post");
+  await Blog.updateOne({ _id: blogId }, { $push: { posts: postId } });
+  res.status(200).send({ status: "success", post: newPost.toJSON() });
 });
 
 // Edit blog parameters

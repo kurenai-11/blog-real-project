@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useDeleteBlogMutation } from "../api/apiSlice";
-import ModalButton from "./ModalButton.component";
-import ModalLink from "./ModalLink.component";
+import ModalButton from "../shared/ModalButton.component";
+import ModalLink from "../shared/ModalLink.component";
 import {
   closeButtonClasses,
   modalClasses,
   modalOverlayClasses,
   modalTitleClasses,
-} from "./shared";
+} from "../shared/utils";
 
 type DeleteModalProps = {
   currentBlog: number;

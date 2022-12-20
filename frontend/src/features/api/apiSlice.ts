@@ -14,6 +14,9 @@ type EditBlogResponse =
 type DeleteBlogResponse =
   | { status: "fail"; error: string }
   | { status: "success" };
+type CreatePostResponse =
+  | { status: "fail"; error: string }
+  | { status: "success"; post: Post };
 // Data we will receive after querying for blog data
 // with the blog id
 export type GetBlogDataResponse =
@@ -44,6 +47,13 @@ type CreateEditBlogData = {
   blogId?: number;
 };
 type DeleteBlogRequest = {
+  authKey: string;
+  userId: number;
+  blogId: number;
+};
+type CreatePostRequest = {
+  title: string;
+  content: string;
   authKey: string;
   userId: number;
   blogId: number;
@@ -102,6 +112,13 @@ export const apiSlice = createApi({
         body: deleteBlogData,
       }),
     }),
+    createPost: builder.mutation<CreatePostResponse, CreatePostRequest>({
+      query: (createPostData) => ({
+        url: "blog",
+        method: "PUT",
+        body: createPostData,
+      }),
+    }),
     getBlogDataByBlogId: builder.query<
       GetBlogDataResponse,
       GetBlogDataByBlogIdRequest
@@ -144,4 +161,5 @@ export const {
   useGetUserDataQuery,
   useGetBlogDataByBlogIdQuery,
   useDeleteBlogMutation,
+  useCreatePostMutation,
 } = apiSlice;

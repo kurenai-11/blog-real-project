@@ -19,5 +19,12 @@ export type User = {
   avatarUrl: string;
   creationDate: string;
 };
-export type Post = {};
+export type Post = {
+  _id: number;
+  title: string;
+  content: string;
+  authorId: number;
+  creationDate: string;
+  likes: number;
+};
 export type Comment = {};

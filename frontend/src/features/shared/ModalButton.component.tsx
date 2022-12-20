@@ -1,7 +1,4 @@
-import {
-  createTailwindComponent,
-  ImplementedElementProps,
-} from "../shared/utils";
+import { createTailwindComponent, ImplementedElementProps } from "./utils";
 
 const ModalButton = ({
   additionalClasses,

@@ -2,16 +2,16 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreateBlogMutation, useEditBlogMutation } from "../api/apiSlice";
-import ModalButton from "./ModalButton.component";
-import ModalInput from "./ModalInput.component";
-import ModalLink from "./ModalLink.component";
-import ModalTextArea from "./ModalTextarea.component";
+import ModalButton from "../shared/ModalButton.component";
+import ModalInput from "../shared/ModalInput.component";
+import ModalLink from "../shared/ModalLink.component";
+import ModalTextArea from "../shared/ModalTextarea.component";
 import {
   closeButtonClasses,
   modalClasses,
   modalOverlayClasses,
   modalTitleClasses,
-} from "./shared";
+} from "../shared/utils";
 
 type ModalProps = {
   modalTitle: string;
