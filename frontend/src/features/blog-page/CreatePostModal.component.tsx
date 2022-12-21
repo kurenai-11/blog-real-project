@@ -13,6 +13,7 @@ import { z } from "zod";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useCreatePostMutation, useEditPostMutation } from "../api/apiSlice";
 import { Post } from "../../app/types";
+import { useEffect, useState } from "react";
 
 const ZCreatePostData = z.object({
   title: z.string().min(1),
@@ -28,10 +29,15 @@ const CreateEditPostModal = (props: ModalProps) => {
   const userId = useAppSelector((state) => state.user._id);
   const [createPost, { isLoading: isCreatingPost }] = useCreatePostMutation();
   const [editPost, { isLoading: isEditingPost }] = useEditPostMutation();
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  props.mode === "editPost" &&
+    useEffect(() => {
+      props.post && setTitle(props.post.title);
+      props.post && setContent(props.post.content);
+    }, [props.post]);
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const [title, content] = [formData.get("title"), formData.get("content")];
     const postData = ZCreatePostData.safeParse({ title, content });
     if (!postData.success) {
       console.log("Post cannot be created/edited", postData.error);
@@ -79,13 +85,19 @@ const CreateEditPostModal = (props: ModalProps) => {
             name="title"
             placeholder="Title"
             additionalClasses="placeholder-text-center text-center"
-            defaultValue={props.mode === "editPost" ? props.post.title : ""}
+            // I don't know why, but title can be undefined (and I get a warning in the console)
+            // so we will explicitly set it to an empty string if it is undefined
+            value={title ? title : ""}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <ModalTextArea
             name="content"
             placeholder="Content"
             additionalClasses="h-72"
-            defaultValue={props.mode === "editPost" ? props.post.content : ""}
+            // I don't know why, but content can be undefined (and I get a warning in the console)
+            // so we will explicitly set it to an empty string if it is undefined
+            value={content ? content : ""}
+            onChange={(e) => setContent(e.target.value)}
           />
           <div className="flex justify-center gap-3">
             <ModalButton type="submit" additionalClasses="bg-green-8">
