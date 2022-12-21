@@ -51,11 +51,7 @@ const start = async () => {
     });
   } catch (error) {
     if (error instanceof Error.MongooseServerSelectionError) {
-      if (error.name === "MongooseServerSelectionError") {
-        console.error(`Can't connect to db ${process.env.DB_URL}`);
-      } else {
-        console.error("Mongoose error: ", error);
-      }
+      console.error(`Can't connect to db ${process.env.DB_URL}`);
     } else {
       console.error("Server error: ", error);
     }
