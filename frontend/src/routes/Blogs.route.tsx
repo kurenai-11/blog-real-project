@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useGetBlogListQuery } from "../features/api/apiSlice";
+import BlogList from "../features/blog-list/BlogList.component";
 import Footer from "../features/shared/Footer.component";
 import Navbar from "../features/shared/Navbar.component";
 
@@ -24,15 +25,11 @@ const BlogsRoute = () => {
           Blogs
         </h1>
         {areThereBlogs && (
-          <div>
-            <p className="mt-2 text-lg text-zinc-500">
+          <div className="w-full p-8">
+            <p className="mt-2 text-center text-lg text-zinc-500">
               Here are {data!.blogs.length} recently created blogs:
             </p>
-            <ul>
-              {data!.blogs.map((blog) => (
-                <li key={blog._id}>{blog.title}</li>
-              ))}
-            </ul>
+            <BlogList mode="list" blogs={data!.blogs} />
           </div>
         )}
       </div>

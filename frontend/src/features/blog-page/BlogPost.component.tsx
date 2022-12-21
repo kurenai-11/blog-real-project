@@ -1,3 +1,4 @@
+import { useAppSelector } from "../../app/hooks";
 import { Post } from "../../app/types";
 
 type PostProps = {
@@ -6,6 +7,7 @@ type PostProps = {
 };
 
 const BlogPost = ({ post, setCurrentPost }: PostProps) => {
+  const currentUserId = useAppSelector((state) => state.user._id);
   return (
     <div className="flex flex-col items-center bg-zinc-9 rounded-xl px-4 py-3">
       <h1 className="text-3xl font-extrabold text-bluegray-300">
@@ -15,13 +17,15 @@ const BlogPost = ({ post, setCurrentPost }: PostProps) => {
         {post.content}
       </div>
       {new Date(post.creationDate).toLocaleString()} by {post.authorName}
-      <a
-        href="#deletePost"
-        className="decoration-none text-lg bg-red-6 font-bold text-zinc-2 rounded-lg py-1 px-2 mt-3"
-        onClick={() => setCurrentPost(post._id)}
-      >
-        Delete
-      </a>
+      {currentUserId === post.authorId && (
+        <a
+          href="#deletePost"
+          className="decoration-none text-lg bg-red-6 font-bold text-zinc-2 rounded-lg py-1 px-2 mt-3"
+          onClick={() => setCurrentPost(post._id)}
+        >
+          Delete
+        </a>
+      )}
     </div>
   );
 };

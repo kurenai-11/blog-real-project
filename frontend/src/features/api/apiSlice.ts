@@ -216,4 +216,5 @@ export const {
   useDeleteBlogMutation,
   useCreatePostMutation,
   useDeletePostMutation,
+  useEditPostMutation,
 } = apiSlice;

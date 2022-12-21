@@ -55,7 +55,9 @@ const BlogPage = ({
         </div>
       ) : (
         <div className="flex flex-col gap-2 w-85%">
-          <DeletePostModal refetch={refetch} currentPost={currentPost} />
+          {currentUserId === blog.authorId && (
+            <DeletePostModal refetch={refetch} currentPost={currentPost} />
+          )}
           {blog.posts.map((post) => (
             <BlogPost
               post={post}

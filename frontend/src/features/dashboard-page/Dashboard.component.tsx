@@ -99,7 +99,11 @@ const Dashboard = () => {
             refetch={refetch}
           />
           <DeleteBlogModal currentBlog={currentBlog} refetch={refetch} />
-          <BlogList blogs={blogs} setCurrentBlog={setCurrentBlog} />
+          <BlogList
+            mode="dashboard"
+            blogs={blogs}
+            setCurrentBlog={setCurrentBlog}
+          />
         </div>
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
