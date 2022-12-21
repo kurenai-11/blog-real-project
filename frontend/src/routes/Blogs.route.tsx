@@ -25,8 +25,8 @@ const BlogsRoute = () => {
           Blogs
         </h1>
         {areThereBlogs && (
-          <div className="w-full p-8">
-            <p className="mt-2 text-center text-lg text-zinc-500">
+          <div className="w-full my-2">
+            <p className="text-center text-lg text-zinc-500">
               Here are {data!.blogs.length} recently created blogs:
             </p>
             <BlogList mode="list" blogs={data!.blogs} />
