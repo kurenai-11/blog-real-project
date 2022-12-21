@@ -6,19 +6,17 @@ import { Blog } from "../../app/types";
 type BlogListProps = {
   blogs: Blog[];
   mode: "list";
-  setCurrentBlog?: React.Dispatch<React.SetStateAction<number>>;
 };
 type BlogDashboardProps = {
   blogs: Blog[];
   mode: "dashboard";
-  setCurrentBlog: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentBlog: React.Dispatch<React.SetStateAction<Blog>>;
 };
 
-const BlogList = ({
-  blogs,
-  setCurrentBlog,
-  mode,
-}: BlogListProps | BlogDashboardProps) => {
+const BlogList = (props: BlogListProps | BlogDashboardProps) => {
+  const { blogs, mode } = props;
+  let setCurrentBlog: React.Dispatch<React.SetStateAction<Blog>>;
+  props.mode === "dashboard" && (setCurrentBlog = props.setCurrentBlog);
   const linkClasses =
     "decoration-none mx-2 text-white text-lg bg-zinc-6 rounded-lg px-4 py-2 hover:text-zinc-3 transition-all";
   const currentUserId = useAppSelector((state) => state.user._id);
@@ -76,7 +74,7 @@ const BlogList = ({
                     linkClasses,
                     "bg-amber-6 hover:(bg-amber-7)"
                   )}
-                  onClick={() => setCurrentBlog(blog._id)}
+                  onClick={() => setCurrentBlog(blog)}
                 >
                   Edit
                 </a>
@@ -94,7 +92,7 @@ const BlogList = ({
                 <a
                   href="#deleteBlog"
                   className={twMerge(linkClasses, "bg-red-6 hover:(bg-red-7)")}
-                  onClick={() => setCurrentBlog(blog._id)}
+                  onClick={() => setCurrentBlog(blog)}
                 >
                   Delete
                 </a>

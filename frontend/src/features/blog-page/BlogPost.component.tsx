@@ -3,7 +3,7 @@ import { Post } from "../../app/types";
 
 type PostProps = {
   post: Post;
-  setCurrentPost: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentPost: React.Dispatch<React.SetStateAction<Post>>;
 };
 
 const BlogPost = ({ post, setCurrentPost }: PostProps) => {
@@ -18,13 +18,22 @@ const BlogPost = ({ post, setCurrentPost }: PostProps) => {
       </div>
       {new Date(post.creationDate).toLocaleString()} by {post.authorName}
       {currentUserId === post.authorId && (
-        <a
-          href="#deletePost"
-          className="decoration-none text-lg bg-red-6 font-bold text-zinc-2 rounded-lg py-1 px-2 mt-3"
-          onClick={() => setCurrentPost(post._id)}
-        >
-          Delete
-        </a>
+        <div className="flex gap-2">
+          <a
+            href="#editPost"
+            className="decoration-none text-lg bg-amber-6 font-bold text-zinc-2 rounded-lg py-1 px-2 mt-3"
+            onClick={() => setCurrentPost(post)}
+          >
+            Edit
+          </a>
+          <a
+            href="#deletePost"
+            className="decoration-none text-lg bg-red-6 font-bold text-zinc-2 rounded-lg py-1 px-2 mt-3"
+            onClick={() => setCurrentPost(post)}
+          >
+            Delete
+          </a>
+        </div>
       )}
     </div>
   );

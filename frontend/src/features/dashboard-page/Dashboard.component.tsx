@@ -9,6 +9,7 @@ import { useGetAuthenticatedUserDataQuery } from "../api/apiSlice";
 import { useEffect, useState } from "react";
 import BlogList from "../blog-list/BlogList.component";
 import DeleteBlogModal from "./DeleteBlogModal.component";
+import { Blog } from "../../app/types";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +19,7 @@ const Dashboard = () => {
   // so we need to check manually if blogs data exist to use it there
   // so check if undefined first, and then check if it is an empty array or not then
   const areThereAnyBlogs = blogs ? (blogs.length !== 0 ? true : false) : false;
-  const [currentBlog, setCurrentBlog] = useState(-1);
+  const [currentBlog, setCurrentBlog] = useState({} as Blog);
   const {
     data: userData,
     isLoading,
@@ -68,11 +69,7 @@ const Dashboard = () => {
           Log out
         </button>
       </div>
-      <AddEditBlogModal
-        type="addBlog"
-        modalTitle="Create a blog"
-        currentBlog={currentBlog}
-      />
+      <AddEditBlogModal type="addBlog" modalTitle="Create a blog" />
       {areThereAnyBlogs ? (
         <div className="">
           <div className="flex flex-col items-center md:relative">
@@ -95,7 +92,7 @@ const Dashboard = () => {
             modalTitle="Edit a blog"
             currentBlog={currentBlog}
           />
-          <DeleteBlogModal currentBlog={currentBlog} />
+          <DeleteBlogModal currentBlogId={currentBlog._id} />
           <BlogList
             mode="dashboard"
             blogs={blogs}

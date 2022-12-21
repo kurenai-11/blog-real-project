@@ -14,10 +14,10 @@ import {
 } from "../shared/utils";
 
 type DeleteModalProps = {
-  currentBlog: number;
+  currentBlogId: number;
 };
 
-const DeleteBlogModal = ({ currentBlog }: DeleteModalProps) => {
+const DeleteBlogModal = ({ currentBlogId }: DeleteModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
@@ -27,7 +27,7 @@ const DeleteBlogModal = ({ currentBlog }: DeleteModalProps) => {
     const isSuccess = await deleteBlog({
       authKey,
       userId,
-      blogId: currentBlog,
+      blogId: currentBlogId,
     }).unwrap();
     if (isSuccess) {
       window.location.hash = "";

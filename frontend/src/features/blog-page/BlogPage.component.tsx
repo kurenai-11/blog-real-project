@@ -1,15 +1,14 @@
-import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useAppSelector } from "../../app/hooks";
-import { Blog } from "../../app/types";
-import CreatePostModal from "./CreatePostModal.component";
+import { Blog, Post } from "../../app/types";
+import CreateEditPostModal from "./CreatePostModal.component";
 import DeletePostModal from "./DeletePostModal.component";
 import BlogPost from "./BlogPost.component";
 import { useState } from "react";
 
 const BlogPage = ({ blog }: { blog: Blog }) => {
   const currentUserId = useAppSelector((state) => state.user._id);
-  const [currentPost, setCurrentPost] = useState(-1);
+  const [currentPost, setCurrentPost] = useState({} as Post);
   return (
     <div className="flex flex-col items-center mt-2 mb-3">
       <div className="text-3xl pb-3">
@@ -38,7 +37,7 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
             <AiOutlinePlus />
             Create a new post!
           </a>
-          <CreatePostModal currentBlog={blog._id} />
+          <CreateEditPostModal mode="createPost" currentBlog={blog._id} />
         </>
       )}
       {blog.posts.length === 0 ? (
@@ -50,7 +49,10 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
       ) : (
         <div className="flex flex-col gap-2 w-85%">
           {currentUserId === blog.authorId && (
-            <DeletePostModal currentPost={currentPost} />
+            <>
+              <DeletePostModal currentPost={currentPost._id} />
+              <CreateEditPostModal mode="editPost" post={currentPost} />
+            </>
           )}
           {blog.posts.map((post) => (
             <BlogPost

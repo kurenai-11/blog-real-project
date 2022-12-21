@@ -2,6 +2,7 @@ import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/build
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
+import { Blog } from "../../app/types";
 import { useCreateBlogMutation, useEditBlogMutation } from "../api/apiSlice";
 import ModalButton from "../shared/ModalButton.component";
 import ModalInput from "../shared/ModalInput.component";
@@ -14,14 +15,22 @@ import {
   modalTitleClasses,
 } from "../shared/utils";
 
-type ModalProps = {
-  modalTitle: string;
-  type: "addBlog" | "editBlog";
-  currentBlog: number;
-};
+type ModalProps =
+  | {
+      modalTitle: string;
+      type: "editBlog";
+      currentBlog: Blog;
+    }
+  | {
+      modalTitle: string;
+      type: "addBlog";
+    };
 
 // means Add OR Edit blog modal
-const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
+const AddEditBlogModal = (props: ModalProps) => {
+  const { modalTitle, type } = props;
+  let currentBlog: Blog = {} as Blog;
+  type === "editBlog" ? (currentBlog = props.currentBlog) : null;
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
@@ -64,7 +73,7 @@ const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
         description,
         authKey,
         userId,
-        blogId: currentBlog,
+        blogId: currentBlog._id,
       }).unwrap();
       if (response.status === "success") {
         window.location.hash = "";
@@ -84,11 +93,18 @@ const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
         <form className="w-full" onSubmit={submitHandler}>
           <div className="px-3 flex flex-col gap-2 justify-center items-center">
             <span className="text-xl font-bold">Title</span>
-            <ModalInput name="title" additionalClasses="text-center" />
+            <ModalInput
+              name="title"
+              additionalClasses="text-center"
+              defaultValue={type === "editBlog" ? currentBlog.title : ""}
+            />
           </div>
           <div className="px-3 flex flex-col gap-2 justify-center items-center">
             <span className="text-xl font-bold">Description</span>
-            <ModalTextArea name="description" />
+            <ModalTextArea
+              name="description"
+              defaultValue={type === "editBlog" ? currentBlog.description : ""}
+            />
           </div>
           <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
             <ModalButton
