@@ -101,6 +101,7 @@ type GetAuthenticatedUserDataRequest = {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000" }),
+  tagTypes: ["blogs", "posts", "user"],
   endpoints: (builder) => ({
     // Auth related
     // loginC == login by credentials
@@ -125,6 +126,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: createBlogData,
       }),
+      invalidatesTags: ["blogs"],
     }),
     editBlog: builder.mutation<EditBlogResponse, CreateEditBlogData>({
       query: (editBlogData) => ({
@@ -132,6 +134,7 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: { ...editBlogData },
       }),
+      invalidatesTags: ["blogs"],
     }),
     deleteBlog: builder.mutation<DeleteBlogResponse, DeleteBlogRequest>({
       query: (deleteBlogData) => ({
@@ -139,6 +142,7 @@ export const apiSlice = createApi({
         method: "DELETE",
         body: deleteBlogData,
       }),
+      invalidatesTags: ["blogs"],
     }),
     createPost: builder.mutation<CreatePostResponse, CreatePostRequest>({
       query: (createPostData) => ({
@@ -146,6 +150,7 @@ export const apiSlice = createApi({
         method: "PUT",
         body: createPostData,
       }),
+      invalidatesTags: ["posts"],
     }),
     // delete post
     deletePost: builder.mutation<DeletePostResponse, DeletePostRequest>({
@@ -154,6 +159,7 @@ export const apiSlice = createApi({
         method: "DELETE",
         body: deletePostData,
       }),
+      invalidatesTags: ["posts"],
     }),
     // edit post
     editPost: builder.mutation<EditPostResponse, EditPostRequest>({
@@ -162,6 +168,7 @@ export const apiSlice = createApi({
         method: "PATCH",
         body: editPostData,
       }),
+      invalidatesTags: ["posts"],
     }),
     getBlogDataByBlogId: builder.query<
       GetBlogDataResponse,
@@ -171,6 +178,7 @@ export const apiSlice = createApi({
         url: `blog/${blogId}`,
         method: "GET",
       }),
+      providesTags: ["posts"],
     }),
     // get blog list
     getBlogList: builder.query<GetBlogListResponse, GetBlogListRequest>({
@@ -179,6 +187,7 @@ export const apiSlice = createApi({
         method: "GET",
         params: getBlogListData,
       }),
+      providesTags: ["blogs"],
     }),
     // user related
     getAuthenticatedUserData: builder.query<
@@ -190,6 +199,7 @@ export const apiSlice = createApi({
         method: "POST",
         body: { authKey },
       }),
+      providesTags: ["blogs"],
     }),
     // unauthenticated version
     getUserData: builder.query<

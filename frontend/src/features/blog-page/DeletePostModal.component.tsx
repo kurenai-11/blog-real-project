@@ -12,13 +12,7 @@ import {
   modalTitleClasses,
 } from "../shared/utils";
 
-const DeletePostModal = ({
-  currentPost,
-  refetch,
-}: {
-  currentPost: number;
-  refetch: () => QueryActionCreatorResult<any>;
-}) => {
+const DeletePostModal = ({ currentPost }: { currentPost: number }) => {
   const userId = useAppSelector((state) => state.user._id);
   const authKey = useAuthKey();
   const [deletePost] = useDeletePostMutation();
@@ -30,7 +24,6 @@ const DeletePostModal = ({
       postId: currentPost,
     }).unwrap();
     if (result.status === "success") {
-      refetch();
       window.location.hash = "";
     } else {
       // this shouldn't happen

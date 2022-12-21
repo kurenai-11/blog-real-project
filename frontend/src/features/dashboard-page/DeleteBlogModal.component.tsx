@@ -15,10 +15,9 @@ import {
 
 type DeleteModalProps = {
   currentBlog: number;
-  refetch: () => QueryActionCreatorResult<any>;
 };
 
-const DeleteBlogModal = ({ currentBlog, refetch }: DeleteModalProps) => {
+const DeleteBlogModal = ({ currentBlog }: DeleteModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
@@ -31,7 +30,6 @@ const DeleteBlogModal = ({ currentBlog, refetch }: DeleteModalProps) => {
       blogId: currentBlog,
     }).unwrap();
     if (isSuccess) {
-      refetch();
       window.location.hash = "";
     } else {
       // this shouldn't happen...

@@ -25,7 +25,6 @@ const Dashboard = () => {
     isSuccess,
     isError,
     error,
-    refetch,
   } = useGetAuthenticatedUserDataQuery({
     userId,
     authKey: auth?.authKey,
@@ -73,7 +72,6 @@ const Dashboard = () => {
         type="addBlog"
         modalTitle="Create a blog"
         currentBlog={currentBlog}
-        refetch={refetch}
       />
       {areThereAnyBlogs ? (
         <div className="">
@@ -96,9 +94,8 @@ const Dashboard = () => {
             type="editBlog"
             modalTitle="Edit a blog"
             currentBlog={currentBlog}
-            refetch={refetch}
           />
-          <DeleteBlogModal currentBlog={currentBlog} refetch={refetch} />
+          <DeleteBlogModal currentBlog={currentBlog} />
           <BlogList
             mode="dashboard"
             blogs={blogs}

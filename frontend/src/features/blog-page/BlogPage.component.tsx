@@ -7,13 +7,7 @@ import DeletePostModal from "./DeletePostModal.component";
 import BlogPost from "./BlogPost.component";
 import { useState } from "react";
 
-const BlogPage = ({
-  blog,
-  refetch,
-}: {
-  blog: Blog;
-  refetch: () => QueryActionCreatorResult<any>;
-}) => {
+const BlogPage = ({ blog }: { blog: Blog }) => {
   const currentUserId = useAppSelector((state) => state.user._id);
   const [currentPost, setCurrentPost] = useState(-1);
   return (
@@ -44,7 +38,7 @@ const BlogPage = ({
             <AiOutlinePlus />
             Create a new post!
           </a>
-          <CreatePostModal refetch={refetch} currentBlog={blog._id} />
+          <CreatePostModal currentBlog={blog._id} />
         </>
       )}
       {blog.posts.length === 0 ? (
@@ -56,7 +50,7 @@ const BlogPage = ({
       ) : (
         <div className="flex flex-col gap-2 w-85%">
           {currentUserId === blog.authorId && (
-            <DeletePostModal refetch={refetch} currentPost={currentPost} />
+            <DeletePostModal currentPost={currentPost} />
           )}
           {blog.posts.map((post) => (
             <BlogPost

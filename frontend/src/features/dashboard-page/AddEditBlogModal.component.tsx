@@ -18,16 +18,10 @@ type ModalProps = {
   modalTitle: string;
   type: "addBlog" | "editBlog";
   currentBlog: number;
-  refetch: () => QueryActionCreatorResult<any>;
 };
 
 // means Add OR Edit blog modal
-const AddEditBlogModal = ({
-  modalTitle,
-  type,
-  currentBlog,
-  refetch,
-}: ModalProps) => {
+const AddEditBlogModal = ({ modalTitle, type, currentBlog }: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [createBlog, { isLoading: isCreating }] = useCreateBlogMutation();
@@ -62,9 +56,6 @@ const AddEditBlogModal = ({
         userId,
       }).unwrap();
       if (response.status === "success") {
-        // refetches our blog list in the dashboard, if the user decides
-        // to return there at a later point
-        refetch();
         navigate(`/blogs/${response.blogId}`);
       }
     } else {
@@ -76,7 +67,6 @@ const AddEditBlogModal = ({
         blogId: currentBlog,
       }).unwrap();
       if (response.status === "success") {
-        refetch();
         window.location.hash = "";
       } else {
         // this shouldn't happen...

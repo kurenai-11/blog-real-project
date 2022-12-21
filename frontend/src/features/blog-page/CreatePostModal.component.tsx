@@ -20,10 +20,9 @@ const ZCreatePostData = z.object({
 });
 type ModalProps = {
   currentBlog: number;
-  refetch: () => QueryActionCreatorResult<any>;
 };
 
-const CreatePostModal = ({ currentBlog, refetch }: ModalProps) => {
+const CreatePostModal = ({ currentBlog }: ModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [createPost, { isLoading }] = useCreatePostMutation();
@@ -44,7 +43,6 @@ const CreatePostModal = ({ currentBlog, refetch }: ModalProps) => {
       blogId: currentBlog,
     }).unwrap();
     if (response.status === "success") {
-      refetch();
       window.location.hash = "#";
     } else {
       console.log("Post could not be created", response.error);

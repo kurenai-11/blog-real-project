@@ -12,7 +12,6 @@ const BlogRoute = () => {
     isSuccess,
     isError,
     error,
-    refetch,
   } = useGetBlogDataByBlogIdQuery({ blogId: Number(blogId) });
   // complicated logic but it basically means:
   // if isLoading display loading element
@@ -27,7 +26,7 @@ const BlogRoute = () => {
   ) : isSuccess ? (
     blogData.status === "success" ? (
       <Root>
-        <BlogPage refetch={refetch} blog={blogData} />
+        <BlogPage blog={blogData} />
       </Root>
     ) : (
       <PageNotExist />
