@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite --host",
+    "start": "npm run build && live-server dist/",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

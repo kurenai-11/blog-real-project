@@ -38,7 +38,7 @@ const url = process.env.MONGO_URL;
 
 const start = async () => {
   try {
-    if (!url) throw new Error("DB_URL environment variable is not set.");
+    if (!url) throw new Error("MONGO_URL environment variable is not set.");
     if (!port) throw new Error("PORT is not set");
     await connectToDB(url);
     initializeCounters();
