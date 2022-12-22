@@ -33,12 +33,13 @@ app.use("/user", userRouter);
 app.use("/blog", blogRouter);
 app.use("/post", postRouter);
 
-const port = process.env.PORT || "5000";
+const port = process.env.PORT;
 const url = process.env.MONGO_URL;
 
 const start = async () => {
   try {
     if (!url) throw new Error("DB_URL environment variable is not set.");
+    if (!port) throw new Error("PORT is not set");
     await connectToDB(url);
     initializeCounters();
     app.listen(port, () => {
