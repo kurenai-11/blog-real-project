@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { connect as connectToDB } from "./db/db.js";
@@ -12,10 +11,6 @@ import { User } from "./models/user.model.js";
 import { Blog } from "./models/blog.model.js";
 import { Post } from "./models/post.model.js";
 import { Comment } from "./models/comment.model.js";
-
-dotenv.config({
-  path: ".env",
-});
 
 const app = express();
 
