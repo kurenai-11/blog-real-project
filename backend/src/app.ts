@@ -34,7 +34,7 @@ app.use("/blog", blogRouter);
 app.use("/post", postRouter);
 
 const port = process.env.APP_PORT || "5000";
-const url = process.env.DB_URL;
+const url = process.env.MONGO_URL;
 
 const start = async () => {
   try {
