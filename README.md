@@ -3,6 +3,9 @@
 A full stack project made with the MERN stack with the modern(?) approach.
 The concept is to create a web site that lets you create and manage multiple blogs at once.
 
+# Deployed example
+https://blog-real-project.up.railway.app/
+
 # Starting in development mode
 
 0. Install mongodb on your system. Make sure the command `mongod` works.
