@@ -36,7 +36,8 @@ app.use("/post", postRouter);
 const port = process.env.PORT;
 const url = process.env.MONGO_URL;
 
-const start = async () => {
+// using iife to be fancy and start the server
+(async () => {
   try {
     if (!url) throw new Error("MONGO_URL environment variable is not set.");
     if (!port) throw new Error("PORT is not set");
@@ -52,6 +53,4 @@ const start = async () => {
       console.error("Server error: ", error);
     }
   }
-};
-
-start();
+})();
