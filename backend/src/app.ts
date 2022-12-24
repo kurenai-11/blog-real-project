@@ -41,7 +41,8 @@ app.use("/post", postRouter);
 const port = process.env.APP_PORT || "5000";
 const url = process.env.DB_URL;
 
-const start = async () => {
+// using iife to be fancy and start the server
+(async () => {
   try {
     if (!url) throw new Error("DB_URL environment variable is not set.");
     await connectToDB(url);
@@ -56,6 +57,4 @@ const start = async () => {
       console.error("Server error: ", error);
     }
   }
-};
-
-start();
+})();
