@@ -101,7 +101,7 @@ type GetAuthenticatedUserDataRequest = {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://blog-real-project-backend.up.railway.app",
+    baseUrl: "http://localhost:5000",
   }),
   tagTypes: ["blogs", "posts", "user"],
   endpoints: (builder) => ({

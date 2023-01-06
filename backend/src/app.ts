@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 import { connect as connectToDB } from "./db/db.js";
 import userRouter from "./routes/user.route.js";
 import blogRouter from "./routes/blog.route.js";
@@ -11,6 +12,8 @@ import { User } from "./models/user.model.js";
 import { Blog } from "./models/blog.model.js";
 import { Post } from "./models/post.model.js";
 import { Comment } from "./models/comment.model.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -33,7 +36,7 @@ app.use("/user", userRouter);
 app.use("/blog", blogRouter);
 app.use("/post", postRouter);
 
-const port = process.env.PORT;
+const port = process.env.PORT || 5000;
 const url = process.env.MONGO_URL;
 
 // using iife to be fancy and start the server
