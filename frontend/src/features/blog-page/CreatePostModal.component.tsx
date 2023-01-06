@@ -53,6 +53,8 @@ const CreateEditPostModal = (props: ModalProps) => {
       }).unwrap();
       if (response.status === "success") {
         window.location.hash = "#";
+        setTitle("");
+        setContent("");
       } else {
         console.log("Post could not be created", response.error);
       }

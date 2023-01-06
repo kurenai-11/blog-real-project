@@ -1,4 +1,3 @@
-import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import { connect as connectToDB } from "./db/db.js";
@@ -12,10 +11,6 @@ import { User } from "./models/user.model.js";
 import { Blog } from "./models/blog.model.js";
 import { Post } from "./models/post.model.js";
 import { Comment } from "./models/comment.model.js";
-
-dotenv.config({
-  path: ".env",
-});
 
 const app = express();
 
@@ -38,13 +33,14 @@ app.use("/user", userRouter);
 app.use("/blog", blogRouter);
 app.use("/post", postRouter);
 
-const port = process.env.APP_PORT || "5000";
-const url = process.env.DB_URL;
+const port = process.env.PORT;
+const url = process.env.MONGO_URL;
 
 // using iife to be fancy and start the server
 (async () => {
   try {
-    if (!url) throw new Error("DB_URL environment variable is not set.");
+    if (!url) throw new Error("MONGO_URL environment variable is not set.");
+    if (!port) throw new Error("PORT is not set");
     await connectToDB(url);
     initializeCounters();
     app.listen(port, () => {

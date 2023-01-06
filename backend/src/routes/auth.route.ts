@@ -8,6 +8,7 @@ import { User } from "../models/user.model.js";
 import { AuthCodes } from "../controllers/auth.controller.js";
 import { z } from "zod";
 const router = express.Router();
+import crypto from "crypto";
 
 // Auth data we should receive in a request
 // When we will be logging in without an auth key

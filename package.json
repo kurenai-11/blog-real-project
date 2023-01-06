@@ -9,7 +9,11 @@
     "deps-backend": "npm --prefix backend/ install",
     "deps-frontend": "npm --prefix frontend/ install",
     "dev-backend": "npm --prefix backend/ run dev",
-    "dev-frontend": "npm --prefix frontend/ run dev"
+    "dev-frontend": "npm --prefix frontend/ run dev",
+    "build-backend": "npm --prefix backend/ run build",
+    "start-backend": "npm --prefix backend/ run start",
+    "start-frontend": "npm --prefix frontend/ run start",
+    "start": "npm run install-deps && npm run build-backend && (concurrently npm:start-backend npm:start-frontend)"
   },
   "keywords": [],
   "author": "kurenai-11",
