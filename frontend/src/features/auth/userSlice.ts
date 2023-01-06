@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 import { GetUserDataResponse } from "../api/apiSlice";
 import { User } from "../../app/types";
 
@@ -32,11 +31,11 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     storeLogin: (state, action: PayloadAction<AuthData>) => {
-      Cookies.set("user", JSON.stringify({ ...action.payload }));
+      localStorage.setItem("user", JSON.stringify(action.payload));
       return { ...state, ...action.payload };
     },
     logout: () => {
-      Cookies.remove("user");
+      localStorage.removeItem("user");
       return initialState;
     },
     storeUserData: (state, action: PayloadAction<GetUserDataResponse>) => {
