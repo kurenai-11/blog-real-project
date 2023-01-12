@@ -3,6 +3,11 @@
 A full stack project made with the MERN stack with the modern(?) approach.
 The concept is to create a web site that lets you create and manage multiple blogs at once.
 
+# Todos
+1. Fix the authentication to sessions or jwt.
+2. Make individual users profile page(like the dashboard but for all users).
+
+
 # Deployed example
 https://blog-real-project.up.railway.app/
 
