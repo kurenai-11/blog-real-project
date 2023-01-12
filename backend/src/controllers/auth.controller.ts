@@ -2,7 +2,7 @@ import { IUser, User } from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { Response } from "express";
-import { errorResponse } from "../routes/auth.route.js";
+import { authErrorResponse } from "../routes/auth.route.js";
 import { FoundDocumentType } from "../db/db.js";
 import { findCount, incrementCounter } from "../db/counter.js";
 
@@ -35,7 +35,7 @@ export const checkAuthKey = (
   const isValidKeyDate =
     foundUser.auth.validUntil.getTime() > dateNow.getTime();
   if (!isValidKey) {
-    errorResponse(
+    authErrorResponse(
       "auth key is not valid, relogin",
       AuthCodes.LOGIN_AUTH_KEY_FAIL,
       res
@@ -43,7 +43,7 @@ export const checkAuthKey = (
     return false;
   }
   if (!isValidKeyDate) {
-    errorResponse(
+    authErrorResponse(
       "auth key has expired, relogin",
       AuthCodes.LOGIN_AUTH_KEY_EXPIRED,
       res
