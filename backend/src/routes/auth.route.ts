@@ -42,12 +42,12 @@ const AuthActions = {
 } as const;
 type AuthAction = keyof typeof AuthActions;
 
-export const errorResponse = (
+export const authErrorResponse = (
   errorText: string,
   code: AuthCodes,
   res: Response
 ) => {
-  res.status(200).send({
+  res.status(401).send({
     status: "fail",
     error: errorText,
     code,
@@ -80,7 +80,7 @@ router.post("/", async (req, res) => {
   const authAction = action.safeParse(rawUserData);
   // check if action is valid
   if (!authAction.success) {
-    errorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
+    authErrorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
     return;
   }
   // authAction is now guaranteed to be one of three values
@@ -88,7 +88,7 @@ router.post("/", async (req, res) => {
   if (authAction.data.action === AuthActions.login_authkey) {
     const parsedData = ZLoginData.safeParse(rawUserData);
     if (!parsedData.success) {
-      errorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
+      authErrorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
       return;
     }
     const authByAuthKeyData = parsedData.data;
@@ -96,7 +96,7 @@ router.post("/", async (req, res) => {
       username: authByAuthKeyData.username,
     });
     if (!foundUser) {
-      errorResponse("user does not exist", AuthCodes.LOGIN_WRONG, res);
+      authErrorResponse("user does not exist", AuthCodes.LOGIN_WRONG, res);
       return;
     }
     const check = checkAuthKey(authByAuthKeyData.auth.authKey, foundUser, res);
@@ -122,7 +122,7 @@ router.post("/", async (req, res) => {
     // login without an auth key (by login and password)
     const parsedData = ZLoginDataN.safeParse(rawUserData);
     if (!parsedData.success) {
-      errorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
+      authErrorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
       return;
     }
     const authWithoutAuthKeyData = parsedData.data;
@@ -130,7 +130,7 @@ router.post("/", async (req, res) => {
       username: authWithoutAuthKeyData.username,
     });
     if (!foundUser) {
-      errorResponse("wrong login or password", AuthCodes.LOGIN_WRONG, res);
+      authErrorResponse("wrong login or password", AuthCodes.LOGIN_WRONG, res);
       return;
     }
     const result = await checkPassword(
@@ -138,7 +138,7 @@ router.post("/", async (req, res) => {
       foundUser
     );
     if (!result) {
-      errorResponse("wrong login or password", AuthCodes.LOGIN_WRONG, res);
+      authErrorResponse("wrong login or password", AuthCodes.LOGIN_WRONG, res);
       return;
     }
     // login successful = create new authKey and return it with valid date
@@ -165,13 +165,13 @@ router.post("/", async (req, res) => {
     // signup
     const parsedData = ZSignUpData.safeParse(rawUserData);
     if (!parsedData.success) {
-      errorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
+      authErrorResponse("request is invalid", AuthCodes.SERVER_WRONG_DATA, res);
       return;
     }
     const authSignupData = parsedData.data;
     const foundUser = await User.findOne({ username: authSignupData.username });
     if (foundUser) {
-      errorResponse(
+      authErrorResponse(
         "user already exists",
         AuthCodes.SIGNUP_ACCOUNT_EXISTS,
         res
