@@ -46,8 +46,7 @@ const LoginForm = () => {
     // this is a very ugly way to deal with it, but it will do for the time being
     const authData = await loginByCredentials(loginData.data);
     if ((authData as { data: AuthDataResponse }).data) {
-      const successfulAuthData = (authData as { data: AuthDataResponse })
-        .data as AuthDataResponse;
+      const successfulAuthData = (authData as { data: AuthDataResponse }).data;
       dispatch(
         storeLogin({
           ...successfulAuthData,
