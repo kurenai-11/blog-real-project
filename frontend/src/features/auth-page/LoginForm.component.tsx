@@ -7,6 +7,7 @@ import {
   formInfoClasses,
   formClasses,
   AuthCodes,
+  AuthDataResponse,
 } from "./shared";
 import { useAppDispatch, useAuthenticated } from "../../app/hooks";
 import { storeLogin } from "../auth/userSlice";
@@ -15,6 +16,8 @@ import { useState } from "react";
 import { ZLoginForm } from "../auth/zod";
 import { useLoginCMutation } from "../api/apiSlice";
 import { twMerge } from "tailwind-merge";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
@@ -40,13 +43,25 @@ const LoginForm = () => {
       // don't bother to submit the form if the data is incorrect
       return;
     }
-    const authData = await loginByCredentials(loginData.data).unwrap();
-    if (authData.code === AuthCodes.SUCCESSFUL_LOGIN_NOAUTHKEY) {
-      dispatch(storeLogin({ ...authData, authenticated: true }));
+    // this is a very ugly way to deal with it, but it will do for the time being
+    const authData = await loginByCredentials(loginData.data);
+    if ((authData as { data: AuthDataResponse }).data) {
+      const successfulAuthData = (authData as { data: AuthDataResponse })
+        .data as AuthDataResponse;
+      dispatch(
+        storeLogin({
+          ...successfulAuthData,
+          authenticated: true,
+        })
+      );
       navigate("/dashboard");
     } else {
+      const failedAuthData = (
+        (authData as { error: FetchBaseQueryError | SerializedError })
+          .error as FetchBaseQueryError
+      ).data as Partial<AuthDataResponse>;
       // display that the login is unsuccessful and why
-      if (authData.code === AuthCodes.LOGIN_WRONG) {
+      if (failedAuthData.code === AuthCodes.LOGIN_WRONG) {
         setLoginCode(1);
         setInputStatus(0);
       } else {
