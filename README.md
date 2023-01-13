@@ -15,7 +15,7 @@ https://blog-real-project.up.railway.app/
 
 # About this repo...
 
-I tried a lot of stuff and experimented a lot with this repo's git, so don't take this repo too seriously.
+I tried a lot of stuff and experimented a lot with this repo's git, so don't take this repo too seriously. I will rather start a new one knowing best practices now then painfully fix it at this point.
 
 # Starting in development mode
 
