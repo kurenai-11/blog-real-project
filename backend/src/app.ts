@@ -28,7 +28,7 @@ Post;
 Comment;
 
 // Routes
-app.get("/", (req, res) => {
+app.get("/", (_, res) => {
   res.send("yes the server is working");
 });
 app.use("/auth", authRouter);

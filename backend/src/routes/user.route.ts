@@ -21,7 +21,6 @@ router.get("/", (req, res) => {
 // return: user data, list of blogs, list of posts,
 // and list of comments of that user
 router.get("/:id", (req, res) => {
-  console.log("req :>> ", req.params);
   res.status(200).send({ user: 0, status: "success" });
 });
 
