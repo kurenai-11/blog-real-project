@@ -13,6 +13,10 @@ https://blog-real-project.up.railway.app/
 2. Make individual users profile page(like the dashboard but for all users).
 3. Make users be able to comment and like on the posts.
 
+# About this repo...
+
+I tried a lot of stuff and experimented a lot with this repo's git, so don't take this repo too seriously.
+
 # Starting in development mode
 
 0. Install mongodb on your system. Make sure the command `mongod` works.
