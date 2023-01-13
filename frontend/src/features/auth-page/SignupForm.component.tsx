@@ -18,7 +18,6 @@ import { twMerge } from "tailwind-merge";
 
 const SignupForm = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -55,7 +54,6 @@ const SignupForm = () => {
     const authData = await signup(signupData.data).unwrap();
     if (authData.code === AuthCodes.SUCCESSFUL_SIGNUP) {
       dispatch(storeLogin({ ...authData, authenticated: true }));
-      navigate("/dashboard");
     } else {
       // display that the signup is unsuccessful and why
       if (authData.code === AuthCodes.SIGNUP_ACCOUNT_EXISTS) {

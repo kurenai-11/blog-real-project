@@ -21,7 +21,6 @@ import { SerializedError } from "@reduxjs/toolkit";
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   // 0 - not yet attempted login
   // 1 - incorrect login or password
   // 2 - request error(no internet or stuff)
@@ -53,7 +52,6 @@ const LoginForm = () => {
           authenticated: true,
         })
       );
-      navigate("/dashboard");
     } else {
       const failedAuthData = (
         (authData as { error: FetchBaseQueryError | SerializedError })

@@ -18,7 +18,7 @@ const AuthPageRoute = ({
     if (isLoggedIn) {
       navigate("/dashboard");
     }
-  }, []);
+  }, [isLoggedIn]);
   return loginPage ? <AuthPage page="login" /> : <AuthPage page="signup" />;
 };
 
