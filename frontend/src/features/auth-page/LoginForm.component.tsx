@@ -40,6 +40,7 @@ const LoginForm = () => {
     const loginData = ZLoginForm.safeParse({ username, password });
     if (!loginData.success) {
       // don't bother to submit the form if the data is incorrect
+      setLoginCode(1);
       return;
     }
     // this is a very ugly way to deal with it, but it will do for the time being
