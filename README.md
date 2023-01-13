@@ -9,7 +9,7 @@ https://blog-real-project.up.railway.app/
 
 # Todos
 
-1. Fix the authentication to sessions or jwt.
+1. Fix the authentication to more secure sessions or jwt.
 2. Make individual users profile page(like the dashboard but for all users).
 3. Make users be able to comment and like on the posts.
 
