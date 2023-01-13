@@ -21,13 +21,15 @@ const BlogsRoute = () => {
         <h1 className="text-4xl font-extrabold text-white tracking-tight">
           Blogs
         </h1>
-        {areThereBlogs && (
+        {areThereBlogs ? (
           <div className="w-full my-2">
             <p className="text-center text-lg text-zinc-500">
               Here are {data!.blogs.length} recently created blogs:
             </p>
             <BlogList mode="list" blogs={data!.blogs} />
           </div>
+        ) : (
+          <div>Loading...</div>
         )}
       </div>
       <Footer />
