@@ -13,12 +13,16 @@
     "build-backend": "npm --prefix backend/ run build",
     "start-backend": "npm --prefix backend/ run start",
     "start-frontend": "npm --prefix frontend/ run start",
-    "start": "npm run install-deps && npm run build-backend && (concurrently npm:start-backend npm:start-frontend)"
+    "start": "npm run install-deps && npm run build-backend && (concurrently npm:start-backend npm:start-frontend)",
+    "test": "vitest --run",
+    "test-dev": "vitest"
   },
   "keywords": [],
   "author": "kurenai-11",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^7.6.0"
+    "concurrently": "^7.6.0",
+    "supertest": "^6.3.3",
+    "vitest": "^0.27.1"
   }
 }
