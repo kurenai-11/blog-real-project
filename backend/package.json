@@ -9,7 +9,7 @@
     "start": "node dist/app.js",
     "preview": "npm run build && concurrently npm:mongod npm:node",
     "build": "rm -rf dist/ && mkdir dist/ && swc ./src -d dist/ -s false --ignore **/*.test.js",
-    "watch-ts": "swc src/ -d dist/ -q -s true -w --ignore **/*.test.js",
+    "watch-ts": "swc src/ --ignore **/*.test.ts -d dist/ -q -s true -w",
     "mongod": "mongod > /dev/null",
     "nodemon": "nodemon -q -w dist/ .",
     "node": "node ."
