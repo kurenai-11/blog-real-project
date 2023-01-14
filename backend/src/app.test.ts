@@ -12,7 +12,7 @@ describe("app", () => {
   afterAll(() => {
     mongoose.disconnect();
   });
-  it("should have MONGO_URL environment variable", async () => {
+  it("should have MONGO_URL environment variable defined", () => {
     expect(process.env.MONGO_URL).toBeDefined();
   });
   it("should properly start http server", async () => {
