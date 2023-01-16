@@ -24,4 +24,13 @@ describe("app", () => {
   it("should properly connect to the database.", async () => {
     await expect(connectToDB(process.env.MONGO_URL!)).resolves.toBeDefined();
   });
+  describe("routes", () => {
+    describe.todo("blog route");
+    describe.todo("post route");
+    describe.todo("user route");
+  });
+  describe("controllers", () => {
+    describe.todo("auth controller");
+    describe.todo("blog controller");
+  });
 });
