@@ -20,6 +20,7 @@ router.get("/", (_, res) => {
 // Getting user data
 // return: user data, list of blogs, list of posts,
 // and list of comments of that user
+// ## not implemented yet
 router.get("/:id", (_, res) => {
   res.status(200).send({ user: 0, status: "success" });
 });
@@ -60,12 +61,14 @@ router.post("/:userId", async (req, res) => {
 
 // Updating user data
 // changing username, avatar etc
+// ## not implemented yet
 router.patch("/:id", (_, res) => {
   res.status(200).send("todo");
 });
 
 // Deleting a user
 // authenticating with a password AND an auth key for double protection
+// ## nott implemented yet
 router.delete("/:id", (_, res) => {
   res.status(200).send("todo");
 });
