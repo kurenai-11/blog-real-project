@@ -11,14 +11,14 @@ const Navbar = () => {
   const isAuthenticated = useAuthenticated();
   const dispatch = useAppDispatch();
   return (
-    <div className="flex justify-between h-14 mb-2 font-sans">
+    <div className="flex flex-col sm:flex-row justify-between mb-2 font-sans gap-2">
       <NavLink
         to="/"
         className="flex cursor-pointer decoration-none justify-center items-center px-4 bg-amber-4 hover:( bg-green-4 text-zinc-9 ) rounded-b-md transition-all duration-200 text-coolgray-8 font-mono text-2xl"
       >
         XBlog
       </NavLink>
-      <ul className="flex">
+      <ul className="flex flex-col sm:flex-row items-center gap-2">
         {isAuthenticated ? (
           <div className="flex justify-center items-center text-xl text-fuchsia-5 gap-1 mx-2 cursor-default">
             Logged in as{" "}
