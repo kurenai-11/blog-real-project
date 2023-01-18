@@ -1,4 +1,4 @@
-import Hero from "./hero/Hero.component";
+import Hero from "./Hero.component";
 
 const MainPage = () => {
   return (
