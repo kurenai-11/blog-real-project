@@ -11,7 +11,7 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
   const [currentPost, setCurrentPost] = useState({} as Post);
   return (
     <div className="flex flex-col items-center mt-2 mb-3">
-      <div className="text-3xl pb-3">
+      <div className="text-3xl pb-3 text-center">
         <span className="text-blue-6 font-bold">{blog.title}</span> by{" "}
         <span className="text-red-6 font-mono">{blog.authorName}</span>
       </div>

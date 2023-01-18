@@ -21,7 +21,7 @@ const BlogList = (props: BlogListProps | BlogDashboardProps) => {
     "decoration-none mx-2 text-white text-lg bg-zinc-6 rounded-lg px-4 py-2 hover:text-zinc-3 transition-all";
   const currentUserId = useAppSelector((state) => state.user._id);
   return (
-    <div className="h-full pb-4 rounded-lg bg-zinc-9 opacity-80">
+    <div className="h-full pb-4 rounded-lg bg-zinc-9 opacity-80 mb-2">
       {blogs.map((blog, index) => {
         const {
           title,
