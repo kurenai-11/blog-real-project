@@ -77,7 +77,7 @@ describe("app", () => {
             userId: FAKE_USER_ID,
             blogId: createdBlogId,
           });
-          expect(response.statusCode).toBe(200);
+          expect(response.statusCode).toEqual(200);
         });
       });
     });
