@@ -56,7 +56,7 @@ describe("app", () => {
           const response = await request(app).post("/blog").send({
             title: "a test blog",
             description: "a test blog description",
-            userId: 0,
+            userId: FAKE_USER_ID,
             authKey: "hey hey",
           });
           expect(response.statusCode).toEqual(401);
