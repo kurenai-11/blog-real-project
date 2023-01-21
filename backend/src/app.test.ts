@@ -72,6 +72,7 @@ describe("app", () => {
           expect(response.statusCode).toEqual(200);
         });
         afterAll(async () => {
+          // cleanup
           const response = await request(app).delete("/blog/").send({
             authKey: "eb1f4c78-359c-4eb9-a3ed-65b4cfbe6ac6",
             userId: FAKE_USER_ID,
