@@ -74,7 +74,7 @@ describe("app", () => {
         afterAll(async () => {
           // cleanup
           const response = await request(app).delete("/blog/").send({
-            authKey: "eb1f4c78-359c-4eb9-a3ed-65b4cfbe6ac6",
+            authKey: FAKE_USER_AUTHKEY,
             userId: FAKE_USER_ID,
             blogId: createdBlogId,
           });
