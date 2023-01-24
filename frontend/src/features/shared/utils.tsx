@@ -1,6 +1,3 @@
-import React from "react";
-import { twMerge } from "tailwind-merge";
-
 // tailwind classes for shared components
 // z--1 - below everything z-0 main content of the page
 // z-1 above main content of the page
@@ -12,39 +9,3 @@ export const closeButtonClasses =
   "absolute left-[calc(100%-3rem)] w-12 h-12 text-4xl decoration-none flex justify-center items-center text-amber-3 outline-none border-none bg-red-5 rounded-xl cursor-pointer";
 export const modalTitleClasses =
   "bg-zinc-8 w-full h-12 py-3 text-center rounded-xl mb-4";
-
-//
-// Styled tailwind component implementation
-//
-
-type CreateProps<T extends keyof JSX.IntrinsicElements> = {
-  elementType: T;
-  reactProps: JSX.IntrinsicElements[T];
-  baseClasses: string;
-  additionalClasses?: string;
-  children?: React.ReactNode;
-};
-
-export const createTailwindComponent = <T extends keyof JSX.IntrinsicElements>({
-  elementType,
-  reactProps,
-  baseClasses,
-  additionalClasses,
-  children,
-}: CreateProps<T>) => {
-  const Element = React.createElement(
-    elementType,
-    {
-      ...reactProps,
-      className: twMerge(baseClasses, additionalClasses),
-    },
-    children
-  );
-  return Element;
-};
-
-export type ImplementedElementProps<T extends keyof JSX.IntrinsicElements> =
-  JSX.IntrinsicElements[T] & {
-    children?: React.ReactNode;
-    additionalClasses?: string;
-  };
