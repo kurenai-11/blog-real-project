@@ -22,12 +22,8 @@ export const element = <T extends keyof JSX.IntrinsicElements>(
   const additionalClasses = props.additionalClasses;
   delete props.additionalClasses;
   delete props.element;
-  return createElement(
-    element,
-    {
-      ...props,
-      className: twMerge(baseClasses, additionalClasses),
-    },
-    elementProps.children
-  );
+  return createElement(element, {
+    ...props,
+    className: twMerge(baseClasses, additionalClasses),
+  });
 };
