@@ -5,7 +5,7 @@ import Loading from "../features/shared/Loading.component";
 import Navbar from "../features/shared/Navbar.component";
 
 const BlogsRoute = () => {
-  const { data, isLoading, isSuccess } = useGetBlogListQuery({
+  const { data } = useGetBlogListQuery({
     blogLimit: 5,
     postLimit: 1,
   });

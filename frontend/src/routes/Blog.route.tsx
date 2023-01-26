@@ -11,8 +11,6 @@ const BlogRoute = () => {
     data: blogData,
     isLoading,
     isSuccess,
-    isError,
-    error,
   } = useGetBlogDataByBlogIdQuery({ blogId: Number(blogId) });
   // complicated logic but it basically means:
   // if isLoading display loading element
