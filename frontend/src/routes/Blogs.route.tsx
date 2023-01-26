@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { useGetBlogListQuery } from "../features/api/apiSlice";
 import BlogList from "../features/blog-list/BlogList.component";
 import Footer from "../features/shared/Footer.component";
+import Loading from "../features/shared/Loading.component";
 import Navbar from "../features/shared/Navbar.component";
 
 const BlogsRoute = () => {
@@ -29,7 +29,7 @@ const BlogsRoute = () => {
             <BlogList mode="list" blogs={data!.blogs} />
           </div>
         ) : (
-          <div>Loading...</div>
+          <Loading />
         )}
       </div>
       <Footer />

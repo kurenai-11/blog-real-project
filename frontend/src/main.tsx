@@ -14,6 +14,7 @@ import Ghost from "./features/shared/Ghost.component";
 import "./main.css";
 import PageNotExist from "./routes/404.route";
 import Root from "./features/shared/Root.component";
+import Loading from "./features/shared/Loading.component";
 
 const router = createBrowserRouter([
   {
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
         path: "/",
         element: (
           <Root>
-            <Suspense>
+            <Suspense fallback={<Loading />}>
               <MainPage />
             </Suspense>
           </Root>
@@ -34,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: "/auth",
         element: (
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <AuthPageRoute />
           </Suspense>
         ),
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: (
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <DashboardRoute />
           </Suspense>
         ),
@@ -50,7 +51,7 @@ const router = createBrowserRouter([
       {
         path: "/blogs",
         element: (
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <BlogsRoute />
           </Suspense>
         ),
@@ -58,7 +59,7 @@ const router = createBrowserRouter([
       {
         path: "/blogs/:blogId",
         element: (
-          <Suspense>
+          <Suspense fallback={<Loading />}>
             <BlogRoute />
           </Suspense>
         ),

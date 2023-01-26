@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useGetBlogDataByBlogIdQuery } from "../features/api/apiSlice";
 import BlogPage from "../features/blog-page/BlogPage.component";
+import Loading from "../features/shared/Loading.component";
 import Root from "../features/shared/Root.component";
 import PageNotExist from "./404.route";
 
@@ -20,9 +21,7 @@ const BlogRoute = () => {
   // blogData.status === "success", if it is not,
   // than the id in the url was not valid in the first place (manual user input etc)
   return isLoading ? (
-    <div className="text-4xl text-zinc-2 h-screen w-screen flex justify-center items-center">
-      Loading...
-    </div>
+    <Loading />
   ) : isSuccess ? (
     blogData.status === "success" ? (
       <Root>
