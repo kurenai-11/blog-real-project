@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import BlogList from "../blog-list/BlogList.component";
 import DeleteBlogModal from "./DeleteBlogModal.component";
 import { Blog } from "../../app/types";
+import Loading from "../shared/Loading.component";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
@@ -24,8 +25,6 @@ const Dashboard = () => {
     data: userData,
     isLoading,
     isSuccess,
-    isError,
-    error,
   } = useGetAuthenticatedUserDataQuery({
     userId,
     authKey: auth?.authKey,
@@ -99,6 +98,8 @@ const Dashboard = () => {
             setCurrentBlog={setCurrentBlog}
           />
         </div>
+      ) : isLoading ? (
+        <Loading />
       ) : (
         <div className="my-4 text-lg flex flex-col justify-center items-center">
           <div className="font-bold text-blueGray-5 mb-1">
