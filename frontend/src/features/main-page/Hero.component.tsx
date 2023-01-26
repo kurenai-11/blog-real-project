@@ -5,7 +5,7 @@ import { useAuthenticated } from "../../app/hooks";
 const Hero = () => {
   const isAuthenticated = useAuthenticated();
   const linkClasses =
-    "decoration-none bg-emerald-8 bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
+    "decoration-none bg-emerald-8 w-52 text-center bg-opacity-90 rounded font-semibold px-4 py-2 color-zinc-2 text-lg relative";
   const imgUrl =
     "https://images.unsplash.com/photo-1600952912114-7e2aecc0f64f?ixlib=rb-4.0.3&dl=decry-yae-1B_Ssfyhocg-unsplash.jpg&w=1920&q=80&fm=jpg&crop=entropy&cs=tinysrgb";
   return (
@@ -22,7 +22,7 @@ const Hero = () => {
         once. One blog for your work, one blog for your hobby... and even one
         for your dog if you so choose!
       </div>
-      <div className="mt-4 space-x-4 flex flex-col sm:flex-row justify-center items-center gap-2 mb-2 sm:mb-0">
+      <div className="mt-4 flex flex-col sm:flex-row justify-center items-center gap-3 mb-2 sm:mb-0">
         <Link to="/blogs" className={linkClasses}>
           See all public blogs
         </Link>
