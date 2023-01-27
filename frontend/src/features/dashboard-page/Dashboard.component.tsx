@@ -38,12 +38,7 @@ const Dashboard = () => {
   const linkClasses =
     "text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none";
   return (
-    <div
-      className={twMerge(
-        "bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans"
-      )}
-    >
-      <Navbar />
+    <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans">
       <div className="flex flex-col items-center pt-8">
         <div className="text-4xl pb-4 font-bold">Dashboard</div>
         <div className="flex justify-center items-center rounded-full border border-zinc-2 w-28 h-28 bg-zinc-6 mb-2">
@@ -111,7 +106,6 @@ const Dashboard = () => {
           </a>
         </div>
       )}
-      <Footer />
     </div>
   );
 };

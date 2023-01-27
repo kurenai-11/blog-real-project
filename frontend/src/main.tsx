@@ -43,25 +43,31 @@ const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: (
-          <Suspense fallback={<Loading />}>
-            <DashboardRoute />
-          </Suspense>
+          <Root>
+            <Suspense fallback={<Loading />}>
+              <DashboardRoute />
+            </Suspense>
+          </Root>
         ),
       },
       {
         path: "/blogs",
         element: (
-          <Suspense fallback={<Loading />}>
-            <BlogsRoute />
-          </Suspense>
+          <Root>
+            <Suspense fallback={<Loading />}>
+              <BlogsRoute />
+            </Suspense>
+          </Root>
         ),
       },
       {
         path: "/blogs/:blogId",
         element: (
-          <Suspense fallback={<Loading />}>
-            <BlogRoute />
-          </Suspense>
+          <Root>
+            <Suspense fallback={<Loading />}>
+              <BlogRoute />
+            </Suspense>
+          </Root>
         ),
       },
     ],

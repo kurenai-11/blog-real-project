@@ -22,9 +22,7 @@ const BlogRoute = () => {
     <Loading />
   ) : isSuccess ? (
     blogData.status === "success" ? (
-      <Root>
-        <BlogPage blog={blogData} />
-      </Root>
+      <BlogPage blog={blogData} />
     ) : (
       <PageNotExist />
     )

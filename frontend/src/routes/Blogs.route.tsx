@@ -16,7 +16,6 @@ const BlogsRoute = () => {
     : false;
   return (
     <div className="bg-zinc-8">
-      <Navbar />
       <div className="flex flex-col items-center text-zinc-2 text-xl">
         <h1 className="text-4xl font-extrabold text-white tracking-tight">
           Blogs
@@ -32,7 +31,6 @@ const BlogsRoute = () => {
           <Loading />
         )}
       </div>
-      <Footer />
     </div>
   );
 };
