@@ -1,7 +1,5 @@
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout, storeUserData } from "../auth/userSlice";
-import Footer from "../shared/Footer.component";
-import Navbar from "../shared/Navbar.component";
 import { AiOutlinePlus } from "react-icons/ai";
 import AddEditBlogModal from "./AddEditBlogModal.component";
 import { twMerge } from "tailwind-merge";

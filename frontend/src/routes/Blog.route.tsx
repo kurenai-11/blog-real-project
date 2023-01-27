@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import { useGetBlogDataByBlogIdQuery } from "../features/api/apiSlice";
 import BlogPage from "../features/blog-page/BlogPage.component";
 import Loading from "../features/shared/Loading.component";
-import Root from "../features/shared/Root.component";
 import PageNotExist from "./404.route";
 
 const BlogRoute = () => {

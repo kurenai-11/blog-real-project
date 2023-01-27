@@ -1,8 +1,6 @@
 import { useGetBlogListQuery } from "../features/api/apiSlice";
 import BlogList from "../features/blog-list/BlogList.component";
-import Footer from "../features/shared/Footer.component";
 import Loading from "../features/shared/Loading.component";
-import Navbar from "../features/shared/Navbar.component";
 
 const BlogsRoute = () => {
   const { data } = useGetBlogListQuery({
