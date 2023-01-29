@@ -20,9 +20,17 @@ router.get("/", (_, res) => {
 // Getting user data
 // return: user data, list of blogs, list of posts,
 // and list of comments of that user
-// ## not implemented yet
-router.get("/:id", (_, res) => {
-  res.status(200).send({ user: 0, status: "success" });
+router.get("/:userId", async (req, res) => {
+  const userRequest = ZUserRequest.safeParse(req.params);
+  if (!userRequest.success) return genericInvalidRequest(res);
+  const foundUser = await User.findOne(
+    {
+      _id: userRequest.data.userId,
+    },
+    { password: 0, auth: 0 }
+  ).populate("blogs");
+  if (!foundUser) return genericInvalidRequest(res);
+  res.status(200).send({ user: foundUser.toJSON(), status: "success" });
 });
 
 // same as above, but for the authorized user who has authKey
@@ -50,12 +58,10 @@ router.post("/:userId", async (req, res) => {
   const user = await User.findOne(
     { _id: userRequest.data.userId },
     { password: 0, auth: 0 }
-  )
-    .populate("blogs")
-    .exec();
+  ).populate("blogs");
   res.status(200).send({
     status: "success",
-    ...user!.toJSON(),
+    user: user!.toJSON(),
   });
 });
 

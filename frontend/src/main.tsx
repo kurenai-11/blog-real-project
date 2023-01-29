@@ -15,6 +15,7 @@ import "./main.css";
 import PageNotExist from "./routes/404.route";
 import Root from "./features/shared/Root.component";
 import Loading from "./features/shared/Loading.component";
+import UserRoute from "./routes/UserRoute";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,16 @@ const router = createBrowserRouter([
           <Root>
             <Suspense fallback={<Loading />}>
               <DashboardRoute />
+            </Suspense>
+          </Root>
+        ),
+      },
+      {
+        path: "/user/:userId",
+        element: (
+          <Root>
+            <Suspense fallback={<Loading />}>
+              <UserRoute />
             </Suspense>
           </Root>
         ),

@@ -9,9 +9,12 @@ import BlogList from "../blog-list/BlogList.component";
 import DeleteBlogModal from "./DeleteBlogModal.component";
 import { Blog } from "../../app/types";
 import Loading from "../shared/Loading.component";
+import Avatar from "../shared/Avatar.component";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
   const { username, avatarUrl, blogs, _id: userId, auth } = user;
   // ternary operator even on an empty array always returns true,
@@ -36,23 +39,18 @@ const Dashboard = () => {
   const linkClasses =
     "text-xl text-amber-6 bg-transparent border-none animate-pulse-alt flex items-center justify-center gap-1 cursor-pointer decoration-none";
   return (
-    <div className="bg-zinc-8 min-h-screen text-zinc-2 flex flex-col font-sans">
+    <>
       <div className="flex flex-col items-center pt-8">
         <div className="text-4xl pb-4 font-bold">Dashboard</div>
-        <div className="flex justify-center items-center rounded-full border border-zinc-2 w-28 h-28 bg-zinc-6 mb-2">
-          {avatarUrl ? (
-            <img
-              src={avatarUrl}
-              className="w-full h-full rounded-full object-cover"
-            />
-          ) : (
-            <span className="font-bold text-lg cursor-default select-none">
-              No avatar
-            </span>
-          )}
-        </div>
+        <Avatar avatarUrl={avatarUrl} />
         <div className="text-2xl mb-2">
-          Hello <span className="text-red-5 font-bold">{username}!</span>
+          Hello{" "}
+          <span
+            onClick={() => navigate(`/user/${userId}`)}
+            className="text-red-5 hover:text-red-3 cursor-pointer transition-all font-bold"
+          >
+            {username}!
+          </span>
         </div>
         <button
           onClick={() => dispatch(logout())}
@@ -104,7 +102,7 @@ const Dashboard = () => {
           </a>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector } from "../../app/hooks";
 import { Blog } from "../../app/types";
@@ -14,6 +14,7 @@ type BlogDashboardProps = {
 };
 
 const BlogList = (props: BlogListProps | BlogDashboardProps) => {
+  const navigate = useNavigate();
   const { blogs, mode } = props;
   let setCurrentBlog: React.Dispatch<React.SetStateAction<Blog>>;
   props.mode === "dashboard" && (setCurrentBlog = props.setCurrentBlog);
@@ -21,7 +22,7 @@ const BlogList = (props: BlogListProps | BlogDashboardProps) => {
     "decoration-none mx-2 text-white text-lg bg-zinc-6 rounded-lg px-4 py-2 hover:text-zinc-3 transition-all";
   const currentUserId = useAppSelector((state) => state.user._id);
   return (
-    <div className="h-full pb-4 rounded-lg bg-zinc-9 opacity-80 mb-2">
+    <div className="h-full pb-4 flex flex-col opacity-80">
       {blogs.map((blog, index) => {
         const {
           title,
@@ -34,7 +35,7 @@ const BlogList = (props: BlogListProps | BlogDashboardProps) => {
         return (
           <div
             key={index}
-            className="text-bluegray-3 flex flex-col items-center my-2"
+            className="text-bluegray-3 flex flex-col rounded-lg bg-zinc-9 items-center my-2"
           >
             <div className="text-2xl text-zinc-1 font-bold py-3 px-4 text-center">
               <Link
@@ -50,9 +51,13 @@ const BlogList = (props: BlogListProps | BlogDashboardProps) => {
                 <>
                   by{" "}
                   <span
-                    className={
-                      currentUserId === authorId ? "text-blue-6" : "text-red-6"
-                    }
+                    onClick={() => navigate(`/user/${authorId}`)}
+                    className={twMerge(
+                      "transition-all cursor-pointer",
+                      currentUserId === authorId
+                        ? "text-blue-6 hover:text-blue-4"
+                        : "text-red-6 hover:text-red-4"
+                    )}
                   >
                     {authorName}
                     {currentUserId === authorId ? " (You)" : ""}
@@ -66,7 +71,7 @@ const BlogList = (props: BlogListProps | BlogDashboardProps) => {
             <div className="mb-2">
               Created at: {new Date(creationDate).toLocaleString()}
             </div>
-            <div className="my-3">
+            <div className="my-3 pb-3">
               {mode === "dashboard" && (
                 <a
                   href="#editBlog"
