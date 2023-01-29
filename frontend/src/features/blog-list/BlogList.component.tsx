@@ -1,4 +1,4 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector } from "../../app/hooks";
 import { Blog } from "../../app/types";
