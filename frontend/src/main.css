@@ -5,6 +5,5 @@
 }
 
 body {
-  /* bg-zinc-8 */
-  background-color: rgb(39, 39, 42);
+  @apply bg-zinc-8;
 }
