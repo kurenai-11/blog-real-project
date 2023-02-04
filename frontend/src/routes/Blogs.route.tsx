@@ -1,11 +1,9 @@
-import { useEffect } from "react";
 import { useGetBlogListQuery } from "../features/api/apiSlice";
 import BlogList from "../features/blog-list/BlogList.component";
-import Footer from "../features/shared/Footer.component";
-import Navbar from "../features/shared/Navbar.component";
+import Loading from "../features/shared/Loading.component";
 
 const BlogsRoute = () => {
-  const { data, isLoading, isSuccess } = useGetBlogListQuery({
+  const { data } = useGetBlogListQuery({
     blogLimit: 5,
     postLimit: 1,
   });
@@ -16,7 +14,6 @@ const BlogsRoute = () => {
     : false;
   return (
     <div className="bg-zinc-8">
-      <Navbar />
       <div className="flex flex-col items-center text-zinc-2 text-xl">
         <h1 className="text-4xl font-extrabold text-white tracking-tight">
           Blogs
@@ -29,10 +26,9 @@ const BlogsRoute = () => {
             <BlogList mode="list" blogs={data!.blogs} />
           </div>
         ) : (
-          <div>Loading...</div>
+          <Loading />
         )}
       </div>
-      <Footer />
     </div>
   );
 };

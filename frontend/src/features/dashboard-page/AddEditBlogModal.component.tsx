@@ -1,21 +1,25 @@
-import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { animated } from "@react-spring/web";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { Blog } from "../../app/types";
 import { useCreateBlogMutation, useEditBlogMutation } from "../api/apiSlice";
 import ModalButton from "../shared/ModalButton.component";
 import ModalInput from "../shared/ModalInput.component";
-import ModalLink from "../shared/ModalLink.component";
 import ModalTextArea from "../shared/ModalTextarea.component";
 import {
   closeButtonClasses,
   modalClasses,
   modalOverlayClasses,
   modalTitleClasses,
+  useModalTransition,
 } from "../shared/utils";
 
-type ModalProps =
+type ModalProps = {
+  modalTitle: string;
+  setOpenedModal: React.Dispatch<React.SetStateAction<boolean>>;
+  opened: boolean;
+} & (
   | {
       modalTitle: string;
       type: "editBlog";
@@ -24,11 +28,12 @@ type ModalProps =
   | {
       modalTitle: string;
       type: "addBlog";
-    };
+    }
+);
 
 // means Add OR Edit blog modal
 const AddEditBlogModal = (props: ModalProps) => {
-  const { modalTitle, type } = props;
+  const { modalTitle, type, opened, setOpenedModal } = props;
   let currentBlog: Blog = {} as Blog;
   type === "editBlog" ? (currentBlog = props.currentBlog) : null;
   const authKey = useAuthKey();
@@ -83,43 +88,62 @@ const AddEditBlogModal = (props: ModalProps) => {
       }
     }
   };
-  return (
-    <div id={type} className={modalOverlayClasses}>
-      <div className={modalClasses}>
-        <a href="#" className={closeButtonClasses}>
-          <AiOutlineClose />
-        </a>
-        <div className={modalTitleClasses}>{modalTitle}</div>
-        <form className="w-full" onSubmit={submitHandler}>
-          <div className="px-3 flex flex-col gap-2 justify-center items-center">
-            <span className="text-xl font-bold">Title</span>
-            <ModalInput
-              name="title"
-              additionalClasses="text-center"
-              defaultValue={type === "editBlog" ? currentBlog.title : ""}
-            />
-          </div>
-          <div className="px-3 flex flex-col gap-2 justify-center items-center">
-            <span className="text-xl font-bold">Description</span>
-            <ModalTextArea
-              name="description"
-              defaultValue={type === "editBlog" ? currentBlog.description : ""}
-            />
-          </div>
-          <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
-            <ModalButton
-              type="submit"
-              additionalClasses={
-                type === "addBlog" ? "bg-green-8" : "bg-blue-8"
-              }
+  const transition = useModalTransition(opened);
+  return transition(
+    (style, isOpen) =>
+      isOpen && (
+        <>
+          <animated.div
+            style={{ opacity: style.opacity }}
+            id={type}
+            className={modalOverlayClasses}
+          />
+          <animated.div style={style} className={modalClasses}>
+            <button
+              className={closeButtonClasses}
+              onClick={() => setOpenedModal(false)}
             >
-              Confirm
-            </ModalButton>
-            <ModalLink href="#">Cancel</ModalLink>
-          </div>
-        </form>
-      </div>
-    </div>
+              <AiOutlineClose />
+            </button>
+            <div className={modalTitleClasses}>{modalTitle}</div>
+            <form className="w-full" onSubmit={submitHandler}>
+              <div className="px-3 flex flex-col gap-2 justify-center items-center">
+                <span className="text-xl font-bold">Title</span>
+                <ModalInput
+                  name="title"
+                  additionalClasses="text-center"
+                  defaultValue={type === "editBlog" ? currentBlog.title : ""}
+                />
+              </div>
+              <div className="px-3 flex flex-col gap-2 justify-center items-center">
+                <span className="text-xl font-bold">Description</span>
+                <ModalTextArea
+                  name="description"
+                  defaultValue={
+                    type === "editBlog" ? currentBlog.description : ""
+                  }
+                />
+              </div>
+              <div className="flex gap-2 pt-2 pb-4 px-3 justify-end">
+                <ModalButton
+                  type="submit"
+                  additionalClasses={
+                    type === "addBlog" ? "bg-green-8" : "bg-blue-8"
+                  }
+                >
+                  Confirm
+                </ModalButton>
+                <ModalButton
+                  onClick={() => setOpenedModal(false)}
+                  type="button"
+                >
+                  Cancel
+                </ModalButton>
+              </div>
+            </form>
+          </animated.div>
+        </>
+      )
   );
 };
 

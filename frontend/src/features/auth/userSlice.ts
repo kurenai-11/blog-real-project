@@ -39,7 +39,10 @@ export const userSlice = createSlice({
       return initialState;
     },
     storeUserData: (state, action: PayloadAction<GetUserDataResponse>) => {
-      return { ...state, ...action.payload };
+      if (action.payload.status === "fail") {
+        return { ...state };
+      }
+      return { ...state, ...action.payload.user };
     },
   },
 });

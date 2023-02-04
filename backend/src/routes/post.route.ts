@@ -20,6 +20,7 @@ const ZDeletePostData = z.object({
 });
 
 // Return recent public posts in any blog
+// ## not implemented yet
 router.get("/", (req, res) => {
   res.send("ok");
 });
@@ -89,11 +90,13 @@ router.patch("/", async (req, res) => {
 });
 
 // Return recent public posts by a user id
+// ## not implemented yet
 router.get("/user/:id", (req, res) => {
   const rawData = req.params;
 });
 
 // Return recent public posts by a blog id
+// ## not implemented yet (use /blog/:id, not /post/blog/:id)
 router.get("/blog/:id", (req, res) => {
   res.send("ok");
 });

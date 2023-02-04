@@ -5,15 +5,25 @@ import CreateEditPostModal from "./CreatePostModal.component";
 import DeletePostModal from "./DeletePostModal.component";
 import BlogPost from "./BlogPost.component";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const BlogPage = ({ blog }: { blog: Blog }) => {
+  const navigate = useNavigate();
   const currentUserId = useAppSelector((state) => state.user._id);
+  const [createPostModal, setCreatePostModal] = useState(false);
+  const [editPostModal, setEditPostModal] = useState(false);
+  const [deletePostModal, setDeletePostModal] = useState(false);
   const [currentPost, setCurrentPost] = useState({} as Post);
   return (
     <div className="flex flex-col items-center mt-2 mb-3">
       <div className="text-3xl pb-3 text-center">
         <span className="text-blue-6 font-bold">{blog.title}</span> by{" "}
-        <span className="text-red-6 font-mono">{blog.authorName}</span>
+        <span
+          onClick={() => navigate(`/user/${blog.authorId}`)}
+          className="text-red-6 font-mono cursor-pointer transition-all hover:(text-red-4)"
+        >
+          {blog.authorName}
+        </span>
       </div>
       <div className="w-85% h-1 bg-teal-8 rounded-lg" />
       <div className="flex flex-col w-full items-center">
@@ -30,14 +40,30 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
       </div>
       {currentUserId === blog.authorId && (
         <>
-          <a
-            href="#createPost"
-            className="w-fit mb-2 text-amber-6 text-xl decoration-none animate-pulse-alt font-bold flex justify-center items-center gap-1"
+          <button
+            onClick={() => setCreatePostModal(true)}
+            className="w-fit mb-2 text-amber-6 text-xl decoration-none outline-none bg-transparent border-none cursor-pointer animate-pulse-alt font-bold flex justify-center items-center gap-1"
           >
             <AiOutlinePlus />
             Create a new post!
-          </a>
-          <CreateEditPostModal mode="createPost" currentBlog={blog._id} />
+          </button>
+          <CreateEditPostModal
+            opened={createPostModal}
+            setOpened={setCreatePostModal}
+            mode="createPost"
+            currentBlog={blog._id}
+          />
+          <DeletePostModal
+            opened={deletePostModal}
+            setOpened={setDeletePostModal}
+            currentPost={currentPost._id}
+          />
+          <CreateEditPostModal
+            opened={editPostModal}
+            setOpened={setEditPostModal}
+            mode="editPost"
+            post={currentPost}
+          />
         </>
       )}
       {blog.posts.length === 0 ? (
@@ -48,16 +74,12 @@ const BlogPage = ({ blog }: { blog: Blog }) => {
         </div>
       ) : (
         <div className="flex flex-col gap-2 w-85%">
-          {currentUserId === blog.authorId && (
-            <>
-              <DeletePostModal currentPost={currentPost._id} />
-              <CreateEditPostModal mode="editPost" post={currentPost} />
-            </>
-          )}
           {blog.posts.map((post) => (
             <BlogPost
-              post={post}
               setCurrentPost={setCurrentPost}
+              setDeletePostModal={setDeletePostModal}
+              setEditPostModal={setEditPostModal}
+              post={post}
               key={post._id}
             />
           ))}

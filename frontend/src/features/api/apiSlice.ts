@@ -51,7 +51,6 @@ export type GetUserDataResponse =
   | { status: "fail"; error: string }
   | {
       status: "success";
-      blogs: Blog[];
       user: User;
     };
 // data to send to the server to create a blog
@@ -96,6 +95,9 @@ type GetBlogDataByBlogIdRequest = {
 type GetAuthenticatedUserDataRequest = {
   userId: number;
   authKey: string;
+};
+type GetUserDataRequest = {
+  userId: number;
 };
 
 export const apiSlice = createApi({
@@ -204,10 +206,7 @@ export const apiSlice = createApi({
       providesTags: ["blogs"],
     }),
     // unauthenticated version
-    getUserData: builder.query<
-      GetUserDataResponse,
-      GetAuthenticatedUserDataRequest
-    >({
+    getUserData: builder.query<GetUserDataResponse, GetUserDataRequest>({
       query: ({ userId }) => ({
         url: `user/${userId}`,
         method: "GET",

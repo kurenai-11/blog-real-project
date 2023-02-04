@@ -29,7 +29,7 @@ const LoginForm = () => {
   // 1 - did interact since last login attempt
   const [inputStatus, setInputStatus] = useState(0);
   const [loginByCredentials, { isLoading: isSubmittingLogin }] =
-    useLoginCMutation();
+  useLoginCMutation();
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -56,7 +56,7 @@ const LoginForm = () => {
     } else {
       const failedAuthData = (
         (authData as { error: FetchBaseQueryError | SerializedError })
-          .error as FetchBaseQueryError
+        .error as FetchBaseQueryError
       ).data as Partial<AuthDataResponse>;
       // display that the login is unsuccessful and why
       if (failedAuthData.code === AuthCodes.LOGIN_WRONG) {
@@ -76,13 +76,13 @@ const LoginForm = () => {
           name="username"
           placeholder="Login"
           onChange={() => loginCode === 1 && setInputStatus(1)}
-        />
+          />
         <FormInput
           type="password"
           name="password"
           placeholder="Password"
           onChange={() => loginCode === 1 && setInputStatus(1)}
-        />
+          />
         <div
           className={twMerge(
             "flex items-center text-red-7 font-bold text-center",

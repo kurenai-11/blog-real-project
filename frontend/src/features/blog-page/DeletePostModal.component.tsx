@@ -1,18 +1,26 @@
-import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlineClose } from "react-icons/ai";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useDeletePostMutation } from "../api/apiSlice";
 import ModalButton from "../shared/ModalButton.component";
-import ModalLink from "../shared/ModalLink.component";
 import {
   closeButtonClasses,
   modalClasses,
   modalOverlayClasses,
   modalTitleClasses,
+  useModalTransition,
 } from "../shared/utils";
+import { animated } from "@react-spring/web";
 
-const DeletePostModal = ({ currentPost }: { currentPost: number }) => {
+const DeletePostModal = ({
+  currentPost,
+  opened,
+  setOpened,
+}: {
+  currentPost: number;
+  opened: boolean;
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const userId = useAppSelector((state) => state.user._id);
   const authKey = useAuthKey();
   const [deletePost] = useDeletePostMutation();
@@ -31,25 +39,44 @@ const DeletePostModal = ({ currentPost }: { currentPost: number }) => {
       window.location.hash = "";
     }
   };
-  return (
-    <div id="deletePost" className={modalOverlayClasses}>
-      <div className={modalClasses}>
-        <a href="#" className={closeButtonClasses}>
-          <AiOutlineClose />
-        </a>
-        <div className={twMerge(modalTitleClasses, "pr-6")}>
-          Are you sure you want to delete this post?
-        </div>
-        <form onSubmit={submitHandler} className="flex pb-4 gap-2">
-          <ModalButton additionalClasses="bg-red-8 font-bold">
-            Delete
-          </ModalButton>
-          <ModalLink href="#" additionalClasses="bg-blue-8">
-            Cancel
-          </ModalLink>
-        </form>
-      </div>
-    </div>
+  const transition = useModalTransition(opened);
+  return transition(
+    (style, opened) =>
+      opened && (
+        <>
+          <animated.div
+            style={{ opacity: style.opacity }}
+            id="deletePost"
+            className={modalOverlayClasses}
+          />
+          <animated.div style={style} className={modalClasses}>
+            <button
+              onClick={() => setOpened(false)}
+              className={closeButtonClasses}
+            >
+              <AiOutlineClose />
+            </button>
+            <div className={twMerge(modalTitleClasses, "pr-6")}>
+              Are you sure you want to delete this post?
+            </div>
+            <form onSubmit={submitHandler} className="flex pb-4 gap-2">
+              <ModalButton
+                onClick={() => setOpened(false)}
+                additionalClasses="bg-red-8 font-bold"
+              >
+                Delete
+              </ModalButton>
+              <ModalButton
+                onClick={() => setOpened(false)}
+                type="button"
+                additionalClasses="bg-blue-8"
+              >
+                Cancel
+              </ModalButton>
+            </form>
+          </animated.div>
+        </>
+      )
   );
 };
 

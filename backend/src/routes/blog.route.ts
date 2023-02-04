@@ -44,7 +44,6 @@ const ZGetBlogData = z.object({
 // Get recently created blogs
 router.get("/", async (req, res) => {
   const query = req.query;
-  console.log("query :>> ", query);
   let blogLimit: number;
   let postLimit: number;
   if (

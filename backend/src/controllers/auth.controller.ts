@@ -74,7 +74,6 @@ export const signUpWithLogin = async (
   });
   await newUser.save();
   await incrementCounter("user");
-  console.log(`user ${username} created.`);
   return [authKey, validUntil, userId];
 };
 
