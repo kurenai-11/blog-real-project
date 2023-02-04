@@ -103,7 +103,7 @@ type GetUserDataRequest = {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000",
+    baseUrl: "https://blog-real-project-backend.up.railway.app",
   }),
   tagTypes: ["blogs", "posts", "user"],
   endpoints: (builder) => ({
