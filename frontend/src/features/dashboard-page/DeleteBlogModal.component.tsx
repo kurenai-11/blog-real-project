@@ -11,13 +11,21 @@ import {
   modalClasses,
   modalOverlayClasses,
   modalTitleClasses,
+  useModalTransition,
 } from "../shared/utils";
+import { animated } from "@react-spring/web";
 
 type DeleteModalProps = {
   currentBlogId: number;
+  opened: boolean;
+  setOpenedModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const DeleteBlogModal = ({ currentBlogId }: DeleteModalProps) => {
+const DeleteBlogModal = ({
+  currentBlogId,
+  opened,
+  setOpenedModal,
+}: DeleteModalProps) => {
   const authKey = useAuthKey();
   const userId = useAppSelector((state) => state.user._id);
   const [deleteBlog, { isLoading }] = useDeleteBlogMutation();
@@ -36,23 +44,43 @@ const DeleteBlogModal = ({ currentBlogId }: DeleteModalProps) => {
       console.log("error deleting a blog");
     }
   };
-  return (
-    <div id="deleteBlog" className={modalOverlayClasses}>
-      <div className={modalClasses}>
-        <a href="#" className={closeButtonClasses}>
-          <AiOutlineClose />
-        </a>
-        <div className={twMerge(modalTitleClasses, "pr-6")}>
-          Are you sure you want to delete this blog entirely?
-        </div>
-        <form onSubmit={submitHandler} className="flex pb-4 gap-2">
-          <ModalButton additionalClasses="bg-red-8">Delete</ModalButton>
-          <ModalLink href="#" additionalClasses="bg-blue-8">
-            Cancel
-          </ModalLink>
-        </form>
-      </div>
-    </div>
+  const transition = useModalTransition(opened);
+  return transition((style, opened) =>
+    opened ? (
+      <>
+        <animated.div
+          style={{ opacity: style.opacity }}
+          id="deleteBlog"
+          className={modalOverlayClasses}
+        />
+        <animated.div style={style} className={modalClasses}>
+          <button
+            onClick={() => setOpenedModal(false)}
+            className={closeButtonClasses}
+          >
+            <AiOutlineClose />
+          </button>
+          <div className={twMerge(modalTitleClasses, "pr-6")}>
+            Are you sure you want to delete this blog entirely?
+          </div>
+          <form onSubmit={submitHandler} className="flex pb-4 gap-2">
+            <ModalButton
+              onClick={() => setOpenedModal(false)}
+              additionalClasses="bg-red-8"
+            >
+              Delete
+            </ModalButton>
+            <ModalButton
+              onClick={() => setOpenedModal(false)}
+              type="button"
+              additionalClasses="bg-blue-8"
+            >
+              Cancel
+            </ModalButton>
+          </form>
+        </animated.div>
+      </>
+    ) : null
   );
 };
 
