@@ -1,11 +1,9 @@
-import { QueryActionCreatorResult } from "@reduxjs/toolkit/dist/query/core/buildInitiate";
 import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import { useAppSelector, useAuthKey } from "../../app/hooks";
 import { useDeleteBlogMutation } from "../api/apiSlice";
 import ModalButton from "../shared/ModalButton.component";
-import ModalLink from "../shared/ModalLink.component";
 import {
   closeButtonClasses,
   modalClasses,
